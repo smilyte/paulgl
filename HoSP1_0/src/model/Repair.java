@@ -20,11 +20,12 @@ public class Repair {
 	private RepairType repairType = null;
 
 	/**
+	 * Constructor of Repair
 	 * @param num
 	 * @param startDate
 	 * @param endDate
 	 * @param machine
-	 * @param machineType
+	 * @param 
 	 */
 	public Repair(int num, Date startDate, Date endDate, Machine machine) {
 		this.num = num;
