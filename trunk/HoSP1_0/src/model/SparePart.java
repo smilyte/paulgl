@@ -4,6 +4,7 @@ public class SparePart {
 	
 	private int amount;
 	private int number;
+	private String IlovePoul;
 
 	public int getAmount() {
 		return amount;
