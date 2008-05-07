@@ -41,6 +41,24 @@ public class Repair {
 	public Date getStartDate() {
 		return startDate;
 	}
+	
+//	/**
+//	 * Adds a person to this group
+//	 * Requires: person != null og person is not in any other group 
+//	 * Note: this method is only for use in classes Person and Group	 */
+//	void addPartUsage(PartUsage partUsage) {
+//		partsUsage.add(partsUsage);
+//	}
+//	/**
+//	 * Moves a person from this group to an other group
+//	 * Requires: group != null
+//	 */
+//	public void movePartUsage(PartUsage partUsage, Repair repair) {
+//		partsUsage.remove(partUsage);
+//		repair.addPartUsage(partUsage);
+//	}
+
+
 
 	public void setStartDate(Date startDate) {
 		this.startDate = startDate;
