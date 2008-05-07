@@ -17,6 +17,9 @@ public class MachineType {
 
 	// link to [Machine] class (Agr<>--> 0..*)
 	private List<Machine> machines = new ArrayList<Machine>();
+	
+	// link to [RepairType] class (<-- 0..*)
+	private List<RepairType> repairTypes = new ArrayList<RepairTypes>();
 
 	/**
 	 * Constructor of Machine type
@@ -93,7 +96,7 @@ public class MachineType {
 	}
 
 	/**
-	 * Returns this Machine Type's machines
+	 * @return this Machine Type's machines
 	 */
 	public List<Machine> getMachines() {
 		return machines;

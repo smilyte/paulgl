@@ -4,7 +4,6 @@ public class SparePart {
 	
 	private int amount;
 	private int number;
-	private String IlovePoul;
 
 	public int getAmount() {
 		return amount;
@@ -12,14 +11,6 @@ public class SparePart {
 
 	public void setAmount(int amount) {
 		this.amount = amount;
-	}
-
-	public int getNumber() {
-		return number;
-	}
-
-	public void setNumber(int number) {
-		this.number = number;
 	}
 
 
