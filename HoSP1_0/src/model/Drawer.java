@@ -24,7 +24,20 @@ public class Drawer {
 	public void createBox(int serialNumber){
 		boxes.add(new Box(serialNumber, this));
 	}
+
+	/**
+	 * @return the number
+	 */
+	public int getNumber() {
+		return number;
+	}
+
+	/**
+	 * @return the boxes
+	 */
+	public List<Box> getBoxes() {
+		return boxes;
+	}
 	
-		
 	
 }

@@ -18,4 +18,18 @@ public class Box {
 		this.drawer = drawer;
 	}
 
+	/**
+	 * @return the serialNumber
+	 */
+	public int getSerialNumber() {
+		return serialNumber;
+	}
+
+	/**
+	 * @return the drawer
+	 */
+	public Drawer getDrawer() {
+		return drawer;
+	}
+
 }
