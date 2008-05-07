@@ -8,8 +8,6 @@ public class Box {
 	private int serialNumber;
 	private Drawer drawer;
 	
-	private List<SparePart> parts = new ArrayList<SparePart>();
-	
 	/**
 	 * Creates a box
 	 * @param serialNumber serial number of this box
