@@ -18,12 +18,14 @@ public class MachineType {
 	// link to [Machine] class (Agr<>--> 0..*)
 	private List<Machine> machines = new ArrayList<Machine>();
 
+	/**
+	 * Constructor of Machine type
+	 * @param name
+	 */
 	public MachineType(String name) {
 		super();
 		this.name = name;
 	}
-
-
 
 	/**
 	 * @return the name
@@ -82,6 +84,14 @@ public class MachineType {
 	}
 
 	// .................Machine..........................
+	
+	/**
+	 * Creates a Machine and adds the machine to this machine type
+	 */
+	public void createMachine(int serialNumber, String manufacturer) {
+		machines.add(new Machine(serialNumber, manufacturer, this));
+	}
+
 	/**
 	 * Returns this Machine Type's machines
 	 */
@@ -89,21 +99,4 @@ public class MachineType {
 		return machines;
 	}
 
-	/**
-	 * Adds a Machine to this Machine Type Requirements: machine != null
-	 */
-	public void addMachine(Machine machine) {
-		if (!machines.contains(machine)) {
-			machines.add(machine);
-		}
-	}
-
-	/**
-	 * Removes a Machine from this Machine Type Requirements: machine != null
-	 */
-	public void removeMachine(Machine machine) {
-		if (machines.contains(machine)) {
-			machines.remove(machine);
-		}
-	}
 }
