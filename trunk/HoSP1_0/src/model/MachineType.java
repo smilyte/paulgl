@@ -15,18 +15,14 @@ public class MachineType {
 	// link to [SparePart] class (--> 0..*)
 	private List<SparePart> spareParts = new ArrayList<SparePart>();
 
-	// link to [Machine] class (Agr<>--> 0..*)
+	// link to [Machine] class (Aggregation <>--> 0..*)
 	private List<Machine> machines = new ArrayList<Machine>();
-	
-	// link to [RepairType] class (<-- 0..*)
-	private List<RepairType> repairTypes = new ArrayList<RepairTypes>();
 
 	/**
 	 * Constructor of Machine type
 	 * @param name
 	 */
 	public MachineType(String name) {
-		super();
 		this.name = name;
 	}
 
