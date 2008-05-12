@@ -48,7 +48,7 @@ public class MachinePanel extends JPanel {
 		this.add(lblChooseMachine);
 
 		lblMachines = new JLabel();
-		lblMachines.setText("Machines::");
+		lblMachines.setText("Machines:");
 		lblMachines.setBounds(222, 23, 265, 14);
 		this.add(lblMachines);
 
