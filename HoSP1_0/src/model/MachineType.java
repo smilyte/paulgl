@@ -1,7 +1,7 @@
 package model;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * 
@@ -13,13 +13,14 @@ public class MachineType {
 	private String name;
 
 	// link to [SparePart] class (--> 0..*)
-	private List<SparePart> spareParts = new ArrayList<SparePart>();
+	private Set<SparePart> spareParts = new HashSet<SparePart>();
 
 	// link to [Machine] class (Aggregation <>--> 0..*)
-	private List<Machine> machines = new ArrayList<Machine>();
+	private Set<Machine> machines = new HashSet<Machine>();
 
 	/**
 	 * Constructor of Machine type
+	 * 
 	 * @param name
 	 */
 	public MachineType(String name) {
@@ -34,7 +35,8 @@ public class MachineType {
 	}
 
 	/**
-	 * @param name the name to set
+	 * @param name
+	 *            the name to set
 	 */
 	public void setName(String name) {
 		this.name = name;
@@ -43,26 +45,12 @@ public class MachineType {
 	/**
 	 * @return the spareParts
 	 */
-	public List<SparePart> getSpareParts() {
+	public Set<SparePart> getSpareParts() {
 		return spareParts;
 	}
 
-	/**
-	 * @param spareParts the spareParts to set
-	 */
-	public void setSpareParts(List<SparePart> spareParts) {
-		this.spareParts = spareParts;
-	}
-
-	/**
-	 * @param machines the machines to set
-	 */
-	public void setMachines(List<Machine> machines) {
-		this.machines = machines;
-	}
-
 	// .................Spare Part.......................
-	
+
 	/**
 	 * Adds a Spare Part to this Machine Type Requirements: sparePart != null
 	 */
@@ -83,7 +71,7 @@ public class MachineType {
 	}
 
 	// .................Machine..........................
-	
+
 	/**
 	 * Creates a Machine and adds the machine to this machine type
 	 */
@@ -94,7 +82,7 @@ public class MachineType {
 	/**
 	 * @return this Machine Type's machines
 	 */
-	public List<Machine> getMachines() {
+	public Set<Machine> getMachines() {
 		return machines;
 	}
 
