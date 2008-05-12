@@ -5,15 +5,17 @@ import java.util.ArrayList;
 
 public class Drawer {
 
-	private int number;
+	private int id;
+	private int numberOfBoxes;
 	
 	private List<Box> boxes = new ArrayList<Box>();
 	
 	/**
 	 * Constructor
 	 */
-	public Drawer(int number){
-		this.number = number;
+	public Drawer(int id, int numberOfBoxes){
+		this.id = id;
+		this.numberOfBoxes = numberOfBoxes;
 	}
 	
 	/**
@@ -26,17 +28,38 @@ public class Drawer {
 	}
 
 	/**
-	 * @return the number
-	 */
-	public int getNumber() {
-		return number;
-	}
-
-	/**
 	 * @return the boxes
 	 */
 	public List<Box> getBoxes() {
 		return boxes;
+	}
+
+	/**
+	 * @return the id
+	 */
+	public int getId() {
+		return id;
+	}
+
+	/**
+	 * @param id the id to set
+	 */
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	/**
+	 * @return the numberOfBoxes
+	 */
+	public int getNumberOfBoxes() {
+		return numberOfBoxes;
+	}
+
+	/**
+	 * @param numberOfBoxes the numberOfBoxes to set
+	 */
+	public void setNumberOfBoxes(int numberOfBoxes) {
+		this.numberOfBoxes = numberOfBoxes;
 	}
 	
 	
