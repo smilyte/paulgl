@@ -19,6 +19,7 @@ public class Repair {
 	// link to [RepairType] Class(1 --> 0..1)
 	private RepairType repairType = null;
 
+	
 	/**
 	 * Constructor of Repair
 	 * @param num
