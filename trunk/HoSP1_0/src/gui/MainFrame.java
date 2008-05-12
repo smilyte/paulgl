@@ -23,6 +23,7 @@ public class MainFrame extends JFrame {
 		getContentPane().setLayout(new BorderLayout());
 		setBounds(100, 100, 725, 482);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setResizable(false);
 
 		tabbedPane = new JTabbedPane();
 		getContentPane().add(tabbedPane, BorderLayout.CENTER);
