@@ -44,10 +44,11 @@ public class MainFrame extends JFrame {
 		panel_3.setLayout(null);
 		tabbedPane.addTab("Machine", null, panel_3, null);
 
-		panel_4 = new JPanel();
+		panel_4 = new DrawerPanel();
+		panel_4.setLayout(null);
 		tabbedPane.addTab("Drawer", null, panel_4, null);
 
-		panel_5 = new JPanel();
+		panel_5 = new StatisticsPanel();
 		tabbedPane.addTab("Statistics", null, panel_5, null);
 	}
 }
