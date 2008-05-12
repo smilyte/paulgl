@@ -1,11 +1,8 @@
 package model;
 
-import java.util.List;
-import java.util.ArrayList;
-
 public class Box {
 	
-	private int serialNumber;
+	private String serialNumber;
 	private Drawer drawer;
 	
 	/**
@@ -13,7 +10,7 @@ public class Box {
 	 * @param serialNumber serial number of this box
 	 * @param drawerNumber drawer number, where this box is.
 	 */
-	public Box(int serialNumber, Drawer drawer){
+	public Box(String serialNumber, Drawer drawer){
 		this.serialNumber = serialNumber;
 		this.drawer = drawer;
 	}
@@ -21,7 +18,7 @@ public class Box {
 	/**
 	 * @return the serialNumber
 	 */
-	public int getSerialNumber() {
+	public String getSerialNumber() {
 		return serialNumber;
 	}
 
