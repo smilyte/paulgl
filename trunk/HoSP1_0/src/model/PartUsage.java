@@ -5,16 +5,12 @@ public class PartUsage {
 	private int amount;
 	private String date; // Or Date type?
 	
-	// link to [SparePart] class (<-- 1)
-	private SparePart sparePart;
-	// link to [Repair] class (<-- 1)
-	private Repair repair;
-	
+
 	public PartUsage(int amount, String date, Repair repair, SparePart sparePart) {
 		this.amount = amount;
 		this.date = date;
-		this.repair = repair;
-		this.sparePart = sparePart;
+		repair.addPartUsage(this);
+		sparePart.addPartUsage(this);
 	}
 	
 	/**
@@ -42,33 +38,7 @@ public class PartUsage {
 		this.date = date;
 	}
 
-	/**
-	 * @return the sparePart
-	 */
-	public SparePart getSparePart() {
-		return sparePart;
-	}
 
-	/**
-	 * @param sparePart the sparePart to set
-	 */
-	public void setSparePart(SparePart sparePart) {
-		this.sparePart = sparePart;
-	}
-
-	/**
-	 * @return the repair
-	 */
-	public Repair getRepair() {
-		return repair;
-	}
-
-	/**
-	 * @param repair the repair to set
-	 */
-	public void setRepair(Repair repair) {
-		this.repair = repair;
-	}
 	
 	
 
