@@ -23,8 +23,11 @@ public class Drawer {
 	 * @param serialNumber number of box
 	 * @param drawerNumber this drawer's number
 	 */
-	public void createBox(int serialNumber){
-		boxes.add(new Box(serialNumber, this));
+	public void createBox(){
+		for(int i = 0; i < numberOfBoxes; i++){
+			String s = ""+id+"-"+i;
+			boxes.add(new Box(s, this));
+		}
 	}
 
 	/**
