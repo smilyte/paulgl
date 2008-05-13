@@ -24,11 +24,9 @@ public class Service {
 
 	private void startUp() {
 		// TODO Write method for: Create Drawer
-		// TODO Write method for: Create Machine Type
 		// TODO Write method for: Create Repair
 
 		// TODO Write method for: Update Drawer
-		// TODO Write method for: Update Machine Type
 		// TODO Write method for: Update Repair
 
 		// TODO Write method for: Delete Drawer
@@ -73,6 +71,31 @@ public class Service {
 	 */
 	public void deleteSparePart(SparePart sparePart) {
 		spareParts.remove(sparePart);
+	}
+
+	/**
+	 * Creates an object of Machine Type
+	 */
+	public void createMachineType(String name) {
+		MachineType machineType = new MachineType(name);
+		machineTypes.add(machineType);
+	}
+
+	/**
+	 * Updates an object of Machine Type
+	 */
+	public void updateMachineType(MachineType machineType, String name, Drawing drawing) {
+		if (!name.equals(""))
+			machineType.setName(name);
+		if (drawing != null)
+			machineType.setDrawing(drawing);
+	}
+	
+	/**
+	 * Deletes an object of Machine Type
+	 */
+	public void deleteMachineType(MachineType machineType) {
+		machineTypes.remove(machineType);
 	}
 
 	/**
