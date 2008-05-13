@@ -3,40 +3,39 @@
  */
 package model;
 
-
 /**
  * @author Elena
- *
+ * 
  */
 public class Machine {
-	
+
 	private int serialNumber;
 	private String manufacturer;
 	private MachineType type;
-	
+
 	// TODO make connection to MachineDrawing class
-	
-	
-	
+
 	/**
 	 * Creates a new machine of one and only type
-	 * @param serialNumber Serial number of machine
-	 * @param manufacturer The manufacturer of machine
+	 * 
+	 * @param serialNumber
+	 *            Serial number of machine
+	 * @param manufacturer
+	 *            The manufacturer of machine
 	 */
-	public Machine(int serialNumber, String manufacturer, MachineType type){
+	public Machine(int serialNumber, String manufacturer, MachineType type) {
 		this.serialNumber = serialNumber;
 		this.manufacturer = manufacturer;
 		this.type = type;
 	}
-	
+
 	/**
-	 * Sets type of machine
-	 * Requires newType != null
+	 * Sets type of machine Requires newType != null
 	 */
-	public void setType(MachineType newType){
+	public void setType(MachineType newType) {
 		type = newType;
 	}
-	
+
 	/**
 	 * @return the type
 	 */
@@ -52,7 +51,8 @@ public class Machine {
 	}
 
 	/**
-	 * @param serialNumber the serialNumber to set
+	 * @param serialNumber
+	 *            the serialNumber to set
 	 */
 	public void setSerialNumber(int serialNumber) {
 		this.serialNumber = serialNumber;
@@ -66,7 +66,8 @@ public class Machine {
 	}
 
 	/**
-	 * @param manufacturer the manufacturer to set
+	 * @param manufacturer
+	 *            the manufacturer to set
 	 */
 	public void setManufacturer(String manufacturer) {
 		this.manufacturer = manufacturer;
