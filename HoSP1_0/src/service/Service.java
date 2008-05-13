@@ -28,12 +28,10 @@ public class Service {
 		// TODO Write method for: Create Repair
 
 		// TODO Write method for: Update Drawer
-		// TODO Write method for: Update Spare Part
 		// TODO Write method for: Update Machine Type
 		// TODO Write method for: Update Repair
 
 		// TODO Write method for: Delete Drawer
-		// TODO Write method for: Delete Spare Part
 		// TODO Write method for: Delete Machine Type
 		// TODO Write method for: Delete Repair
 
@@ -50,7 +48,7 @@ public class Service {
 	}
 
 	/**
-	 * Creates an objects of Spare Part
+	 * Creates an object of Spare Part
 	 */
 	public void createSparePart(int number, int amount) {
 		SparePart sparePart = new SparePart(number, amount);
@@ -68,6 +66,13 @@ public class Service {
 			sparePart.setAmount(amount);
 		if (drawing != null)
 			sparePart.setDrawing(drawing);
+	}
+	
+	/**
+	 * Deletes an object of Spare Part
+	 */
+	public void deleteSparePart(SparePart sparePart) {
+		spareParts.remove(sparePart);
 	}
 
 	/**
