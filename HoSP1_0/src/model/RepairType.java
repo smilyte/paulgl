@@ -1,5 +1,4 @@
 package model;
-
 /**
  * @author Malik
  *
@@ -9,6 +8,11 @@ public class RepairType {
 	private String name;
 	// link to [MachineTyep] Class(0..* --> 1)
 	private MachineType machineTyep;
+	/**
+	 * Constructor of Repair Type 
+	 * @param name
+	 * @param machineTyep
+	 */
 	public RepairType(String name,MachineType machineTyep) {
 		this.name = name;
 		this.machineTyep = machineTyep;
