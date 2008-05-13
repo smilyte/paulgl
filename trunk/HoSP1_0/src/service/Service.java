@@ -62,7 +62,7 @@ public class Service {
 			Drawing drawing) {
 		if (number != 0)
 			sparePart.setNumber(number);
-		if (amount != 0)
+		if (amount < 0)
 			sparePart.setAmount(amount);
 		if (drawing != null)
 			sparePart.setDrawing(drawing);
