@@ -6,16 +6,18 @@ package model;
 public class RepairType {
 	
 	private String name;
+	
 	// link to [MachineTyep] Class(0..* --> 1)
-	private MachineType machineTyep;
+	private MachineType machineType;
+	
 	/**
 	 * Constructor of Repair Type 
 	 * @param name
-	 * @param machineTyep
+	 * @param machineType
 	 */
-	public RepairType(String name,MachineType machineTyep) {
+	public RepairType(String name,MachineType machineType) {
 		this.name = name;
-		this.machineTyep = machineTyep;
+		this.machineType = machineType;
 	}
 
 	/**
@@ -31,22 +33,22 @@ public class RepairType {
 	public void setName(String name) {
 		this.name = name;
 	}
-	
+
 	/**
-	 * @return the machineTyep
+	 * @return the machineType
 	 */
-	public MachineType getMachineTyep() {
-		return machineTyep;
+	public MachineType getMachineType() {
+		return machineType;
 	}
 
 	/**
-	 * @param machineTyep the machineTyep to set
+	 * @param machineType the machineType to set
 	 */
-	public void setMachineTyep(MachineType machineTyep) {
-		this.machineTyep = machineTyep;
+	public void setMachineType(MachineType machineType) {
+		this.machineType = machineType;
 	}
 
 	public String toString(){
-	return name+"MachineType"+machineTyep;	
+	return name+"MachineType"+machineType;	
 	}
 }
