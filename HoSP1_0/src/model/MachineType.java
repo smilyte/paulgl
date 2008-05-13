@@ -86,4 +86,9 @@ public class MachineType {
 		return machines;
 	}
 
+	public void setDrawing(Drawing drawing) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
