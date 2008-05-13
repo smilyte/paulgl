@@ -11,6 +11,15 @@ public class SparePart {
 	// link to [PartUsage] Class(--> 0..*)
 	private List<PartUsage> partsUsage = new ArrayList<PartUsage>();
 
+	/**Constructor of SparePart
+	 * @param amount
+	 * @param number
+	 */
+	public SparePart(int amount, int number) {
+		this.amount = amount;
+		this.number = number;
+	}
+
 	public int getAmount() {
 		return amount;
 	}
