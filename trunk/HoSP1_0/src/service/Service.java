@@ -39,11 +39,21 @@ public class Service {
 		// TODO Write method for: calculation(history) of last 7 days (week) repairs
 		// TODO Write method for: calculation(history) of last 30 days (month)  repairs
 		// TODO Write method for: calculation(history) of last 12 months (year) repairs
+		
+		// TODO Write method for: calculating minimum amount for the part using formula
 	}
 	/**
-	 * Creates an instance of Spare Part
+	 * Creates an objects of Spare Part
 	 */
 	public void createSparePart(int number, int amount){
+		SparePart sparePart = new SparePart(number, amount);
+		spareParts.add(sparePart);
+	}
+	
+	/**
+	 * Updates an object of Spare Part
+	 */
+	public void updateSparePart(int number, int amount){
 		SparePart sparePart = new SparePart(number, amount);
 		spareParts.add(sparePart);
 	}
