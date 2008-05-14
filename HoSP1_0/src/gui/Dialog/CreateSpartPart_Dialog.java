@@ -10,20 +10,20 @@ import javax.swing.JTextField;
 
 public class CreateSpartPart_Dialog extends JDialog {
 
-	private JComboBox comboBox;
+	private JComboBox cbBoxNr,cbDrawNr;
 	private JTextField txfNumber,txfamount;
 	private JLabel lbnumber,lbamunt;
 	private JButton butcreate,butcancel;
 	
-
 	/**
 	 * Create the dialog
 	 */
 	public CreateSpartPart_Dialog() {
 		
 		setTitle("Create New Spare Parts");
-		setBounds(100, 100, 215, 322);
-
+		setBounds(100, 100, 212, 286);
+		getContentPane().setLayout(new FlowLayout(10,10,20));
+		//
 		lbnumber = new JLabel();
 		lbnumber.setText("Number:");
 		getContentPane().add(lbnumber);
@@ -41,12 +41,19 @@ public class CreateSpartPart_Dialog extends JDialog {
 		txfamount.setPreferredSize(new Dimension(100, 20));
 		getContentPane().add(txfamount);
 
-		JLabel lpboxnum = new JLabel();
-		getContentPane().add(lpboxnum);
-		lpboxnum.setText("Box Num:");
+		JLabel lbboxnNr = new JLabel();
+		getContentPane().add(lbboxnNr);
+		lbboxnNr.setText("Box Nr:");
 
-		comboBox = new JComboBox();
-		getContentPane().add(comboBox);
+		cbBoxNr = new JComboBox();
+		getContentPane().add(cbBoxNr);
+
+		JLabel lbdrawNr = new JLabel();
+		lbdrawNr.setText("Draw Nr:");
+		getContentPane().add(lbdrawNr);
+
+		cbDrawNr = new JComboBox();
+		getContentPane().add(cbDrawNr);
 
 		butcreate = new JButton();
 		butcreate.setText("Create");
@@ -55,8 +62,7 @@ public class CreateSpartPart_Dialog extends JDialog {
 		butcancel = new JButton();
 		butcancel.setText("Cancel");
 		getContentPane().add(butcancel);
-		getContentPane().setLayout(new FlowLayout(20,20,50));
-		//
+		
 	}
 
 }
