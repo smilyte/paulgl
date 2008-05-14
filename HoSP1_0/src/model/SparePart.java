@@ -60,4 +60,11 @@ public class SparePart {
 		
 	}
 
+	/**
+	 * @return the partsUsage
+	 */
+	public List<PartUsage> getPartsUsage() {
+		return partsUsage;
+	}
+
 }
