@@ -21,7 +21,7 @@ public class CreateSpartPart_Dialog extends JDialog {
 	public CreateSpartPart_Dialog() {
 		
 		setTitle("Create New Spare Parts");
-		setBounds(100, 100, 212, 286);
+		setBounds(100, 100, 212, 255);
 		getContentPane().setLayout(new FlowLayout(10,10,20));
 		//
 		lbnumber = new JLabel();
@@ -41,19 +41,19 @@ public class CreateSpartPart_Dialog extends JDialog {
 		txfamount.setPreferredSize(new Dimension(100, 20));
 		getContentPane().add(txfamount);
 
-		JLabel lbboxnNr = new JLabel();
-		getContentPane().add(lbboxnNr);
-		lbboxnNr.setText("Box Nr:");
-
-		cbBoxNr = new JComboBox();
-		getContentPane().add(cbBoxNr);
-
 		JLabel lbdrawNr = new JLabel();
-		lbdrawNr.setText("Draw Nr:");
 		getContentPane().add(lbdrawNr);
+		lbdrawNr.setText("Draw Nr:");
 
 		cbDrawNr = new JComboBox();
 		getContentPane().add(cbDrawNr);
+
+		JLabel lbboxnNr = new JLabel();
+		getContentPane().add(lbboxnNr);
+		lbboxnNr.setText("Box Nr  :");
+
+		cbBoxNr = new JComboBox();
+		getContentPane().add(cbBoxNr);
 
 		butcreate = new JButton();
 		butcreate.setText("Create");
