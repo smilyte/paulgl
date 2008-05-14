@@ -1,12 +1,13 @@
 package model;
 
+import java.util.Date;
+
 public class PartUsage {
 	
 	private int amount;
-	private String date; // Or Date type?
-	
+	private Date date; 	
 
-	public PartUsage(int amount, String date, Repair repair, SparePart sparePart) {
+	public PartUsage(int amount, Date date, Repair repair, SparePart sparePart) {
 		this.amount = amount;
 		this.date = date;
 		repair.addPartUsage(this);
@@ -28,13 +29,13 @@ public class PartUsage {
 	/**
 	 * @return the date
 	 */
-	public String getDate() {
+	public Date getDate() {
 		return date;
 	}
 	/**
 	 * @param date the date to set
 	 */
-	public void setDate(String date) {
+	public void setDate(Date date) {
 		this.date = date;
 	}
 
