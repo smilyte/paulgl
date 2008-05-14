@@ -58,7 +58,7 @@ public class Service {
 		Date today = getTime();
 		// We are taking each repair at a time and calculating
 		for (Repair repair : repairs) {
-			// Calculate the difference between End Date and Start Date
+			// Calculate the difference between Todays's Date and End Date
 			long time = today.getTime() - repair.getEndDate().getTime();
 			// Converts that difference to hours
 			long hours = (time % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60);
