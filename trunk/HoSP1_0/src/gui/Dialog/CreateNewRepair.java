@@ -8,6 +8,7 @@ import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.JTextField;
 
@@ -15,6 +16,7 @@ public class CreateNewRepair extends JDialog {
 
 
 
+	private JComboBox comboBox_2;
 	private JTextField textField_4;
 	private JTextField textField_3;
 	private JTextField textField_2;
@@ -29,93 +31,120 @@ public class CreateNewRepair extends JDialog {
 	public CreateNewRepair() {
 		super();
 		getContentPane().setLayout(null);
-		setBounds(100, 100, 500, 375);
+		setBounds(100, 100, 470, 427);
 
 		JLabel lbrepareId = new JLabel();
-		lbrepareId.setText("Repair ID");
-		lbrepareId.setBounds(10, 62, 54, 14);
+		lbrepareId.setText("Repair ID:");
+		lbrepareId.setBounds(10, 28, 54, 14);
 		getContentPane().add(lbrepareId);
 
-		JLabel label_1 = new JLabel();
-		label_1.setText("Machine");
-		label_1.setBounds(10, 118, 54, 14);
-		getContentPane().add(label_1);
+		JLabel lbmachineType = new JLabel();
+		lbmachineType.setText("Machine Type:");
+		lbmachineType.setBounds(10, 119, 79, 14);
+		getContentPane().add(lbmachineType);
 
 		JLabel label_2 = new JLabel();
 		label_2.setText("spare part");
-		label_2.setBounds(207, 29, 54, 14);
+		label_2.setBounds(191, 28, 54, 14);
 		getContentPane().add(label_2);
 
 		JLabel label_3 = new JLabel();
-		label_3.setText("R.Type");
-		label_3.setBounds(10, 92, 69, 14);
+		label_3.setText("Repair Type:");
+		label_3.setBounds(10, 74, 69, 14);
 		getContentPane().add(label_3);
 
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(191, 48, 232, 156);
+		getContentPane().add(scrollPane);
+
 		list = new JList();
-		list.setBounds(207, 49, 224, 83);
-		getContentPane().add(list);
+		scrollPane.setViewportView(list);
 
 		comboBox = new JComboBox();
-		comboBox.setBounds(70, 112, 90, 20);
+		comboBox.setBounds(20, 139, 129, 20);
 		getContentPane().add(comboBox);
 
 		comboBox_1 = new JComboBox();
-		comboBox_1.setBounds(70, 86, 90, 20);
+		comboBox_1.setBounds(20, 93, 129, 20);
 		getContentPane().add(comboBox_1);
 
 		textField = new JTextField();
-		textField.setBounds(70, 59, 90, 20);
+		textField.setBounds(20, 48, 129, 20);
 		getContentPane().add(textField);
 
 		JSeparator separator = new JSeparator();
-		separator.setBounds(10, 172, 421, 14);
+		separator.setBounds(10, 218, 421, 2);
 		getContentPane().add(separator);
 
 		textField_1 = new JTextField();
-		textField_1.setBounds(10, 211, 79, 20);
+		textField_1.setBounds(10, 246, 79, 20);
 		getContentPane().add(textField_1);
 
 		textField_2 = new JTextField();
-		textField_2.setBounds(95, 211, 79, 20);
+		textField_2.setBounds(95, 246, 79, 20);
 		getContentPane().add(textField_2);
 
 		textField_3 = new JTextField();
-		textField_3.setBounds(10, 249, 79, 20);
+		textField_3.setBounds(10, 292, 79, 20);
 		getContentPane().add(textField_3);
 
 		textField_4 = new JTextField();
-		textField_4.setBounds(95, 249, 79, 20);
+		textField_4.setBounds(95, 292, 79, 20);
 		getContentPane().add(textField_4);
 
-		JButton button = new JButton();
-		button.setText("New JButton");
-		button.setBounds(207, 210, 93, 23);
-		getContentPane().add(button);
+		JButton butstart = new JButton();
+		butstart.setText("Start");
+		butstart.setBounds(191, 245, 93, 23);
+		getContentPane().add(butstart);
 
-		JButton button_1 = new JButton();
-		button_1.setText("New JButton");
-		button_1.setBounds(207, 248, 93, 23);
-		getContentPane().add(button_1);
+		JButton butend = new JButton();
+		butend.setText("End");
+		butend.setBounds(191, 291, 93, 23);
+		getContentPane().add(butend);
 
-		JButton button_2 = new JButton();
-		button_2.setText("New JButton");
-		button_2.setBounds(258, 138, 93, 23);
-		getContentPane().add(button_2);
+		JButton butcreate = new JButton();
+		butcreate.setText("Create");
+		butcreate.setBounds(231, 358, 93, 23);
+		getContentPane().add(butcreate);
 
-		JButton button_3 = new JButton();
-		button_3.setText("New JButton");
-		button_3.setBounds(357, 138, 93, 23);
-		getContentPane().add(button_3);
+		JButton butcancel = new JButton();
+		butcancel.setText("Cancel");
+		butcancel.setBounds(330, 358, 93, 23);
+		getContentPane().add(butcancel);
 
-		JButton button_4 = new JButton();
-		button_4.setText("New JButton");
-		button_4.setBounds(258, 306, 93, 23);
-		getContentPane().add(button_4);
+		JLabel label = new JLabel();
+		label.setText("End Date:");
+		label.setBounds(10, 272, 54, 14);
+		getContentPane().add(label);
 
-		JButton button_5 = new JButton();
-		button_5.setText("New JButton");
-		button_5.setBounds(357, 306, 93, 23);
-		getContentPane().add(button_5);
+		JLabel lbendTime = new JLabel();
+		lbendTime.setText("End Time:");
+		lbendTime.setBounds(95, 272, 54, 14);
+		getContentPane().add(lbendTime);
+
+		JLabel lbstartDate = new JLabel();
+		lbstartDate.setText("Start Date:");
+		lbstartDate.setBounds(10, 226, 54, 14);
+		getContentPane().add(lbstartDate);
+
+		JLabel lbstartTime = new JLabel();
+		lbstartTime.setText("Start Time:");
+		lbstartTime.setBounds(95, 226, 54, 14);
+		getContentPane().add(lbstartTime);
+
+		JLabel lbmachine = new JLabel();
+		lbmachine.setText("Machine:");
+		lbmachine.setBounds(10, 165, 54, 14);
+		getContentPane().add(lbmachine);
+
+		comboBox_2 = new JComboBox();
+		comboBox_2.setBounds(20, 185, 129, 20);
+		getContentPane().add(comboBox_2);
+
+		JLabel label_1 = new JLabel();
+		label_1.setText("New JLabel");
+		label_1.setBounds(10, 336, 54, 14);
+		getContentPane().add(label_1);
 		//
 		
 	}
