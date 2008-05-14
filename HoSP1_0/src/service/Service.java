@@ -1,10 +1,12 @@
 package service;
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
 import model.Drawer;
 import model.Drawing;
+import model.Machine;
 import model.MachineType;
 import model.Repair;
 import model.SparePart;
@@ -97,7 +99,45 @@ public class Service {
 	public void deleteMachineType(MachineType machineType) {
 		machineTypes.remove(machineType);
 	}
-
+	/**
+	 * Creates an object of Drawer
+	 */
+	public void createDrawer(int Id, int numberOfBoxes) {
+		Drawer drawer = new Drawer(Id, numberOfBoxes);
+		drawers.add(drawer);
+	}
+	/**
+	 * Deletes an object of Machine Type
+	 */
+	public void deleteDrawer(Drawer drawer) {
+		drawers.remove(drawer);
+	}
+	/*
+	 * Deletes an object of Repair
+	 */
+	public void createRepair(int num, Date startDate, Date endDate, Machine machine){
+	Repair repair = new Repair(num,startDate,endDate,machine);
+	repairs.add(repair);
+		
+	}
+//	/**
+//	 * Updates an object of Spare Part
+//	 */
+//	public void updateRepair(int num, Date startDate, Date endDate, Machine machine) {
+//		if (num != 0)
+//			repair.setNum(num);
+//		if (amount < 0)
+//			sparePart.setAmount(amount);
+//		if (drawing != null)
+//			sparePart.setDrawing(drawing);
+//	}
+	/**
+	 * Deletes an object of Repair
+	 */
+	public void deleteRepair(Repair repair) {
+		repairs.remove(repair);
+	}
+	
 	/**
 	 * @return the instance
 	 */
