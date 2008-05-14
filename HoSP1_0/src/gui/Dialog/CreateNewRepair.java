@@ -54,7 +54,7 @@ public class CreateNewRepair extends JDialog {
 		getContentPane().add(label_3);
 
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(191, 48, 232, 156);
+		scrollPane.setBounds(191, 48, 232, 130);
 		getContentPane().add(scrollPane);
 
 		list = new JList();
@@ -145,6 +145,11 @@ public class CreateNewRepair extends JDialog {
 		label_1.setText("New JLabel");
 		label_1.setBounds(10, 336, 54, 14);
 		getContentPane().add(label_1);
+
+		JButton butcreateNewRepairtype = new JButton();
+		butcreateNewRepairtype.setText("Create New Repair Type");
+		butcreateNewRepairtype.setBounds(191, 184, 151, 23);
+		getContentPane().add(butcreateNewRepairtype);
 		//
 		
 	}
