@@ -9,6 +9,7 @@ import model.Drawing;
 import model.Machine;
 import model.MachineType;
 import model.Repair;
+import model.RepairType;
 import model.SparePart;
 
 public class Service {
@@ -17,6 +18,7 @@ public class Service {
 
 	private Set<SparePart> spareParts = new HashSet<SparePart>();
 	private Set<Repair> repairs = new HashSet<Repair>();
+	private Set<RepairType> repairTypes = new HashSet<RepairType>();
 	private Set<MachineType> machineTypes = new HashSet<MachineType>();
 	private Set<Drawer> drawers = new HashSet<Drawer>();
 
@@ -25,15 +27,8 @@ public class Service {
 	}
 
 	private void startUp() {
-		// TODO Write method for: Create Drawer
-		// TODO Write method for: Create Repair
 
-		// TODO Write method for: Update Drawer
-		// TODO Write method for: Update Repair
-
-		// TODO Write method for: Delete Drawer
-		// TODO Write method for: Delete Machine Type
-		// TODO Write method for: Delete Repair
+		// TODO Write method for: Update Drawer // We don't need it :]
 
 		// TODO Write method for: calculation(history) of last 24 hours repairs
 		// TODO Write method for: calculation(history) of last 7 days (week)
@@ -47,6 +42,56 @@ public class Service {
 		// formula
 	}
 
+	/**
+	 * Creates an object of Repair
+	 */
+	public void createRepair(int num, Date startDate, Date endDate, Machine machine) {
+		Repair repair = new Repair(num, startDate, endDate, machine);
+		repairs.add(repair);
+	}
+	
+	/**
+	 * Updates an object of Repair
+	 */
+	public void updateRepair(Repair repair, Date startDate, Date endDate, Machine machine) {
+		if (startDate != null)
+			repair.setStartDate(startDate);
+		if (endDate != null)
+			repair.setStartDate(endDate);
+	}
+	
+	/**
+	 * Deletes an object of Repair
+	 */
+	public void deleteRepair(Repair repair) {
+		repairs.remove(repair);
+	}
+	
+	/**
+	 * Creates an object of Repair Type
+	 */
+	public void createRepairType(String name, MachineType machineType) {
+		RepairType repairType = new RepairType(name, machineType);
+		repairTypes.add(repairType);
+	}
+	
+	/**
+	 * Updates an object of Repair Type
+	 */
+	public void updateRepairType(RepairType repairType, String name, MachineType machineType) {
+		if (!name.equals(""))
+			repairType.setName(name);
+		if (machineType != null)
+			repairType.setMachineType(machineType);
+	}
+	
+	/**
+	 * Deletes an object of Repair Type
+	 */
+	public void deleteRepairType(RepairType repairType) {
+		repairTypes.remove(repairType);
+	}
+	
 	/**
 	 * Creates an object of Spare Part
 	 */
@@ -99,6 +144,7 @@ public class Service {
 	public void deleteMachineType(MachineType machineType) {
 		machineTypes.remove(machineType);
 	}
+	
 	/**
 	 * Creates an object of Drawer
 	 */
@@ -106,38 +152,14 @@ public class Service {
 		Drawer drawer = new Drawer(Id, numberOfBoxes);
 		drawers.add(drawer);
 	}
+	
 	/**
-	 * Deletes an object of Machine Type
+	 * Deletes an object of Drawer
 	 */
 	public void deleteDrawer(Drawer drawer) {
 		drawers.remove(drawer);
 	}
-	/*
-	 * Deletes an object of Repair
-	 */
-	public void createRepair(int num, Date startDate, Date endDate, Machine machine){
-	Repair repair = new Repair(num,startDate,endDate,machine);
-	repairs.add(repair);
-		
-	}
-//	/**
-//	 * Updates an object of Spare Part
-//	 */
-//	public void updateRepair(int num, Date startDate, Date endDate, Machine machine) {
-//		if (num != 0)
-//			repair.setNum(num);
-//		if (amount < 0)
-//			sparePart.setAmount(amount);
-//		if (drawing != null)
-//			sparePart.setDrawing(drawing);
-//	}
-	/**
-	 * Deletes an object of Repair
-	 */
-	public void deleteRepair(Repair repair) {
-		repairs.remove(repair);
-	}
-	
+
 	/**
 	 * @return the instance
 	 */
