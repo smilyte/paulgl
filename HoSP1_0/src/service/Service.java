@@ -1,23 +1,8 @@
 package service;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.TimeZone;
+import java.util.*;
 
-import model.Drawer;
-import model.Drawing;
-import model.Machine;
-import model.MachineType;
-import model.PartUsage;
-import model.Repair;
-import model.RepairType;
-import model.SparePart;
+import model.*;
 
 public class Service {
 
@@ -90,7 +75,7 @@ public class Service {
 					GregorianCalendar theDate = partUsage.getDate();
 
 					//We create new variable to store part usage's month.
-					int month = theDate.MONTH;
+					int month = theDate.get(GregorianCalendar.MONTH);
 
 					//If last month we checked is not the same when we increase value of 'calculateMonths'
 					if (lastMonth != month)
@@ -108,7 +93,6 @@ public class Service {
 			for (int i : monthlyUse) {
 				if (maxUsage < i)
 					maxUsage = i;
-				;
 			}
 		}
 		//We return highest amount of parts we used in one month.  = Minimum amount which should be on stock.
