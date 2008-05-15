@@ -1,3 +1,6 @@
+/**
+ * @author Elena
+ */
 package model;
 
 import java.util.List;

@@ -1,3 +1,6 @@
+/**
+ * @author Elena
+ */
 package model;
 
 public class Box {

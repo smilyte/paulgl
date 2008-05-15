@@ -1,12 +1,9 @@
 /**
+ * @author Elena
  * 
  */
 package model;
 
-/**
- * @author Elena
- * 
- */
 public class Machine {
 
 	private int serialNumber;
