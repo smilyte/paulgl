@@ -1,13 +1,13 @@
 package model;
 
-import java.util.Date;
+import java.util.GregorianCalendar;
 
 public class PartUsage {
 	
 	private int amount;
-	private Date date; 	
+	private GregorianCalendar date; 	
 
-	public PartUsage(int amount, Date date, Repair repair, SparePart sparePart) {
+	public PartUsage(int amount, GregorianCalendar date, Repair repair, SparePart sparePart) {
 		this.amount = amount;
 		this.date = date;
 		repair.addPartUsage(this);
@@ -29,13 +29,13 @@ public class PartUsage {
 	/**
 	 * @return the date
 	 */
-	public Date getDate() {
+	public GregorianCalendar getDate() {
 		return date;
 	}
 	/**
 	 * @param date the date to set
 	 */
-	public void setDate(Date date) {
+	public void setDate(GregorianCalendar date) {
 		this.date = date;
 	}
 
