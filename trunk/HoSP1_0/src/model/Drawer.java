@@ -58,12 +58,4 @@ public class Drawer {
 		return numberOfBoxes;
 	}
 
-	/**
-	 * @param numberOfBoxes the numberOfBoxes to set
-	 */
-	public void setNumberOfBoxes(int numberOfBoxes) {
-		this.numberOfBoxes = numberOfBoxes;
-	}
-	
-	
 }
