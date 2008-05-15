@@ -49,6 +49,8 @@ public class MainFrame extends JFrame {
 		tabbedPane.addTab("Drawer", null, panel_4, null);
 
 		panel_5 = new StatisticsPanel();
+		panel_5.setLayout(null);
 		tabbedPane.addTab("Statistics", null, panel_5, null);
+
 	}
 }
