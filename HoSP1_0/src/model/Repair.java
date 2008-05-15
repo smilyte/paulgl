@@ -1,7 +1,7 @@
 package model;
 
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 /**
@@ -10,8 +10,8 @@ import java.util.List;
  */
 public class Repair {
 	private int num;
-	private Date startDate;
-	private Date endDate;
+	private GregorianCalendar startDate;
+	private GregorianCalendar endDate;
 	// link to [Machine] Class(0..* --> 1)
 	private Machine machine;
 	// link to [PartUsage] Class(1 --> 0..*)
@@ -28,7 +28,7 @@ public class Repair {
 	 * @param machine
 	 * @param 
 	 */
-	public Repair(int num, Date startDate, Date endDate, Machine machine) {
+	public Repair(int num, GregorianCalendar startDate, GregorianCalendar endDate, Machine machine) {
 		this.num = num;
 		this.startDate = startDate;
 		this.endDate = endDate;
@@ -44,22 +44,22 @@ public class Repair {
 		this.num = num;
 	}
 
-	public Date getStartDate() {
+	public GregorianCalendar getStartDate() {
 		return startDate;
 	}
 
-	public void setStartDate(Date startDate) {
+	public void setStartDate(GregorianCalendar startDate) {
 		this.startDate = startDate;
 	}
 
 	/**
 	 * @return Date
 	 */
-	public Date getEndDate() {
+	public GregorianCalendar getEndDate() {
 		return endDate;
 	}
 
-	public void setEndDate(Date endDate) {
+	public void setEndDate(GregorianCalendar endDate) {
 		this.endDate = endDate;
 	}
 
