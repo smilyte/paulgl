@@ -16,6 +16,7 @@ public class Drawer {
 	public Drawer(int id, int numberOfBoxes){
 		this.id = id;
 		this.numberOfBoxes = numberOfBoxes;
+		createBox();
 	}
 	
 	/**
