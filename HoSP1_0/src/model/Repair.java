@@ -19,16 +19,17 @@ public class Repair {
 	// link to [RepairType] Class(1 --> 0..1)
 	private RepairType repairType = null;
 
-	
 	/**
 	 * Constructor of Repair
+	 * 
 	 * @param num
 	 * @param startDate
 	 * @param endDate
 	 * @param machine
-	 * @param 
+	 * @param
 	 */
-	public Repair(int num, GregorianCalendar startDate, GregorianCalendar endDate, Machine machine) {
+	public Repair(int num, GregorianCalendar startDate,
+			GregorianCalendar endDate, Machine machine) {
 		this.num = num;
 		this.startDate = startDate;
 		this.endDate = endDate;
@@ -63,21 +64,23 @@ public class Repair {
 		this.endDate = endDate;
 	}
 
-	 /**
-	 * Adds a person to this group
-	 * Requires: person != null og person is not in any other group
-	 * Note: this method is only for use in classes Person and Group */
-	 void addPartUsage(PartUsage partUsage) {
-	 partsUsage.add(partUsage);
-	 }
-	 /**
-	 * Moves a person from this group to an other group
-	 * Requires: group != null
+	/**
+	 * Adds a person to this group Requires: person != null og person is not in
+	 * any other group Note: this method is only for use in classes Person and
+	 * Group
 	 */
-	 public void movePartUsage(PartUsage partUsage, Repair repair) {
-	 partsUsage.remove(partUsage);
-	 repair.addPartUsage(partUsage);
-	 }
+	void addPartUsage(PartUsage partUsage) {
+		partsUsage.add(partUsage);
+	}
+
+	/**
+	 * Moves a person from this group to an other group Requires: group != null
+	 */
+	public void movePartUsage(PartUsage partUsage, Repair repair) {
+		partsUsage.remove(partUsage);
+		repair.addPartUsage(partUsage);
+	}
+
 	/**
 	 * @return the machine
 	 */
@@ -116,7 +119,7 @@ public class Repair {
 	}
 
 	public String toString() {
-		return num + " " + startDate;
+		return num + ": Started: " + startDate.getTime() + " Ended: " + endDate.getTime();
 	}
 
 }
