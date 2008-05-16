@@ -117,6 +117,18 @@ public class Repair {
 	public void setRepairType(RepairType repairType) {
 		this.repairType = repairType;
 	}
+	
+	public String getDowntime() {
+		long time; 
+		time = endDate.getTimeInMillis() - startDate.getTimeInMillis();  //Gets the difference between the dates
+		long days = time/(1000*60*60*24);                  //Converts the difference to days
+		long hours = (time%(1000*60*60*24))/(1000*60*60);  //Converts the difference to hours
+		long minutes = ((time%(1000*60*60*24))%(1000*60*60))/(1000*60); //Converts the difference to minutes
+		if (days == 0 && hours == 0 && minutes == 0) return "None."; //Filter 1: If the difference is equal to 0 program return "None"
+		else if (days == 0 && hours == 0) return minutes+"minutes."; //Filter 2: If days and hours are equal to 0 than return "minutes"
+		else if (days == 0) return hours+" hours, "+minutes+"minutes.";//Filter 3: If days are equal to 0 than return "hours" and "minutes"
+		else return days+" days, "+hours+" hours, "+minutes+"minutes.";//Filter 4: If all atributes has value return "days", "hours" and "minutes"
+	}
 
 	public String toString() {
 		return num + ": Started: " + startDate.getTime() + " Ended: " + endDate.getTime();
