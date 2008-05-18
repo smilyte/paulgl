@@ -1,6 +1,7 @@
 package dao;
 
-import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 import model.Repair;
 
@@ -15,7 +16,7 @@ public class RepairDAO{
 	private static RepairDAO instance = null;
 	
 	//container for all repairs
-	private ArrayList<Repair> repairs = new ArrayList<Repair>(); 
+	private Set<Repair> repairs = new HashSet<Repair>(); 
 	
 	
 	private RepairDAO() {}
@@ -48,7 +49,7 @@ public class RepairDAO{
 	/**
 	 * Returns a list with all repairs.
 	 */
-	public ArrayList<Repair> getRepairs() {
+	public Set<Repair> getRepairs() {
 		return repairs;
 	}
 	
