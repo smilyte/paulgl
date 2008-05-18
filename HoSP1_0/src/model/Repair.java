@@ -131,7 +131,7 @@ public class Repair {
 	}
 
 	public String toString() {
-		return num + ": Started: " + startDate.getTime() + " Ended: " + endDate.getTime();
+		return num + ": Started: [" + startDate.getTime() + "] Ended: [" + endDate.getTime()+"]";
 	}
 
 }
