@@ -1,6 +1,7 @@
 package service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashSet;
 import java.util.List;
@@ -79,28 +80,32 @@ public class Service {
 					// usage date to it.
 					GregorianCalendar theDate = partUsage.getDate();
 
-					//We create new variable to store part usage's month.
+					// We create new variable to store part usage's month.
 					int month = theDate.get(GregorianCalendar.MONTH);
 
-					//If last month we checked is not the same when we increase value of 'calculateMonths'
+					// If last month we checked is not the same when we increase
+					// value of 'calculateMonths'
 					if (lastMonth != month)
 						calculateMonths++;
 
 					lastMonth = month;
 
-					//If we still didn't went through more than 12 months we increase that month's value.
-					//(We have to calculate usage based on only last 12 months)
+					// If we still didn't went through more than 12 months we
+					// increase that month's value.
+					// (We have to calculate usage based on only last 12 months)
 					if (calculateMonths < 12)
 						monthlyUse[month] += partUsage.getAmount();
 				}
 			}
-			//Using 'for' loop we go through all months and values and remember the highest amount of parts we used. 
+			// Using 'for' loop we go through all months and values and remember
+			// the highest amount of parts we used.
 			for (int i : monthlyUse) {
 				if (maxUsage < i)
 					maxUsage = i;
 			}
 		}
-		//We return highest amount of parts we used in one month.  = Minimum amount which should be on stock.
+		// We return highest amount of parts we used in one month. = Minimum
+		// amount which should be on stock.
 		return maxUsage;
 	}
 
@@ -117,21 +122,21 @@ public class Service {
 		// requirement
 		List<Repair> calcList = new ArrayList<Repair>();
 		// Getting the Time And Date from the computer
-		GregorianCalendar today = (GregorianCalendar) GregorianCalendar
-		.getInstance(TimeZone.getDefault());
-		
+		GregorianCalendar today = new GregorianCalendar();
 		// We are taking each repair at a time and calculating
+
 		for (Repair repair : repairs) {
 			// Calculate the difference between Todays's Date and End Date
 			long time = today.getTimeInMillis()
 					- repair.getEndDate().getTimeInMillis();
 			// Converts that difference to hours
 			long hours = (time % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60);
+			System.out.println(hours);
 			// If hours are less than 24 we add this repair to the list.
-			if (hours <= 24)
-				calcList.add(repair);
+			if (hours > 0 && hours <= 24){
+				calcList.add(repair);}
 		}
-		
+
 		// Return Repairs list with repairs made in last 24 hours.
 		return calcList;
 	}
@@ -139,9 +144,7 @@ public class Service {
 	/**
 	 * Creates an object of Repair
 	 */
-	public void createRepair(int num, GregorianCalendar startDate,
-			GregorianCalendar endDate, Machine machine) {
-		Repair repair = new Repair(num, startDate, endDate, machine);
+	public void createRepair(Repair repair) {
 		repairs.add(repair);
 	}
 
@@ -264,4 +267,25 @@ public class Service {
 	public static Service getInstance() {
 		return instance;
 	}
+
+	public Set<SparePart> getSpareParts() {
+		return spareParts;
+	}
+
+	public Set<Repair> getRepairs() {
+		return repairs;
+	}
+
+	public Set<RepairType> getRepairTypes() {
+		return repairTypes;
+	}
+
+	public Set<MachineType> getMachineTypes() {
+		return machineTypes;
+	}
+
+	public Set<Drawer> getDrawers() {
+		return drawers;
+	}
+
 }
