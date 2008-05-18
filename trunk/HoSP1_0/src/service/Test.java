@@ -15,7 +15,7 @@ public class Test {
 
 		SetUp();
 		
-		System.out.println(Service.getInstance().calculateRepairsToday());
+		System.out.println(Service.getInstance().getTodaysRepairs());
 	
 		System.out.println("/n/r"+new GregorianCalendar().getTime());
 	
@@ -43,10 +43,10 @@ public class Test {
 		r3 = new Repair(3, stDate3, eDate3, m1);
 		r4 = new Repair(4, stDate4, eDate4, m1);
 
-		Service.getInstance().createRepair(r1);
-		Service.getInstance().createRepair(r2);
-		Service.getInstance().createRepair(r3);
-		Service.getInstance().createRepair(r4);
+		Service.getInstance().addRepair(r1);
+		Service.getInstance().addRepair(r2);
+		Service.getInstance().addRepair(r3);
+		Service.getInstance().addRepair(r4);
 
 	}
 
