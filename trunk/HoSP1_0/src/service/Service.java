@@ -35,7 +35,7 @@ public class Service {
 		// TODO 2. SparePart
 		// TODO 3. MachineType
 		// TODO 4. Drawer
-		
+
 		// TODO Write method for: Update Drawer // We don't need it :]
 
 		// TODO Write method for: calculation(history) of last 7 days (week)
@@ -50,6 +50,7 @@ public class Service {
 
 	/**
 	 * Calculate minimum amount for the spare part
+	 * 
 	 * @author Vytas
 	 */
 
@@ -62,59 +63,51 @@ public class Service {
 		// month
 		int[] monthlyUse = new int[12];
 
-		// Using For Each Loop we are taking one spare part at a time
-		for (SparePart sP : spareParts) {
+		// We use this variable to remember which was the last month we
+		// took to be able to count last 12 months.
+		int lastMonth = -1;
 
-			// We compare taken spare part with the one we are looking for. We
-			// Continue only when we find required spare part.
-			// Requirement: sparePart == sP
-			if (sparePart.equals(sP)) {
+		// We are going through one part's list(history) of all part
+		// usages from the end of the list in order to have newest
+		// records first.
+		for (int i = sparePart.getPartsUsage().size(); i > 0; i--) {
 
-				// We use this variable to remember which was the last month we
-				// took to be able to count last 12 months.
-				int lastMonth = -1;
+			// In this variable we will count number of months we went
+			// through in order to know when we have to stop.
+			int calculateMonths = 0;
 
-				// We are going through one part's list(history) of all part
-				// usages from the end of the list in order to have newest
-				// records first.
-				for (int i = sP.getPartsUsage().size(); i > 0; i--) {
+			// We create the object of PartUsage class and assign value
+			// to it.
+			PartUsage partUsage = sparePart.getPartsUsage().get(i);
 
-					// In this variable we will count number of months we went
-					// through in order to know when we have to stop.
-					int calculateMonths = 0;
+			// We create variable of GregorianCalendar and assign part
+			// usage date to it.
+			GregorianCalendar theDate = partUsage.getDate();
 
-					// We create the object of PartUsage class and assign value
-					// to it.
-					PartUsage partUsage = sP.getPartsUsage().get(i);
+			// We create new variable to store part usage's month.
+			int month = theDate.get(GregorianCalendar.MONTH);
 
-					// We create variable of GregorianCalendar and assign part
-					// usage date to it.
-					GregorianCalendar theDate = partUsage.getDate();
+			// If last month we checked is not the same when we increase
+			// value of 'calculateMonths'
+			if (lastMonth != month)
+				calculateMonths++;
 
-					// We create new variable to store part usage's month.
-					int month = theDate.get(GregorianCalendar.MONTH);
+			lastMonth = month;
 
-					// If last month we checked is not the same when we increase
-					// value of 'calculateMonths'
-					if (lastMonth != month)
-						calculateMonths++;
-
-					lastMonth = month;
-
-					// If we still didn't went through more than 12 months we
-					// increase that month's value.
-					// (We have to calculate usage based on only last 12 months)
-					if (calculateMonths < 12)
-						monthlyUse[month] += partUsage.getAmount();
-				}
-			}
-			// Using 'for' loop we go through all months and values and remember
-			// the highest amount of parts we used.
-			for (int i : monthlyUse) {
-				if (maxUsage < i)
-					maxUsage = i;
-			}
+			// If we still didn't went through more than 12 months we
+			// increase that month's value.
+			// (We have to calculate usage based on only last 12 months)
+			if (calculateMonths < 12)
+				monthlyUse[month] += partUsage.getAmount();
 		}
+
+		// Using 'for' loop we go through all months and values and remember
+		// the highest amount of parts we used.
+		for (int i : monthlyUse) {
+			if (maxUsage < i)
+				maxUsage = i;
+		}
+
 		// We return highest amount of parts we used in one month. = Minimum
 		// amount which should be on stock.
 		return maxUsage;
@@ -185,6 +178,7 @@ public class Service {
 		repair.setEndDate(endDate);
 		repairDao.updateRepair(repair);
 	}
+
 	// --------------REPAIR METHODS END--------------------------------
 
 	/**
