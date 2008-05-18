@@ -13,27 +13,27 @@ public class ServiceTest {
 
 	@Test
 	public void testGetMinimumAmount() {
-		fail("Not yet implemented"); // TODO
+		// only black box test possible.
 	}
 
 	@Test
 	public void testCalculateRepairsToday() {
-		fail("Not yet implemented"); // TODO
+		// only black box test possible
 	}
 
 	@Test
-	public void testCreateRepair() {
-		fail("Not yet implemented"); // TODO
+	public void testAddRepair() {
+		// check if added
 	}
 
 	@Test
 	public void testUpdateRepair() {
-		fail("Not yet implemented"); // TODO
+		// check if updated
 	}
 
 	@Test
-	public void testDeleteRepair() {
-		fail("Not yet implemented"); // TODO
+	public void testRemoveRepair() {
+		// check if removed
 	}
 
 	@Test

@@ -7,17 +7,20 @@ public class SparePart {
 
 	private int amount;
 	private int number;
+	private Box box;
 
 	// link to [PartUsage] Class(--> 0..*)
 	private List<PartUsage> partsUsage = new ArrayList<PartUsage>();
 
 	/**Constructor of SparePart
-	 * @param amount
-	 * @param number
+	 * @param amount how many parts do we have
+	 * @param number 7 digit number of a part
+	 * @param box Box, where the part is placed
 	 */
-	public SparePart(int amount, int number) {
+	public SparePart(int amount, int number, Box box) {
 		this.amount = amount;
 		this.number = number;
+		this.box = box;
 	}
 
 	/**
@@ -67,4 +70,25 @@ public class SparePart {
 		return partsUsage;
 	}
 
+	/**
+	 * Sets new box for this spare part
+	 * @param newBox Box, where the part will be placed
+	 * Requires: newBox != null
+	 * @author Elena
+	 */
+	public void setBox(Box newBox){
+		if(newBox != null){
+			this.box = newBox;
+			newBox.setSp(this);
+		}
+			
+	}
+
+	/**
+	 * @return box of this part
+	 */
+	public Box getBox(){
+		return box;
+	}
+	
 }
