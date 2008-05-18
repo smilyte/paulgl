@@ -2,13 +2,33 @@ package junit;
 
 import static org.junit.Assert.*;
 
+import java.util.GregorianCalendar;
+import java.util.HashSet;
+import java.util.Set;
+
+import model.Machine;
+import model.MachineType;
+import model.Repair;
+
 import org.junit.Before;
 import org.junit.Test;
 
+import service.Service;
+
 public class ServiceTest {
+	
+	private static Service service;
+	private MachineType mt1;
+	private Machine m1;
+	private Repair r;
 
 	@Before
 	public void setUp() throws Exception {
+		
+		service = Service.getInstance();
+		mt1 = new MachineType("MT name");
+		m1 = new Machine(123123, "Manufacturer", mt1);
+			
 	}
 
 	@Test
@@ -17,18 +37,25 @@ public class ServiceTest {
 	}
 
 	@Test
-	public void testCalculateRepairsToday() {
-		// only black box test possible
+	public void testGetTodaysRepairs() {
+		assertEquals(2, service.getTodaysRepairs().size());
+
 	}
 
 	@Test
 	public void testAddRepair() {
-		// check if added
+		GregorianCalendar stDate1 = new GregorianCalendar(2008, 04, 13, 5, 25);
+		GregorianCalendar eDate1 = new GregorianCalendar(2008, 04, 14, 10, 03);
+		r = new Repair(service.getRepairs().size(), stDate1, eDate1, m1);
+		service.addRepair(r);
+		assertEquals(5, service.getRepairs().size());
 	}
 
 	@Test
 	public void testUpdateRepair() {
-		// check if updated
+		
+		
+		
 	}
 
 	@Test
@@ -38,57 +65,57 @@ public class ServiceTest {
 
 	@Test
 	public void testCreateRepairType() {
-		fail("Not yet implemented"); // TODO
+		
 	}
 
 	@Test
 	public void testUpdateRepairType() {
-		fail("Not yet implemented"); // TODO
+		
 	}
 
 	@Test
 	public void testDeleteRepairType() {
-		fail("Not yet implemented"); // TODO
+	
 	}
 
 	@Test
 	public void testCreateSparePart() {
-		fail("Not yet implemented"); // TODO
+		
 	}
 
 	@Test
 	public void testUpdateSparePart() {
-		fail("Not yet implemented"); // TODO
+		
 	}
 
 	@Test
 	public void testDeleteSparePart() {
-		fail("Not yet implemented"); // TODO
+		
 	}
 
 	@Test
 	public void testCreateMachineType() {
-		fail("Not yet implemented"); // TODO
+		
 	}
 
 	@Test
 	public void testUpdateMachineType() {
-		fail("Not yet implemented"); // TODO
+		
 	}
 
 	@Test
 	public void testDeleteMachineType() {
-		fail("Not yet implemented"); // TODO
+		
 	}
 
 	@Test
 	public void testCreateDrawer() {
-		fail("Not yet implemented"); // TODO
+		
 	}
 
 	@Test
 	public void testDeleteDrawer() {
-		fail("Not yet implemented"); // TODO
+		
 	}
 
 }

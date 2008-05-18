@@ -19,6 +19,7 @@ public class Service {
 	private Set<RepairType> repairTypes = new HashSet<RepairType>();
 	private Set<MachineType> machineTypes = new HashSet<MachineType>();
 	private Set<Drawer> drawers = new HashSet<Drawer>();
+	private Set<Repair> repairs = new HashSet<Repair>();
 
 	// Gets the one and only instance of the Repair DAO class.
 	private RepairDAO repairDao = RepairDAO.getInstance();
@@ -46,6 +47,29 @@ public class Service {
 		// TODO Write method for: calculation(history) of last 12 months (year)
 		// repairs
 		// TODO Search for spare parts using 7 digit number.... :)
+		
+		GregorianCalendar stDate1 = new GregorianCalendar(2008, 04, 13, 5, 25);
+		GregorianCalendar eDate1 = new GregorianCalendar(2008, 04, 14, 10, 03);
+		
+		GregorianCalendar stDate2 = new GregorianCalendar(2008, 04, 15, 5, 25);
+		GregorianCalendar eDate2 = new GregorianCalendar(2008, 03, 19, 12, 18);
+		
+		GregorianCalendar stDate3 = new GregorianCalendar(2008, 04, 16, 5, 25);
+		GregorianCalendar eDate3 = new GregorianCalendar(2008, 04, 18, 10, 03);
+		
+		GregorianCalendar stDate4 = new GregorianCalendar(2008, 04, 16, 5, 25);
+		GregorianCalendar eDate4 = new GregorianCalendar(2008, 04, 18, 19, 03);
+		
+		MachineType mt1 = new MachineType("MT name");
+		Machine m1 = new Machine(123123, "Manufacturer", mt1);
+
+		Repair r1 = new Repair(1, stDate1, eDate1, m1);
+		Repair r2 = new Repair(2, stDate2, eDate2, m1);
+		Repair r3 = new Repair(3, stDate3, eDate3, m1);
+		Repair r4 = new Repair(4, stDate4, eDate4, m1);
+		
+		repairs.add(r1);  repairs.add(r2); repairs.add(r3); repairs.add(r4);  
+		
 
 	}
 
@@ -130,14 +154,13 @@ public class Service {
 		GregorianCalendar today = new GregorianCalendar();
 		// We are taking each repair at a time and calculating
 
-		for (Repair repair : repairDao.getRepairs()) {
+		for (Repair repair : getRepairs()) {
 			// Calculate the difference between Todays's Date and End Date
 			long time = today.getTimeInMillis()
 					- repair.getEndDate().getTimeInMillis();
 			// Converts that difference to hours
-			long hours = (time % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60);
-			System.out.println(hours);
-			// If hours are less than 24 we add this repair to the list.
+			long hours = time / (1000*60*60);
+			// If hours are equal or less than 24 we add this repair to the list.
 			if (hours > 0 && hours <= 24) {
 				calcList.add(repair);
 			}
@@ -153,7 +176,8 @@ public class Service {
 	 * Adds a repair to the list of all repairs. Requires: repair != null
 	 */
 	public void addRepair(Repair repair) {
-		repairDao.addRepair(repair);
+		//repairDao.addRepair(repair);
+		repairs.add(repair);
 	}
 
 	/**
@@ -167,7 +191,8 @@ public class Service {
 	 * Returns a list with all repairs.
 	 */
 	public Set<Repair> getRepairs() {
-		return repairDao.getRepairs();
+		//return repairDao.getRepairs();
+		return repairs;
 	}
 
 	/**
@@ -313,5 +338,7 @@ public class Service {
 	public Set<Drawer> getDrawers() {
 		return drawers;
 	}
+	
+
 
 }
