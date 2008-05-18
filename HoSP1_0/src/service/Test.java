@@ -9,7 +9,7 @@ public class Test {
 
 	private static GregorianCalendar stDate1, eDate1, stDate2, eDate2, stDate3, eDate3, stDate4, eDate4;
 	private static Machine m1;
-	private static Repair r1, r2, r3, r4, r5, r6;
+	private static Repair r1, r2, r3, r4;
 
 	public static void main(String[] args) {
 
