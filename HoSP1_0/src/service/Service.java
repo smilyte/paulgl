@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.TimeZone;
 
+import dao.*;
+
 import model.*;
 
 public class Service {
@@ -15,10 +17,12 @@ public class Service {
 	private static Service instance = new Service();
 
 	private Set<SparePart> spareParts = new HashSet<SparePart>();
-	private Set<Repair> repairs = new HashSet<Repair>();
 	private Set<RepairType> repairTypes = new HashSet<RepairType>();
 	private Set<MachineType> machineTypes = new HashSet<MachineType>();
 	private Set<Drawer> drawers = new HashSet<Drawer>();
+
+	// Gets the one and only instance of the Repair DAO class.
+	private RepairDAO repairDao = RepairDAO.getInstance();
 
 	public Service() {
 		startUp();
@@ -26,6 +30,12 @@ public class Service {
 
 	private void startUp() {
 
+		// TODO Using DAO Change Add, Remove, Update and GetList for:
+		// TODO 1. Repair Type
+		// TODO 2. SparePart
+		// TODO 3. MachineType
+		// TODO 4. Drawer
+		
 		// TODO Write method for: Update Drawer // We don't need it :]
 
 		// TODO Write method for: calculation(history) of last 7 days (week)
@@ -40,6 +50,7 @@ public class Service {
 
 	/**
 	 * Calculate minimum amount for the spare part
+	 * @author Vytas
 	 */
 
 	public int getMinimumAmount(SparePart sparePart) {
@@ -125,7 +136,7 @@ public class Service {
 		GregorianCalendar today = new GregorianCalendar();
 		// We are taking each repair at a time and calculating
 
-		for (Repair repair : repairs) {
+		for (Repair repair : repairDao.getRepairs()) {
 			// Calculate the difference between Todays's Date and End Date
 			long time = today.getTimeInMillis()
 					- repair.getEndDate().getTimeInMillis();
@@ -133,38 +144,48 @@ public class Service {
 			long hours = (time % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60);
 			System.out.println(hours);
 			// If hours are less than 24 we add this repair to the list.
-			if (hours > 0 && hours <= 24){
-				calcList.add(repair);}
+			if (hours > 0 && hours <= 24) {
+				calcList.add(repair);
+			}
 		}
 
 		// Return Repairs list with repairs made in last 24 hours.
 		return calcList;
 	}
 
+	// --------------REPAIR METHODS START--------------------------------
+
 	/**
-	 * Creates an object of Repair
+	 * Adds a repair to the list of all repairs. Requires: repair != null
 	 */
-	public void createRepair(Repair repair) {
-		repairs.add(repair);
+	public void addRepair(Repair repair) {
+		repairDao.addRepair(repair);
 	}
 
 	/**
-	 * Updates an object of Repair
+	 * Remove the repair from the list of all repairs. Requires: repair != null.
+	 */
+	public void removeRepair(Repair repair) {
+		repairDao.removeRepair(repair);
+	}
+
+	/**
+	 * Returns a list with all repairs.
+	 */
+	public ArrayList<Repair> getRepairs() {
+		return repairDao.getRepairs();
+	}
+
+	/**
+	 * Updates the information about the repair.
 	 */
 	public void updateRepair(Repair repair, GregorianCalendar startDate,
-			GregorianCalendar endDate, Machine machine) {
-		if (startDate != null)
-			repair.setStartDate(startDate);
-		if (endDate != null)
-			repair.setStartDate(endDate);
+			GregorianCalendar endDate) {
+		repair.setStartDate(startDate);
+		repair.setEndDate(endDate);
+		repairDao.updateRepair(repair);
 	}
-
-	/**
-	 * Deletes an object of Repair
-	 */
-	public void deleteRepair(Repair repair) {
-		repairs.remove(repair);
-	}
+	// --------------REPAIR METHODS END--------------------------------
 
 	/**
 	 * Creates an object of Repair Type
@@ -270,10 +291,6 @@ public class Service {
 
 	public Set<SparePart> getSpareParts() {
 		return spareParts;
-	}
-
-	public Set<Repair> getRepairs() {
-		return repairs;
 	}
 
 	public Set<RepairType> getRepairTypes() {
