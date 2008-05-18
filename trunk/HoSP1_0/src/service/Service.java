@@ -121,7 +121,7 @@ public class Service {
 	 * ((time%(1000*60*60*24))%(1000*60*60))/(1000*60);
 	 * 
 	 */
-	public List<Repair> calculateRepairsToday() {
+	public List<Repair> getTodaysRepairs() {
 		// We create the list where we will store repairs which meet the
 		// requirement
 		List<Repair> calcList = new ArrayList<Repair>();
