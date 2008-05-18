@@ -211,8 +211,8 @@ public class Service {
 	/**
 	 * Creates an object of Spare Part
 	 */
-	public void createSparePart(int number, int amount) {
-		SparePart sparePart = new SparePart(number, amount);
+	public void createSparePart(int number, int amount, Box box) {
+		SparePart sparePart = new SparePart(number, amount, box);
 		spareParts.add(sparePart);
 	}
 
@@ -220,13 +220,15 @@ public class Service {
 	 * Updates an object of Spare Part
 	 */
 	public void updateSparePart(SparePart sparePart, int number, int amount,
-			Drawing drawing) {
+			Drawing drawing, Box box) {
 		if (number != 0)
 			sparePart.setNumber(number);
 		if (amount < 0)
 			sparePart.setAmount(amount);
 		if (drawing != null)
 			sparePart.setDrawing(drawing);
+		if(box != null)
+			movePart(box, sparePart);
 	}
 
 	/**
@@ -275,6 +277,18 @@ public class Service {
 	 */
 	public void deleteDrawer(Drawer drawer) {
 		drawers.remove(drawer);
+	}
+	
+	/**
+	 * Moves spare part to newBox.
+	 * Requires box to be empty, newBox != null and sp != null
+	 * @author Elena
+	 */
+	public void movePart(Box newBox, SparePart sp){
+		if(newBox.getSparePart() == null){
+			sp.getBox().setSp(null);
+			sp.setBox(newBox);
+		}
 	}
 
 	/**

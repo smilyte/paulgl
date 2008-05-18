@@ -7,6 +7,7 @@ public class Box {
 	
 	private String serialNumber;
 	private Drawer drawer;
+	private SparePart sparePart = null;
 	
 	/**
 	 * Creates a box
@@ -32,4 +33,20 @@ public class Box {
 		return drawer;
 	}
 
+	/**
+	 * @return the spare part of this box
+	 */
+	public SparePart getSparePart() {
+		return sparePart;
+	}
+
+	/**
+	 * @param sp the new spare part to this drawer
+	 * Requires this drawer to be empty.
+	 */
+	public void setSp(SparePart sp) {
+		if(this.sparePart == null)
+			this.sparePart = sp;
+	}
+	
 }

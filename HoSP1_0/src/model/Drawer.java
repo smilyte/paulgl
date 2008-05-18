@@ -15,6 +15,7 @@ public class Drawer {
 	
 	/**
 	 * Constructor
+	 * Requires numberOfBoxes > 0
 	 */
 	public Drawer(int id, int numberOfBoxes){
 		this.id = id;
