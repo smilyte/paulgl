@@ -23,6 +23,8 @@ public class Service {
 
 	// Gets the one and only instance of the Repair DAO class.
 	private RepairDAO repairDao = RepairDAO.getInstance();
+	
+	// TODO separate dao for spare parts, machines and drawers
 
 	public Service() {
 		startUp();
