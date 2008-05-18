@@ -1,5 +1,5 @@
 package dao;
 
-public class DAOManager {
-
+public interface DAOManager {
+	//Do nothing right now. We will use it later.
 }
