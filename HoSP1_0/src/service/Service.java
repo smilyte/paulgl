@@ -1,12 +1,11 @@
 package service;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.TimeZone;
+
 
 import dao.*;
 
@@ -167,7 +166,7 @@ public class Service {
 	/**
 	 * Returns a list with all repairs.
 	 */
-	public ArrayList<Repair> getRepairs() {
+	public Set<Repair> getRepairs() {
 		return repairDao.getRepairs();
 	}
 
