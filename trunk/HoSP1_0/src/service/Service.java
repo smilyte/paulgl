@@ -21,7 +21,6 @@ public class Service {
 	private Set<RepairType> repairTypes = new HashSet<RepairType>();
 	private Set<MachineType> machineTypes = new HashSet<MachineType>();
 	private Set<Drawer> drawers = new HashSet<Drawer>();
-	private Set<Repair> repairs = new HashSet<Repair>();
 
 	// Gets the one and only instance of the Repair DAO class.
 	private RepairDAO repairDao = RepairDAO.getInstance();
@@ -29,8 +28,7 @@ public class Service {
 	// Gets the one and only instance of the SparePartDAO class.
 	private SparePartDAO sparePartDao = SparePartDAO.getInstance();
 
-
-	// TODO separate dao for spare parts, machines and drawers
+	// TODO separate dao for machines and drawers
 
 	public Service() {
 		startUp();
@@ -40,7 +38,7 @@ public class Service {
 
 		// TODO Using DAO Change Add, Remove, Update and GetList for:
 		// TODO 1. Repair Type - Elena
-		// TODO 2. SparePart - Elena
+
 		// TODO 3. MachineType - Malik
 		// TODO 4. Drawer - Malik
 
@@ -178,10 +176,10 @@ public class Service {
 	}
 
 	/**
-	 * Get Down Time for particular machine.
-	 * Method returns array list of the size 12 where each number represents Month of the year.
-	 * Each month have integer value which tells how many days machine wasn't working in that month.
-	 * Each month can have maximum value of 31.  
+	 * Get Down Time for particular machine. Method returns array list of the
+	 * size 12 where each number represents Month of the year. Each month have
+	 * integer value which tells how many days machine wasn't working in that
+	 * month. Each month can have maximum value of 31.
 	 * 
 	 * @author Vytas
 	 */
@@ -201,50 +199,56 @@ public class Service {
 		// We use 'for each' to go through all list of repairs
 		for (Repair repair : getRepairs()) {
 
-			//If it's the machine we are looking for - Continue
-			if (repair.getMachine().equals(machine)){
-				
-			// We take Repair's StartDate and assign it to variable 'date' just
-			// to make code shorter.
-			date = repair.getStartDate();
+			// If it's the machine we are looking for - Continue
+			if (repair.getMachine().equals(machine)) {
 
-			// First condition: If repair has been started and finished in the
-			// same month we just get the difference between end date and start
-			// date
-			if (date.MONTH == repair.getEndDate().MONTH) {
-				//Getting number of days machine was broke down this month
-				downtimeInDays = repair.getEndDate().DAY_OF_MONTH
-						- date.DAY_OF_MONTH;
-				//Store number of down time days into array by increasing the value.
-				//Value can't be higher than 31.
-				monthlyDown[date.MONTH] += downtimeInDays;
-			} else {
-				//Second condition: If repair has started in one month and ended in another.
-				// We will repeat this loop until we go through all of the months
-				while (!finished) {
-					//If current month is not the same as end date.
-					if (date.MONTH != repair.getEndDate().MONTH) {
-						//We get the difference between maximum number of days in that month and current day of month 
-						downtimeInDays = date.getActualMaximum(date.MONTH)
-								- date.DAY_OF_MONTH;
-						//Store number of down time days into array by increasing the value.
-						//Value can't be higher than 31.
-						monthlyDown[date.MONTH] += downtimeInDays;
-						//Changing the current date by going one month further 
-						date.set(date.YEAR, date.MONTH + 1, 01);
-					} else {
-						// But if current month is the same as end date.
-						// We get the difference between mend date and current day of month 
-						downtimeInDays = repair.getEndDate().MONTH
-								- date.DAY_OF_MONTH;
-						// --,,--
-						monthlyDown[date.MONTH] += downtimeInDays;
-						//Changing value to finish the loop, because we went through all months.
-						finished = true;
+				// We take Repair's StartDate and assign it to variable 'date'
+				// just to make code shorter.
+				date = repair.getStartDate();
+
+				// First condition: If repair has been started and finished in
+				// the same month we just get the difference between end date
+				// and start date
+				if (date.MONTH == repair.getEndDate().MONTH) {
+					// Getting number of days machine was broke down this month
+					downtimeInDays = repair.getEndDate().DAY_OF_MONTH
+							- date.DAY_OF_MONTH;
+					// Store number of down time days into array by increasing
+					// the value. Value can't be higher than 31.
+					monthlyDown[date.MONTH] += downtimeInDays;
+				} else {
+					// Second condition: If repair has started in one month and
+					// ended in another. We will repeat this loop until we go
+					// through all of the months
+					while (!finished) {
+						// If current month is not the same as end date.
+						if (date.MONTH != repair.getEndDate().MONTH) {
+							// We get the difference between maximum number of
+							// days in that month and current day of month
+							downtimeInDays = date.getActualMaximum(date.MONTH)
+									- date.DAY_OF_MONTH;
+							// Store number of down time days into array by
+							// increasing the value.
+							// Value can't be higher than 31.
+							monthlyDown[date.MONTH] += downtimeInDays;
+							// Changing the current date by going one month
+							// further
+							date.set(date.YEAR, date.MONTH + 1, 01);
+						} else {
+							// But if current month is the same as end date.
+							// We get the difference between mend date and
+							// current day of month
+							downtimeInDays = repair.getEndDate().MONTH
+									- date.DAY_OF_MONTH;
+							// --,,--
+							monthlyDown[date.MONTH] += downtimeInDays;
+							// Changing value to finish the loop, because we
+							// went through all months.
+							finished = true;
+						}
 					}
 				}
 			}
-		}
 		}
 		return monthlyDown;
 	}
@@ -252,41 +256,27 @@ public class Service {
 	// *************************************************
 	public String getDowntime(long timeInMils) {
 		long time = timeInMils;
-		long days = time / (1000 * 60 * 60 * 24); // Converts the difference
-		// to days
-		long hours = (time % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60); // Converts
-		// the
-		// difference
-		// to
-		// hours
+		// Converts the difference to days
+		long days = time / (1000 * 60 * 60 * 24);
+		// Converts the difference to hours
+		long hours = (time % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60);
+		// Converts the difference to minutes
 		long minutes = ((time % (1000 * 60 * 60 * 24)) % (1000 * 60 * 60))
-				/ (1000 * 60); // Converts the difference to minutes
+				/ (1000 * 60);
+
+		// Filter 1: If the difference is equal to 0 program returns "None"
 		if (days == 0 && hours == 0 && minutes == 0)
-			return "None."; // Filter 1: If the difference is equal to 0 program
-		// return "None"
+			return "None.";
+		// Filter 2: If days and hours are equal to 0 than return "minutes"
 		else if (days == 0 && hours == 0)
-			return minutes + "minutes."; // Filter 2: If days and hours are
-		// equal to 0 than return "minutes"
+			return minutes + "minutes.";
+		// Filter 3: If days are equal to 0 than return "hours" and "minutes"
 		else if (days == 0)
-			return hours + " hours, " + minutes + "minutes.";// Filter 3: If
-		// days are
-		// equal to 0
-		// than return
-		// "hours" and
+			return hours + " hours, " + minutes + "minutes.";
+		// Filter 4: If all atributes has value return "days", "hours" and
 		// "minutes"
 		else
-			return days + " days, " + hours + " hours, " + minutes + "minutes.";// Filter
-		// 4:
-		// If
-		// all
-		// atributes
-		// has
-		// value
-		// return
-		// "days",
-		// "hours"
-		// and
-		// "minutes"
+			return days + " days, " + hours + " hours, " + minutes + "minutes.";
 	}
 
 	// *************************************************
@@ -353,8 +343,7 @@ public class Service {
 
 	// --------------- SPARE PART METHODS -----------------------------
 	/**
-	 * Creates an object of Spare Part
-	 * Requires 
+	 * Creates an object of Spare Part Requires
 	 */
 	public void addSparePart(SparePart sparePart) {
 		sparePartDao.add(sparePart);
@@ -373,7 +362,7 @@ public class Service {
 			sparePart.setDrawing(drawing);
 		if (box != null)
 			movePart(box, sparePart);
-		
+
 		sparePartDao.update(sparePart);
 	}
 
@@ -384,14 +373,13 @@ public class Service {
 		sparePart.getBox().setSp(null);
 		sparePartDao.delete(sparePart);
 	}
-	
+
 	public Set<SparePart> getSpareParts() {
 		return sparePartDao.getList();
 	}
 
 	// --------------- SPARE PART METHODS END -------------------------
-	
-	
+
 	/**
 	 * Creates an object of Machine Type
 	 */
