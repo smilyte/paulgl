@@ -16,8 +16,8 @@ public class Test {
 		SetUp();
 		
 		System.out.println(Service.getInstance().getTodaysRepairs());
-	
-		System.out.println("/n/r"+new GregorianCalendar().getTime());
+		System.out.println();
+		System.out.println(new GregorianCalendar().getTime());
 	
 		System.out.println(r1.getDowntime());
 		System.out.println(r2.getDowntime());
@@ -33,7 +33,7 @@ public class Test {
 		eDate2 = new GregorianCalendar(2008, 04, 15, 12, 18);
 		
 		stDate3 = new GregorianCalendar(2008, 04, 16, 5, 25);
-		eDate3 = new GregorianCalendar(2008, 04, 16, 10, 03);
+		eDate3 = new GregorianCalendar(2008, 04, 19, 10, 03);
 		
 		stDate4 = new GregorianCalendar(2008, 04, 16, 5, 25);
 		eDate4 = new GregorianCalendar(2008, 04, 16, 9, 03);
