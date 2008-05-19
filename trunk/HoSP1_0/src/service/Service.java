@@ -194,8 +194,7 @@ public class Service {
 		// This variable will be used in 'while' loop
 		boolean finished = false;
 
-		// We use 'for each' to go through all repairs this machine has been
-		// made
+		// We use 'for each' to go through all list of repairs
 		for (Repair repair : getRepairs()) {
 
 			//If it's the machine we are looking for - Continue
