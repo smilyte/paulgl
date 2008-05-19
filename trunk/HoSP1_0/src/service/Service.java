@@ -20,6 +20,7 @@ public class Service {
 	private Set<MachineType> machineTypes = new HashSet<MachineType>();
 	private Set<Drawer> drawers = new HashSet<Drawer>();
 	private Set<Repair> repairs = new HashSet<Repair>();
+	
 
 	// Gets the one and only instance of the Repair DAO class.
 	private RepairDAO repairDao = RepairDAO.getInstance();
@@ -260,6 +261,7 @@ public class Service {
 	 * Deletes an object of Spare Part
 	 */
 	public void deleteSparePart(SparePart sparePart) {
+		sparePart.getBox().setSp(null);
 		spareParts.remove(sparePart);
 	}
 
