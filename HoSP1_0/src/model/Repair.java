@@ -65,16 +65,17 @@ public class Repair {
 	}
 
 	/**
-	 * Adds a person to this group Requires: person != null og person is not in
-	 * any other group Note: this method is only for use in classes Person and
-	 * Group
+	 * Adds a partUsage to this repair 
+	 * Requires: partUsage != null
+	 * 
 	 */
 	void addPartUsage(PartUsage partUsage) {
 		partsUsage.add(partUsage);
 	}
 
 	/**
-	 * Moves a person from this group to an other group Requires: group != null
+	 * Moves a partUsage from this repair to an other repair
+	 * Requires: group != null
 	 */
 	public void movePartUsage(PartUsage partUsage, Repair repair) {
 		partsUsage.remove(partUsage);
@@ -117,6 +118,7 @@ public class Repair {
 	public void setRepairType(RepairType repairType) {
 		this.repairType = repairType;
 	}
+
 	
 	public String getDowntime() {
 		long time; 
