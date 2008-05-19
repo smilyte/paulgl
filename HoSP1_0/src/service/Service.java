@@ -18,7 +18,6 @@ public class Service {
 
 	private static Service instance = new Service();
 
-	private Set<SparePart> spareParts = new HashSet<SparePart>();
 	private Set<RepairType> repairTypes = new HashSet<RepairType>();
 	private Set<MachineType> machineTypes = new HashSet<MachineType>();
 	private Set<Drawer> drawers = new HashSet<Drawer>();
@@ -26,6 +25,10 @@ public class Service {
 
 	// Gets the one and only instance of the Repair DAO class.
 	private RepairDAO repairDao = RepairDAO.getInstance();
+
+	// Gets the one and only instance of the SparePartDAO class.
+	private SparePartDAO sparePartDao = SparePartDAO.getInstance();
+
 
 	// TODO separate dao for spare parts, machines and drawers
 
@@ -71,10 +74,11 @@ public class Service {
 		Repair r3 = new Repair(3, stDate3, eDate3, m1);
 		Repair r4 = new Repair(4, stDate4, eDate4, m1);
 
-		repairs.add(r1);
-		repairs.add(r2);
-		repairs.add(r3);
-		repairs.add(r4);
+		addRepair(r1);
+		addRepair(r2);
+		addRepair(r3);
+		addRepair(r4);
+
 	}
 
 	/**
@@ -292,8 +296,7 @@ public class Service {
 	 * Adds a repair to the list of all repairs. Requires: repair != null
 	 */
 	public void addRepair(Repair repair) {
-		// repairDao.addRepair(repair);
-		repairs.add(repair);
+		repairDao.addRepair(repair);
 	}
 
 	/**
@@ -307,8 +310,7 @@ public class Service {
 	 * Returns a list with all repairs.
 	 */
 	public Set<Repair> getRepairs() {
-		// return repairDao.getRepairs();
-		return repairs;
+		return repairDao.getRepairs();
 	}
 
 	/**
@@ -349,16 +351,17 @@ public class Service {
 		repairTypes.remove(repairType);
 	}
 
+	// --------------- SPARE PART METHODS -----------------------------
 	/**
 	 * Creates an object of Spare Part
+	 * Requires 
 	 */
-	public void createSparePart(int number, int amount, Box box) {
-		SparePart sparePart = new SparePart(number, amount, box);
-		spareParts.add(sparePart);
+	public void addSparePart(SparePart sparePart) {
+		sparePartDao.add(sparePart);
 	}
 
 	/**
-	 * Updates an object of Spare Part
+	 * Updates an object of SparePart
 	 */
 	public void updateSparePart(SparePart sparePart, int number, int amount,
 			Drawing drawing, Box box) {
@@ -370,16 +373,25 @@ public class Service {
 			sparePart.setDrawing(drawing);
 		if (box != null)
 			movePart(box, sparePart);
+		
+		sparePartDao.update(sparePart);
 	}
 
 	/**
-	 * Deletes an object of Spare Part
+	 * Deletes an object of SparePart
 	 */
 	public void deleteSparePart(SparePart sparePart) {
 		sparePart.getBox().setSp(null);
-		spareParts.remove(sparePart);
+		sparePartDao.delete(sparePart);
+	}
+	
+	public Set<SparePart> getSpareParts() {
+		return sparePartDao.getList();
 	}
 
+	// --------------- SPARE PART METHODS END -------------------------
+	
+	
 	/**
 	 * Creates an object of Machine Type
 	 */
@@ -439,10 +451,6 @@ public class Service {
 	 */
 	public static Service getInstance() {
 		return instance;
-	}
-
-	public Set<SparePart> getSpareParts() {
-		return spareParts;
 	}
 
 	public Set<RepairType> getRepairTypes() {
