@@ -6,10 +6,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import sun.util.calendar.BaseCalendar.Date;
-
-import com.sun.org.apache.xerces.internal.impl.dv.xs.DayDV;
-
 import dao.*;
 
 import model.*;
@@ -18,7 +14,6 @@ public class Service {
 
 	private static Service instance = new Service();
 
-	private Set<RepairType> repairTypes = new HashSet<RepairType>();
 	private Set<MachineType> machineTypes = new HashSet<MachineType>();
 	private Set<Drawer> drawers = new HashSet<Drawer>();
 
@@ -28,6 +23,9 @@ public class Service {
 	// Gets the one and only instance of the SparePartDAO class.
 	private SparePartDAO sparePartDao = SparePartDAO.getInstance();
 
+	// Gets the one and only instance of the RepairTypeDAO class.
+	private RepairTypeDAO repairTypeDao = RepairTypeDAO.getInstance();
+	
 	// TODO separate dao for machines and drawers
 
 	public Service() {
@@ -37,7 +35,7 @@ public class Service {
 	private void startUp() {
 
 		// TODO Using DAO Change Add, Remove, Update and GetList for:
-		// TODO 1. Repair Type - Elena
+
 
 		// TODO 3. MachineType - Malik
 		// TODO 4. Drawer - Malik
@@ -314,13 +312,15 @@ public class Service {
 	}
 
 	// --------------REPAIR METHODS END--------------------------------
+	
+	// -------------- REPAIR TYPE METHODS START -----------------------
 
 	/**
 	 * Creates an object of Repair Type
 	 */
 	public void createRepairType(String name, MachineType machineType) {
 		RepairType repairType = new RepairType(name, machineType);
-		repairTypes.add(repairType);
+		repairTypeDao.add(repairType);
 	}
 
 	/**
@@ -332,16 +332,26 @@ public class Service {
 			repairType.setName(name);
 		if (machineType != null)
 			repairType.setMachineType(machineType);
+		
+		repairTypeDao.update(repairType);
 	}
 
 	/**
 	 * Deletes an object of Repair Type
 	 */
 	public void deleteRepairType(RepairType repairType) {
-		repairTypes.remove(repairType);
+		repairTypeDao.delete(repairType);
 	}
+	
+	/**
+	 * Returns list of repair types
+	 */
+	public List<RepairType> getRepairTypes() {
+		return repairTypeDao.getList();
+	}
+	// -------------- REPAIR TYPE METHODS END--------------------------
 
-	// --------------- SPARE PART METHODS -----------------------------
+	// --------------- SPARE PART METHODS START -----------------------
 	/**
 	 * Creates an object of Spare Part Requires
 	 */
@@ -374,7 +384,10 @@ public class Service {
 		sparePartDao.delete(sparePart);
 	}
 
-	public Set<SparePart> getSpareParts() {
+	/**
+	 * Returns List of spare parts
+	 */
+	public List<SparePart> getSpareParts() {
 		return sparePartDao.getList();
 	}
 
@@ -439,10 +452,6 @@ public class Service {
 	 */
 	public static Service getInstance() {
 		return instance;
-	}
-
-	public Set<RepairType> getRepairTypes() {
-		return repairTypes;
 	}
 
 	public Set<MachineType> getMachineTypes() {

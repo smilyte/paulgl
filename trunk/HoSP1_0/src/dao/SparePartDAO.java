@@ -1,18 +1,15 @@
 package dao;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
-import model.Box;
-import model.Drawing;
-import model.Repair;
 import model.SparePart;
 
 public class SparePartDAO {
 	private static SparePartDAO instance = null;
 	
-	//container for all repairs
-	private Set<SparePart> spareParts = new HashSet<SparePart>(); 
+	//container for all spare parts
+	private List<SparePart> spareParts = new ArrayList<SparePart>(); 
 	
 	
 	private SparePartDAO() {}
@@ -51,7 +48,7 @@ public class SparePartDAO {
 		spareParts.remove(sparePart);
 	}
 	
-	public Set<SparePart> getList() {
+	public List<SparePart> getList() {
 		return spareParts;
 	}
 }
