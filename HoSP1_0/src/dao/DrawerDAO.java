@@ -9,7 +9,7 @@ import java.util.Set;
 import model.Drawer;
 
 /**
- * The Repair DAO class has methods that add, remove, update and return repairs
+ * The Drawer DAO class has methods that add, remove, update and return drawers
  * from the containers.
  * 
  * @author Malik
