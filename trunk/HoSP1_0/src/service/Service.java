@@ -34,10 +34,10 @@ public class Service {
 	private void startUp() {
 
 		// TODO Using DAO Change Add, Remove, Update and GetList for:
-		// TODO 1. Repair Type
-		// TODO 2. SparePart
-		// TODO 3. MachineType
-		// TODO 4. Drawer
+		// TODO 1. Repair Type - Elena
+		// TODO 2. SparePart - Elena
+		// TODO 3. MachineType - Malik	
+		// TODO 4. Drawer - Malik
 
 		// TODO Write method for: Update Drawer // We don't need it :]
 
