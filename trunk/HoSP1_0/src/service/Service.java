@@ -196,8 +196,11 @@ public class Service {
 
 		// We use 'for each' to go through all repairs this machine has been
 		// made
-		for (Repair repair : machine.getRepairs()) {
+		for (Repair repair : getRepairs()) {
 
+			//If it's the machine we are looking for - Continue
+			if (repair.getMachine().equals(machine)){
+				
 			// We take Repair's StartDate and assign it to variable 'date' just
 			// to make code shorter.
 			date = repair.getStartDate();
@@ -238,6 +241,7 @@ public class Service {
 					}
 				}
 			}
+		}
 		}
 		return monthlyDown;
 	}

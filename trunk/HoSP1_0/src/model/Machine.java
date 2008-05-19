@@ -4,9 +4,6 @@
  */
 package model;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class Machine {
 
 	private int serialNumber;
@@ -14,8 +11,6 @@ public class Machine {
 	private MachineType type;
 
 	// TODO make connection to MachineDrawing class
-	// link to [Repair] Class(1 -- 0..*)
-	private List<Repair> repairs = new ArrayList<Repair>();
 
 	/**
 	 * Creates a new machine of one and only type
@@ -73,19 +68,5 @@ public class Machine {
 	 */
 	public void setManufacturer(String manufacturer) {
 		this.manufacturer = manufacturer;
-	}
-	/**
-	 * Adds a repair to this machine 
-	 * Requires: repair != null
-	 * 
-	 */
-	void addRepair(Repair repair) {
-		repairs.add(repair);
-	}
-	/**
-	 * @return all repairs of this machine
-	 */
-	public List<Repair> getRepairs(){
-		return repairs;
 	}
 }

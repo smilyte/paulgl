@@ -34,7 +34,6 @@ public class Repair {
 		this.startDate = startDate;
 		this.endDate = endDate;
 		this.machine = machine;
-
 	}
 
 	public int getNum() {
