@@ -7,10 +7,13 @@ public class SparePart {
 
 	private int amount;
 	private int number;
-	private Box box;
 
 	// link to [PartUsage] Class(--> 0..*)
 	private List<PartUsage> partsUsage = new ArrayList<PartUsage>();
+	// link to [Drawing] Class(--> 0..1)
+	private Drawing drawing;
+	// link to [Box] Class(--> 1)
+	private Box box= null;
 
 	/**Constructor of SparePart
 	 * @param amount how many parts do we have
