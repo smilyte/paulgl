@@ -1,6 +1,3 @@
-/**
- * 
- */
 package dao;
 
 import java.util.HashSet;
@@ -59,7 +56,7 @@ public class DrawerDAO {
 	/**
 	 * Updates the information about the drawers.
 	 */
-	public void updateRepair(Drawer drawer) {
-		// do nothing: the repair is already in the container
+	public void updateDrawer(Drawer drawer) {
+		// do nothing: the drawer is already in the container
 	}
 }
