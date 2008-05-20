@@ -111,6 +111,7 @@ public class CreateNewRepairType_Dialog extends JDialog {
 		private Service service = Service.getInstance();
 
 		public void actionPerformed(ActionEvent e) {
+			
 
 			{
 
