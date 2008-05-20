@@ -3,6 +3,7 @@ package service;
 import java.util.GregorianCalendar;
 
 import model.Machine;
+import model.MachineType;
 import model.Repair;
 
 public class Test {
@@ -23,7 +24,9 @@ public class Test {
 		System.out.println(r2.getDowntime());
 		System.out.println(r3.getDowntime());
 		System.out.println(r4.getDowntime());
+		
 		System.out.println();
+		
 		int[] machineMonthly = Service.getInstance().getMachineDowntime(m1);
 		for (int i = 0; i < machineMonthly.length; i++) {
 			System.out.println(i+": "+machineMonthly[i]);
@@ -31,8 +34,11 @@ public class Test {
 	}
 
 	public static void SetUp() {
+		m1 = new Machine(0101010, "FOL", new MachineType("C"));
+		m2 = new Machine(2222222, "BBB", new MachineType("G"));
+		m3 = new Machine(3333333, "AAA", new MachineType("V"));
 		
-		stDate1 = new GregorianCalendar(2008, 04, 13, 5, 25);
+		stDate1 = new GregorianCalendar(2008, 02, 13, 5, 25);
 		eDate1 = new GregorianCalendar(2008, 04, 14, 10, 03);
 		
 		stDate2 = new GregorianCalendar(2008, 04, 15, 5, 25);
@@ -45,9 +51,9 @@ public class Test {
 		eDate4 = new GregorianCalendar(2008, 04, 16, 9, 03);
 
 		r1 = new Repair(1, stDate1, eDate1, m1);
-		r2 = new Repair(2, stDate2, eDate2, m1);
-		r3 = new Repair(3, stDate3, eDate3, m1);
-		r4 = new Repair(4, stDate4, eDate4, m1);
+		r2 = new Repair(2, stDate2, eDate2, m2);
+		r3 = new Repair(3, stDate3, eDate3, m2);
+		r4 = new Repair(4, stDate4, eDate4, m2);
 		
 
 		Service.getInstance().addRepair(r1);
