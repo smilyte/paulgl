@@ -1,41 +1,48 @@
 package gui.Dialog;
 
+import gui.RepairPanel;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.JTextField;
+import model.*;
 import service.Service;
 
 public class CreateNewRepair_Dialog extends JDialog {
 
 	private JTextField txfrepairId, txfstartDate, txfstartTime, txfendDate,
 			txfendTime;
-	private JComboBox cbrepairType, cbmachineType, cbmachine;
+	private JComboBox cbxRepairType, cbxMachineType, cbxMachine;
 	private JList listsparePart;
 	private JLabel lbrepareId, lbmachineType, lbsparePart, lbrepairType,
 			lbstartDate, lbstartTime, label, lbendTime, lbmachine, label_1;
 	private JButton butstart, butend, butcreateNewRepairtype, butcreate,
 			butcancel;
-//	l object for inner class Controller
+	// l object for inner class Controller
 	private Controller controller = new Controller();
 
 	/**
 	 * Create the dialog
 	 */
-	public CreateNewRepair_Dialog() {
+	public CreateNewRepair_Dialog(RepairPanel repairPanel, String string) {
 
 		setResizable(false);
 		setTitle("Create New Repair");
 		getContentPane().setLayout(null);
 		setBounds(100, 100, 459, 427);
+//		this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+		this.setVisible(true);
 
 		// Repair ID Label and TextField
 		lbrepareId = new JLabel();
@@ -66,9 +73,9 @@ public class CreateNewRepair_Dialog extends JDialog {
 		lbrepairType.setText("Repair Type:");
 		lbrepairType.setBounds(10, 74, 69, 14);
 
-		cbrepairType = new JComboBox();
-		getContentPane().add(cbrepairType);
-		cbrepairType.setBounds(20, 93, 129, 20);
+		cbxRepairType = new JComboBox();
+		getContentPane().add(cbxRepairType);
+		cbxRepairType.setBounds(20, 93, 129, 20);
 
 		// Machine Type Label and the ComboBox to Machine Type
 		lbmachineType = new JLabel();
@@ -76,9 +83,9 @@ public class CreateNewRepair_Dialog extends JDialog {
 		lbmachineType.setBounds(10, 119, 79, 14);
 		getContentPane().add(lbmachineType);
 
-		cbmachineType = new JComboBox();
-		getContentPane().add(cbmachineType);
-		cbmachineType.setBounds(20, 139, 129, 20);
+		cbxMachineType = new JComboBox();
+		getContentPane().add(cbxMachineType);
+		cbxMachineType.setBounds(20, 139, 129, 20);
 
 		// Machine Label and the ComboBox to
 		lbmachine = new JLabel();
@@ -86,9 +93,9 @@ public class CreateNewRepair_Dialog extends JDialog {
 		lbmachine.setText("Machine:");
 		lbmachine.setBounds(10, 165, 54, 14);
 
-		cbmachine = new JComboBox();
-		getContentPane().add(cbmachine);
-		cbmachine.setBounds(20, 185, 129, 20);
+		cbxMachine = new JComboBox();
+		getContentPane().add(cbxMachine);
+		cbxMachine.setBounds(20, 185, 129, 20);
 
 		// Start Date Label, TextField.
 		lbstartDate = new JLabel();
@@ -170,18 +177,41 @@ public class CreateNewRepair_Dialog extends JDialog {
 		JSeparator separator_1 = new JSeparator();
 		separator_1.setBounds(10, 343, 421, 2);
 		getContentPane().add(separator_1);
-		
 
 	}
+
 
 	private class Controller implements ActionListener {
 		private Service service = Service.getInstance();
 
 		public void actionPerformed(ActionEvent e) {
+			if (e.getSource() == butcreate)
+				;
+			// int Id = Integer.reverse();
 
 			{
-
 			}
+		}
+
+		/**
+		 * Method which fills cbxMachineType1 with Machine Type list
+		 */
+		public void fillCbxMachineType() {
+			DefaultComboBoxModel cbxModel = new DefaultComboBoxModel(service
+					.getMachineTypes().toArray());
+			cbxModel.insertElementAt("All", 0);
+			cbxMachineType.setModel(cbxModel);
+			cbxMachineType.setSelectedIndex(0);
+		}
+		/**
+		 * Method which fills cbxMachine with Machine list
+		 */
+		public void fillCbxMachine() {
+			DefaultComboBoxModel cbxModel = new DefaultComboBoxModel(service
+					.getMachineTypes().toArray());
+			cbxModel.insertElementAt("All", 0);
+			cbxMachine.setModel(cbxModel);
+			cbxMachine.setSelectedIndex(0);
 		}
 	}
 }
