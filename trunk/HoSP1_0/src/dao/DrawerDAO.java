@@ -19,6 +19,9 @@ public class DrawerDAO {
 	private List<Drawer> drawers = new ArrayList<Drawer>();
 
 	private DrawerDAO() {
+		
+		drawers.add(new Drawer(1, 2));
+		drawers.add(new Drawer(2,3));
 
 	}
 

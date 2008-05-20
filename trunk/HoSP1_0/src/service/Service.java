@@ -345,8 +345,7 @@ public class Service {
 	/**
 	 * Creates an object of Repair Type
 	 */
-	public void addRepairType(String name, MachineType machineType) {
-		RepairType repairType = new RepairType(name, machineType);
+	public void addRepairType(RepairType repairType){
 		repairTypeDao.add(repairType);
 	}
 
@@ -427,8 +426,7 @@ public class Service {
 	/**
 	 * Creates an object of Drawer
 	 */
-	public void addDrawer(int Id, int numberOfBoxes) {
-		Drawer drawer = new Drawer(Id, numberOfBoxes);
+	public void addDrawer(Drawer drawer) {
 		drawerDAO.add(drawer);
 	}
 
