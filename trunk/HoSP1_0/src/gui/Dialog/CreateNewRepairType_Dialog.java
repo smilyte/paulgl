@@ -32,9 +32,9 @@ public class CreateNewRepairType_Dialog extends JDialog {
 	/**
 	 * Create the dialog
 	 */
-	public CreateNewRepairType_Dialog() {
+	public CreateNewRepairType_Dialog(CreateNewRepair_Dialog createNewRepair_Dialog, String string) {
 
-		setBounds(100, 100, 251, 416);
+		setBounds(100, 100, 235, 416);
 		getContentPane().setLayout(null);
 		setTitle("Create New Repair Type");
 
@@ -105,7 +105,9 @@ public class CreateNewRepairType_Dialog extends JDialog {
 		lbaddedSparePart.setText("Added Spare Part:");
 		lbaddedSparePart.setBounds(10, 165, 93, 14);
 		getContentPane().add(lbaddedSparePart);
+		setResizable(false);
 	}
+
 
 	private class Controller implements ActionListener {
 		private Service service = Service.getInstance();
