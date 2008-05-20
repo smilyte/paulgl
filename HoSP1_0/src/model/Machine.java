@@ -69,4 +69,8 @@ public class Machine {
 	public void setManufacturer(String manufacturer) {
 		this.manufacturer = manufacturer;
 	}
+	
+	public String toString(){
+		return serialNumber+": "+manufacturer;
+	}
 }
