@@ -14,9 +14,6 @@ public class Service {
 
 	private static Service instance = new Service();
 
-	private Set<MachineType> machineTypes = new HashSet<MachineType>();
-	private Set<Drawer> drawers = new HashSet<Drawer>();
-
 	// Gets the one and only instance of the Repair DAO class.
 	private RepairDAO repairDao = RepairDAO.getInstance();
 
@@ -26,21 +23,25 @@ public class Service {
 	// Gets the one and only instance of the RepairTypeDAO class.
 	private RepairTypeDAO repairTypeDao = RepairTypeDAO.getInstance();
 	
-	// TODO separate dao for machines and drawers
+	// Gets the one and only instance of the DrawerDAO class.
+	private DrawerDAO drawerDAO = DrawerDAO.getInstance();
+
+	// Gets the one and only instance of the MachineTypeDAO class.
+	private MachineTypeDAO machineTypeDAO = MachineTypeDAO.getInstance();
 
 	public Service() {
 		startUp();
 	}
+	
+	/**
+	 * @return the instance
+	 */
+	public static Service getInstance() {
+		return instance;
+	}
 
 	private void startUp() {
 
-		// TODO Using DAO Change Add, Remove, Update and GetList for:
-
-
-		// TODO 3. MachineType - Malik
-		// TODO 4. Drawer - Malik
-
-		// TODO Write method for: Update Drawer // We don't need it :]
 
 		// TODO Write method for: calculation(history) of last 7 days (week)
 		// repairs
@@ -49,32 +50,6 @@ public class Service {
 		// TODO Write method for: calculation(history) of last 12 months (year)
 		// repairs
 		// TODO Search for spare parts using 7 digit number.... :)
-
-//		GregorianCalendar stDate1 = new GregorianCalendar(2008, 04, 13, 5, 25);
-//		GregorianCalendar eDate1 = new GregorianCalendar(2008, 04, 14, 10, 03);
-//
-//		GregorianCalendar stDate2 = new GregorianCalendar(2008, 04, 15, 5, 25);
-//		GregorianCalendar eDate2 = new GregorianCalendar(2008, 03, 19, 12, 18);
-//
-//		GregorianCalendar stDate3 = new GregorianCalendar(2008, 04, 16, 5, 25);
-//		GregorianCalendar eDate3 = new GregorianCalendar(2008, 04, 18, 10, 03);
-//
-//		GregorianCalendar stDate4 = new GregorianCalendar(2008, 04, 16, 5, 25);
-//		GregorianCalendar eDate4 = new GregorianCalendar(2008, 04, 18, 19, 03);
-//
-//		MachineType mt1 = new MachineType("MT name");
-//		Machine m1 = new Machine(123123, "Manufacturer", mt1);
-//
-//		Repair r1 = new Repair(1, stDate1, eDate1, m1);
-//		Repair r2 = new Repair(2, stDate2, eDate2, m1);
-//		Repair r3 = new Repair(3, stDate3, eDate3, m1);
-//		Repair r4 = new Repair(4, stDate4, eDate4, m1);
-//
-//		addRepair(r1);
-//		addRepair(r2);
-//		addRepair(r3);
-//		addRepair(r4);
-
 	}
 
 	/**
@@ -288,21 +263,14 @@ public class Service {
 	 * Adds a repair to the list of all repairs. Requires: repair != null
 	 */
 	public void addRepair(Repair repair) {
-		repairDao.addRepair(repair);
+		repairDao.add(repair);
 	}
 
 	/**
 	 * Remove the repair from the list of all repairs. Requires: repair != null.
 	 */
 	public void removeRepair(Repair repair) {
-		repairDao.removeRepair(repair);
-	}
-
-	/**
-	 * Returns a list with all repairs.
-	 */
-	public Set<Repair> getRepairs() {
-		return repairDao.getRepairs();
+		repairDao.remove(repair);
 	}
 
 	/**
@@ -312,7 +280,14 @@ public class Service {
 			GregorianCalendar endDate) {
 		repair.setStartDate(startDate);
 		repair.setEndDate(endDate);
-		repairDao.updateRepair(repair);
+		repairDao.update(repair);
+	}
+	
+	/**
+	 * Returns a list with all repairs.
+	 */
+	public List<Repair> getRepairs() {
+		return repairDao.getList();
 	}
 
 	// --------------REPAIR METHODS END--------------------------------
@@ -322,7 +297,7 @@ public class Service {
 	/**
 	 * Creates an object of Repair Type
 	 */
-	public void createRepairType(String name, MachineType machineType) {
+	public void addRepairType(String name, MachineType machineType) {
 		RepairType repairType = new RepairType(name, machineType);
 		repairTypeDao.add(repairType);
 	}
@@ -343,8 +318,8 @@ public class Service {
 	/**
 	 * Deletes an object of Repair Type
 	 */
-	public void deleteRepairType(RepairType repairType) {
-		repairTypeDao.delete(repairType);
+	public void removeRepairType(RepairType repairType) {
+		repairTypeDao.remove(repairType);
 	}
 	
 	/**
@@ -383,9 +358,9 @@ public class Service {
 	/**
 	 * Deletes an object of SparePart
 	 */
-	public void deleteSparePart(SparePart sparePart) {
+	public void removeSparePart(SparePart sparePart) {
 		sparePart.getBox().setSp(null);
-		sparePartDao.delete(sparePart);
+		sparePartDao.remove(sparePart);
 	}
 
 	/**
@@ -397,12 +372,47 @@ public class Service {
 
 	// --------------- SPARE PART METHODS END -------------------------
 
+	
+	// --------------- DRAWER METHODS START -----------------------
+	//No Update Method: We never update the drawer.
+	
+	/**
+	 * Creates an object of Drawer
+	 */
+	public void addDrawer(int Id, int numberOfBoxes) {
+		Drawer drawer = new Drawer(Id, numberOfBoxes);
+		drawerDAO.add(drawer);
+	}
+
+	/**
+	 * Deletes an object of Drawer
+	 */
+	public void removeDrawer(Drawer drawer) {
+		boolean empty = true;
+		for (Box box : drawer.getBoxes()) {
+			if (!box.getSparePart().equals(null))
+				empty = false;
+		}
+		if (empty) drawerDAO.remove(drawer);
+	}
+	
+	/**
+	 * Returns List of drawers
+	 */
+	public List<Drawer> getDrawers() {
+		return drawerDAO.getList();
+	}
+	
+	// --------------- DRAWER METHODS END   -----------------------
+	
+	// --------------- MACHINE TYPE METHODS START -----------------
+	
 	/**
 	 * Creates an object of Machine Type
 	 */
-	public void createMachineType(String name) {
+	public void addMachineType(String name) {
 		MachineType machineType = new MachineType(name);
-		machineTypes.add(machineType);
+		machineTypeDAO.add(machineType);
 	}
 
 	/**
@@ -413,30 +423,24 @@ public class Service {
 		if (!name.equals(""))
 			machineType.setName(name);
 		if (drawing != null)
-			machineType.setDrawing(drawing);
+			machineType.setDrawing(drawing);	
+		machineTypeDAO.update(machineType);
 	}
 
 	/**
 	 * Deletes an object of Machine Type
 	 */
-	public void deleteMachineType(MachineType machineType) {
-		machineTypes.remove(machineType);
+	public void removeMachineType(MachineType machineType) {
+		machineTypeDAO.remove(machineType);
 	}
-
+	
 	/**
-	 * Creates an object of Drawer
+	 * Returns List of machines
 	 */
-	public void createDrawer(int Id, int numberOfBoxes) {
-		Drawer drawer = new Drawer(Id, numberOfBoxes);
-		drawers.add(drawer);
+	public List<MachineType> getMachineTypes() {
+		return machineTypeDAO.getList();
 	}
-
-	/**
-	 * Deletes an object of Drawer
-	 */
-	public void deleteDrawer(Drawer drawer) {
-		drawers.remove(drawer);
-	}
+	// --------------- MACHINE TYPE METHODS END   -----------------
 
 	/**
 	 * Moves spare part to newBox. Requires box to be empty, newBox != null and
@@ -451,19 +455,8 @@ public class Service {
 		}
 	}
 
-	/**
-	 * @return the instance
-	 */
-	public static Service getInstance() {
-		return instance;
-	}
 
-	public Set<MachineType> getMachineTypes() {
-		return machineTypes;
-	}
 
-	public Set<Drawer> getDrawers() {
-		return drawers;
-	}
+
 
 }
