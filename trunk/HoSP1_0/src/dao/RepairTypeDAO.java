@@ -43,7 +43,7 @@ public class RepairTypeDAO {
 	/**
 	 * Deletes an object of RepairType
 	 */
-	public void delete(RepairType repairType) {
+	public void remove(RepairType repairType) {
 		repairTypes.remove(repairType);
 	}
 	

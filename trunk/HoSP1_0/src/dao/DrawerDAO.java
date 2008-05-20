@@ -1,7 +1,7 @@
 package dao;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 import model.Drawer;
 
@@ -16,7 +16,7 @@ public class DrawerDAO {
 	private static DrawerDAO instance = null;
 
 	// container for all drawers
-	private Set<Drawer> drawers = new HashSet<Drawer>();
+	private List<Drawer> drawers = new ArrayList<Drawer>();
 
 	private DrawerDAO() {
 
@@ -35,28 +35,28 @@ public class DrawerDAO {
 	/**
 	 * Adds a drawer to the list of all drawers.
 	 */
-	public void addDrawer(Drawer drawer) {
+	public void add(Drawer drawer) {
 		drawers.add(drawer);
 	}
 
 	/**
 	 * Remove the drawer from the list of all drawers.
 	 */
-	public void removeDrawer(Drawer drawer) {
+	public void remove(Drawer drawer) {
 		drawers.remove(drawer);
 	}
 
 	/**
 	 * Returns a list with all drawers.
 	 */
-	public Set<Drawer> getDrawers() {
+	public List<Drawer> getList() {
 		return drawers;
 	}
 
 	/**
 	 * Updates the information about the drawers.
 	 */
-	public void updateDrawer(Drawer drawer) {
+	public void update(Drawer drawer) {
 		// do nothing: the drawer is already in the container
 	}
 }

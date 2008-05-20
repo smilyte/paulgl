@@ -3,8 +3,9 @@
  */
 package dao;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
+
 
 import model.MachineType;
 
@@ -19,7 +20,7 @@ public class MachineTypeDAO {
 		private static MachineTypeDAO instance = null;
 
 		// container for all machineTypes
-		private Set<MachineType> machineTypes = new HashSet<MachineType>();
+		private List<MachineType> machineTypes = new ArrayList<MachineType>();
 
 		private MachineTypeDAO() {
 
@@ -38,28 +39,28 @@ public class MachineTypeDAO {
 		/**
 		 * Adds a machineType to the list of all machineTypes.
 		 */
-		public void addMachineType(MachineType machineType) {
+		public void add(MachineType machineType) {
 			machineTypes.add(machineType);
 		}
 
 		/**
 		 * Remove the machineType from the list of all machineTypes.
 		 */
-		public void removeMachineType(MachineType machineType) {
+		public void remove(MachineType machineType) {
 			machineTypes.remove(machineType);
 		}
 
 		/**
 		 * Returns a list with all machineTypes.
 		 */
-		public Set<MachineType> getMachineTypes() {
+		public List<MachineType> getList() {
 			return machineTypes;
 		}
 
 		/**
 		 * Updates the information about the machineTypes.
 		 */
-		public void updateMachineType(MachineType machineType) {
+		public void update(MachineType machineType) {
 			// do nothing: the machineType is already in the container
 		}
 	}

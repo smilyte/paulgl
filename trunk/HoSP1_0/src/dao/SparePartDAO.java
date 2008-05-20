@@ -43,7 +43,7 @@ public class SparePartDAO {
 	/**
 	 * Deletes an object of Spare Part
 	 */
-	public void delete(SparePart sparePart) {
+	public void remove(SparePart sparePart) {
 		sparePart.getBox().setSp(null);
 		spareParts.remove(sparePart);
 	}
