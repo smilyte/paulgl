@@ -1,5 +1,6 @@
 package gui.Dialog;
 
+import gui.MachinePanel;
 import gui.RepairPanel;
 
 import java.awt.event.ActionEvent;
@@ -27,7 +28,7 @@ public class CreateNewRepair_Dialog extends JDialog {
 	private JList listsparePart;
 	private JLabel lbrepareId, lbmachineType, lbsparePart, lbrepairType,
 			lbstartDate, lbstartTime, label, lbendTime, lbmachine, label_1;
-	private JButton butstart, butend, butcreateNewRepairtype, butcreate,
+	private JButton butstart, butend, btncreateNewRepairtype, butcreate,
 			butcancel;
 	// l object for inner class Controller
 	private Controller controller = new Controller();
@@ -41,7 +42,7 @@ public class CreateNewRepair_Dialog extends JDialog {
 		setTitle("Create New Repair");
 		getContentPane().setLayout(null);
 		setBounds(100, 100, 459, 427);
-//		this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+		// this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		this.setVisible(true);
 
 		// Repair ID Label and TextField
@@ -147,10 +148,11 @@ public class CreateNewRepair_Dialog extends JDialog {
 		butend.setText("End");
 		butend.setBounds(191, 291, 93, 23);
 
-		butcreateNewRepairtype = new JButton();
-		butcreateNewRepairtype.setText("Create New Repair Type");
-		butcreateNewRepairtype.setBounds(191, 184, 151, 23);
-		getContentPane().add(butcreateNewRepairtype);
+		btncreateNewRepairtype = new JButton();
+		btncreateNewRepairtype.setText("Create New Repair Type");
+		btncreateNewRepairtype.setBounds(191, 184, 151, 23);
+		getContentPane().add(btncreateNewRepairtype);
+		btncreateNewRepairtype.addActionListener(controller);
 
 		label_1 = new JLabel();
 		getContentPane().add(label_1);
@@ -180,21 +182,22 @@ public class CreateNewRepair_Dialog extends JDialog {
 
 	}
 
-
 	private class Controller implements ActionListener {
 		private Service service = Service.getInstance();
 
 		public void actionPerformed(ActionEvent e) {
-			if (e.getSource() == butcreate)
+			if (e.getSource() == btncreateNewRepairtype)
 				;
-			// int Id = Integer.reverse();
+			CreateNewRepairType_Dialog createNRTD = new CreateNewRepairType_Dialog(
+					CreateNewRepair_Dialog.this, "Create Machine");
+			createNRTD.setVisible(true);
 
 			{
 			}
 		}
 
 		/**
-		 * Method which fills cbxMachineType1 with Machine Type list
+		 * Method which fills cbxMachineType with Machine Type list
 		 */
 		public void fillCbxMachineType() {
 			DefaultComboBoxModel cbxModel = new DefaultComboBoxModel(service
@@ -203,6 +206,7 @@ public class CreateNewRepair_Dialog extends JDialog {
 			cbxMachineType.setModel(cbxModel);
 			cbxMachineType.setSelectedIndex(0);
 		}
+
 		/**
 		 * Method which fills cbxMachine with Machine list
 		 */
