@@ -90,5 +90,9 @@ public class MachineType {
 		// TODO Auto-generated method stub
 		
 	}
+	
+	public String toString(){
+		return name;
+	}
 
 }
