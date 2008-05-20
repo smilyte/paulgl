@@ -11,7 +11,11 @@ import dao.*;
 import model.*;
 
 public class Service {
-
+	private static GregorianCalendar stDate1, eDate1, stDate2, eDate2, stDate3, eDate3, stDate4, eDate4;
+	private static Machine m1, m2, m3;
+	private static MachineType mt1, mt2, mt3;
+	private static Repair r1, r2, r3, r4;
+	
 	private static Service instance = new Service();
 
 	// Gets the one and only instance of the Repair DAO class.
@@ -42,7 +46,51 @@ public class Service {
 
 	private void startUp() {
 
+		
+		m1 = new Machine(9898989, "FOL", new MachineType("C"));
+		m2 = new Machine(2222222, "BBB", new MachineType("G"));
+		m3 = new Machine(3333333, "AAA", new MachineType("V"));
+		
+		stDate1 = new GregorianCalendar(2008, 02, 13, 5, 25);
+		eDate1 = new GregorianCalendar(2008, 04, 14, 10, 03);
+		
+		stDate2 = new GregorianCalendar(2008, 04, 15, 5, 25);
+		eDate2 = new GregorianCalendar(2008, 04, 15, 12, 18);
+		
+		stDate3 = new GregorianCalendar(2008, 04, 16, 5, 25);
+		eDate3 = new GregorianCalendar(2008, 04, 19, 10, 03);
+		
+		stDate4 = new GregorianCalendar(2008, 04, 16, 5, 25);
+		eDate4 = new GregorianCalendar(2008, 04, 16, 9, 03);
 
+		r1 = new Repair(1, stDate1, eDate1, m1);
+		r2 = new Repair(2, stDate2, eDate2, m2);
+		r3 = new Repair(3, stDate3, eDate3, m2);
+		r4 = new Repair(4, stDate4, eDate4, m2);
+		
+		mt1 = new MachineType("MT Turbo 1");
+		mt2 = new MachineType("MT Rocket 2");
+		mt3 = new MachineType("MT Jazz 3");
+		
+		mt1.createMachine(444444, "Jungle");
+		mt1.createMachine(555555, "Bungle");
+		mt1.createMachine(666666, "Dungle");
+		mt1.createMachine(777777, "Cungle");
+		
+		mt2.createMachine(11111, "Rabit");
+		mt2.createMachine(22222, "Turtle");
+
+		mt3.createMachine(00000, "Music");
+
+		addMachineType(mt1);
+		addMachineType(mt2);
+		addMachineType(mt3);
+		
+		addRepair(r1);
+		addRepair(r2);
+		addRepair(r3);
+		addRepair(r4);
+		
 		// TODO Write method for: calculation(history) of last 7 days (week)
 		// repairs
 		// TODO Write method for: calculation(history) of last 30 days (month)
@@ -410,8 +458,7 @@ public class Service {
 	/**
 	 * Creates an object of Machine Type
 	 */
-	public void addMachineType(String name) {
-		MachineType machineType = new MachineType(name);
+	public void addMachineType(MachineType machineType) {
 		machineTypeDAO.add(machineType);
 	}
 
