@@ -1,14 +1,21 @@
 package gui;
 
+import gui.Dialog.CreateNewRepair_Dialog;
+
 import java.awt.Color;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.LineBorder;
+import model.*;
+import service.Service;
 
 public class RepairPanel extends JPanel {
 
@@ -21,11 +28,13 @@ public class RepairPanel extends JPanel {
 	private JScrollPane scrollPaneRepairs;
 	private JLabel lblCurrentRepairs;
 	private JList lstRepairs;
+	
+	// l object for inner class Controller
+	private Controller controller = new Controller();
 	/**
 	 * Create the panel
 	 */
 	public RepairPanel() {
-		super();
 		createComponents();
 	}
 	
@@ -62,6 +71,7 @@ public class RepairPanel extends JPanel {
 		btnRegisterRepair.setText("Register repair...");
 		btnRegisterRepair.setBounds(212, 198, 105, 23);
 		this.add(btnRegisterRepair);
+		btnRegisterRepair.addActionListener(controller);
 
 		btnPrint = new JButton();
 		btnPrint.setText("Print");
@@ -73,5 +83,16 @@ public class RepairPanel extends JPanel {
 		lblOrderList.setBounds(10, 240, 307, 14);
 		this.add(lblOrderList);
 	}
+	private class Controller implements ActionListener {
+		private Service service = Service.getInstance();
+
+		public void actionPerformed(ActionEvent e) {
+			if (e.getSource() == btnRegisterRepair);
+			CreateNewRepair_Dialog createNewRepairDialog = new CreateNewRepair_Dialog(RepairPanel.this,"Create");
+			createNewRepairDialog.setVisible(true);
+
+			{
+			}
+		}}
 
 }
