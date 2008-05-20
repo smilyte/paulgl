@@ -50,30 +50,30 @@ public class Service {
 		// repairs
 		// TODO Search for spare parts using 7 digit number.... :)
 
-		GregorianCalendar stDate1 = new GregorianCalendar(2008, 04, 13, 5, 25);
-		GregorianCalendar eDate1 = new GregorianCalendar(2008, 04, 14, 10, 03);
-
-		GregorianCalendar stDate2 = new GregorianCalendar(2008, 04, 15, 5, 25);
-		GregorianCalendar eDate2 = new GregorianCalendar(2008, 03, 19, 12, 18);
-
-		GregorianCalendar stDate3 = new GregorianCalendar(2008, 04, 16, 5, 25);
-		GregorianCalendar eDate3 = new GregorianCalendar(2008, 04, 18, 10, 03);
-
-		GregorianCalendar stDate4 = new GregorianCalendar(2008, 04, 16, 5, 25);
-		GregorianCalendar eDate4 = new GregorianCalendar(2008, 04, 18, 19, 03);
-
-		MachineType mt1 = new MachineType("MT name");
-		Machine m1 = new Machine(123123, "Manufacturer", mt1);
-
-		Repair r1 = new Repair(1, stDate1, eDate1, m1);
-		Repair r2 = new Repair(2, stDate2, eDate2, m1);
-		Repair r3 = new Repair(3, stDate3, eDate3, m1);
-		Repair r4 = new Repair(4, stDate4, eDate4, m1);
-
-		addRepair(r1);
-		addRepair(r2);
-		addRepair(r3);
-		addRepair(r4);
+//		GregorianCalendar stDate1 = new GregorianCalendar(2008, 04, 13, 5, 25);
+//		GregorianCalendar eDate1 = new GregorianCalendar(2008, 04, 14, 10, 03);
+//
+//		GregorianCalendar stDate2 = new GregorianCalendar(2008, 04, 15, 5, 25);
+//		GregorianCalendar eDate2 = new GregorianCalendar(2008, 03, 19, 12, 18);
+//
+//		GregorianCalendar stDate3 = new GregorianCalendar(2008, 04, 16, 5, 25);
+//		GregorianCalendar eDate3 = new GregorianCalendar(2008, 04, 18, 10, 03);
+//
+//		GregorianCalendar stDate4 = new GregorianCalendar(2008, 04, 16, 5, 25);
+//		GregorianCalendar eDate4 = new GregorianCalendar(2008, 04, 18, 19, 03);
+//
+//		MachineType mt1 = new MachineType("MT name");
+//		Machine m1 = new Machine(123123, "Manufacturer", mt1);
+//
+//		Repair r1 = new Repair(1, stDate1, eDate1, m1);
+//		Repair r2 = new Repair(2, stDate2, eDate2, m1);
+//		Repair r3 = new Repair(3, stDate3, eDate3, m1);
+//		Repair r4 = new Repair(4, stDate4, eDate4, m1);
+//
+//		addRepair(r1);
+//		addRepair(r2);
+//		addRepair(r3);
+//		addRepair(r4);
 
 	}
 
@@ -199,7 +199,6 @@ public class Service {
 
 			// If it's the machine we are looking for - Continue
 			if (repair.getMachine().equals(machine)) {
-
 				// We take Repair's StartDate and assign it to variable 'date'
 				// just to make code shorter.
 				date = repair.getStartDate();
@@ -209,10 +208,12 @@ public class Service {
 				// and start date
 				if (date.MONTH == repair.getEndDate().MONTH) {
 					// Getting number of days machine was broke down this month
+					
 					downtimeInDays = repair.getEndDate().DAY_OF_MONTH
 							- date.DAY_OF_MONTH;
 					// Store number of down time days into array by increasing
 					// the value. Value can't be higher than 31.
+					System.out.println("1: "+downtimeInDays);
 					monthlyDown[date.MONTH] += downtimeInDays;
 				} else {
 					// Second condition: If repair has started in one month and
@@ -228,6 +229,7 @@ public class Service {
 							// Store number of down time days into array by
 							// increasing the value.
 							// Value can't be higher than 31.
+							System.out.println("2: "+downtimeInDays);
 							monthlyDown[date.MONTH] += downtimeInDays;
 							// Changing the current date by going one month
 							// further
@@ -239,6 +241,7 @@ public class Service {
 							downtimeInDays = repair.getEndDate().MONTH
 									- date.DAY_OF_MONTH;
 							// --,,--
+							System.out.println("3: "+downtimeInDays);
 							monthlyDown[date.MONTH] += downtimeInDays;
 							// Changing value to finish the loop, because we
 							// went through all months.
