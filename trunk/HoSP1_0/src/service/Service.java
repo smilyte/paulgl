@@ -270,12 +270,13 @@ public class Service {
 			return minutes + "minutes.";
 		// Filter 3: If days are equal to 0 than return "hours" and "minutes"
 		else if (days == 0)
+
 			return hours + " hours, " + minutes + "minutes.";
-		// Filter 4: If all atributes has value return "days", "hours" and
-		// "minutes"
-		else
+		// Filter 4: If all attributes have value return "days", "hours" and
+		else 
 			return days + " days, " + hours + " hours, " + minutes + "minutes.";
-	}
+		
+		}
 
 	// *************************************************
 	// --------------REPAIR METHODS START--------------------------------
