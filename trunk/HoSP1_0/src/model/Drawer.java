@@ -30,7 +30,7 @@ public class Drawer {
 	 */
 	public void createBox(){
 		for(int i = 0; i < numberOfBoxes; i++){
-			String s = ""+id+"-"+i;
+			String s = ""+id+"_"+(i+1);
 			boxes.add(new Box(s, this));
 		}
 	}
@@ -63,4 +63,7 @@ public class Drawer {
 		return numberOfBoxes;
 	}
 
+	public String toString(){
+		return id+" ("+getBoxes().size()+")";
+	}
 }
