@@ -24,6 +24,7 @@ public class SparePart {
 		this.amount = amount;
 		this.number = number;
 		this.box = box;
+		box.setSp(this);
 	}
 
 	/**
@@ -92,6 +93,10 @@ public class SparePart {
 	 */
 	public Box getBox(){
 		return box;
+	}
+	
+	public String toString(){
+		return number+" ("+amount+")";
 	}
 	
 }
