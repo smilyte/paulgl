@@ -79,6 +79,16 @@ public class MachineType {
 	public void createMachine(int sNumber, String name) {
 		machines.add(new Machine(sNumber, name, this));
 	}
+	
+	/**
+	 * Removes a Machine from this Machine Type Requirements: machine !=
+	 * null
+	 */
+	public void removeMachine(Machine machine) {
+		if (machines.contains(machine)) {
+			machines.remove(machine);
+		}
+	}
 
 	/**
 	 * @return this Machine Type's machines
