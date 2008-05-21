@@ -11,6 +11,8 @@ public class Drawer {
 	private int id;
 	private int numberOfBoxes;
 	
+	// List of boxes belonging to this drawer.
+	// Link attribute to boxes
 	private List<Box> boxes = new ArrayList<Box>();
 	
 	/**
