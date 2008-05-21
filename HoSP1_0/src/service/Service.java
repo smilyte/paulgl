@@ -93,11 +93,11 @@ public class Service {
 		addRepair(r4);
 		
 		//data for spareparts
-//		addSparePart(new SparePart(10, 1111111, getDrawers().get(0).getBoxes().get(1)));
-//		addSparePart(new SparePart(20, 3333333, getDrawers().get(0).getBoxes().get(0)));
-//		addSparePart(new SparePart(5, 5555555, getDrawers().get(1).getBoxes().get(1)));
-//		addSparePart(new SparePart(100, 7777777, getDrawers().get(1).getBoxes().get(2)));
-//		
+		addSparePart(new SparePart(10, 1111111, getDrawers().get(0).getBoxes().get(1)));
+		addSparePart(new SparePart(20, 3333333, getDrawers().get(0).getBoxes().get(0)));
+		addSparePart(new SparePart(5, 5555555, getDrawers().get(1).getBoxes().get(1)));
+		addSparePart(new SparePart(100, 7777777, getDrawers().get(1).getBoxes().get(2)));
+		
 		// TODO Write method for: calculation(history) of last 7 days (week)
 		// repairs
 		// TODO Write method for: calculation(history) of last 30 days (month)
