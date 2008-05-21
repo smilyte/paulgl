@@ -1,3 +1,8 @@
+/**
+ * This dialog creates new drawer and adds it to the system.
+ * 
+ * @author Elena
+ */
 package gui.Dialog;
 
 import java.awt.event.ActionEvent;
@@ -61,23 +66,32 @@ public class CreateDrawer_Dialog extends JDialog {
 		getContentPane().add(lblNrOfBox);
 
 		btnCreate = new JButton();
-		btnCreate.addActionListener(controller);
 		btnCreate.setText("Create");
 		btnCreate.setBounds(10, 280, 106, 26);
+		btnCreate.addActionListener(controller);
 		getContentPane().add(btnCreate);
 
 		btnCancel = new JButton();
 		btnCancel.setText("Cancel");
 		btnCancel.setBounds(136, 280, 106, 26);
-		getContentPane().add(btnCancel);
 		btnCancel.addActionListener(controller);
+		getContentPane().add(btnCancel);
 
 	}
 
+	/**
+	 * Method sets number of a new drawer.
+	 * 
+	 * @param nr
+	 *            int, number for new drawer
+	 */
 	public void setDrawerNumber(int nr) {
 		txtNumber.setText("" + nr);
 	}
 
+	/**
+	 * Check if the "Create" button closed dialog.
+	 */
 	public boolean isCreate() {
 		return controller.closedByCreate;
 	}
@@ -88,29 +102,67 @@ public class CreateDrawer_Dialog extends JDialog {
 
 		// This method is called when a button is pressed.
 		public void actionPerformed(ActionEvent e) {
+
+			// List of actions when "Create" button is pressed.
 			if (e.getSource() == btnCreate) {
 				String nrStr = txtNrOfBox.getText().trim();
-				if (nrStr.length() == 0)
-					return; // TODO error dialog
+
+				// if there is nothing typed in...
+				if (nrStr.length() == 0) {
+
+					// ... error message appears.
+					ErrorDialog errorDialog = new ErrorDialog("Error!");
+					// Text of the error message:
+					errorDialog.setLblText("Please enter ammount");
+					errorDialog.setVisible(true);
+
+					// Waiting for error dialog to close
+
+					errorDialog.dispose(); // release MS Windows resources
+					return;
+				}
+
+				// Initiate object for amount of boxes
 				int nr = -1;
+
+				// Check if it is a number typed in
 				try {
+					// If it's a number, value of "nr" is changed successfully
 					nr = Integer.parseInt(nrStr);
 				} catch (NumberFormatException ex) {
+					// If it's not a number, error message appears.
+					ErrorDialog errorDialog = new ErrorDialog("Error!");
+					// Text of the error message:
+					errorDialog.setLblText("You must use numbers.");
+					errorDialog.setVisible(true);
+
+					// Waiting for error dialog to close
+
+					errorDialog.dispose(); // release MS Windows resources
 					return;
-					// TODO error dialog
 				}
 
 				if (nr < 0) {
-					// TODO: notify user
+					// If number entered is negative, error message appears.
+					ErrorDialog errorDialog = new ErrorDialog("Error!");
+					// Text of the error message:
+					errorDialog.setLblText("The ammount must bigger than 0.");
+					errorDialog.setVisible(true);
+
+					// Waiting for error dialog to close
+
+					errorDialog.dispose(); // release MS Windows resources
 					return;
 				}
 
-				/** ** update storage *** */
-				int drawerNumber = service.getDrawers().get(service.getDrawers().size()-1).getId()+1;
+				// New number of a drawer is the last number +1.
+				int drawerNumber = service.getDrawers().get(
+						service.getDrawers().size() - 1).getId() + 1;
 				if (drawer == null) {
 					service.addDrawer(new Drawer(drawerNumber, nr));
 				}
-
+				// new drawer is created.
+				
 				closedByCreate = true;
 				CreateDrawer_Dialog.this.setVisible(false);
 			}
