@@ -1,5 +1,7 @@
 package service;
 
+import gui.Dialog.ErrorDialog;
+
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -87,6 +89,12 @@ public class Service {
 		addRepair(r2);
 		addRepair(r3);
 		addRepair(r4);
+		
+		//data for spareparts
+		addSparePart(new SparePart(10, 1111111, getDrawers().get(0).getBoxes().get(1)));
+		addSparePart(new SparePart(20, 3333333, getDrawers().get(0).getBoxes().get(2)));
+		addSparePart(new SparePart(5, 5555555, getDrawers().get(1).getBoxes().get(1)));
+		addSparePart(new SparePart(100, 7777777, getDrawers().get(1).getBoxes().get(2)));
 		
 		// TODO Write method for: calculation(history) of last 7 days (week)
 		// repairs
@@ -442,6 +450,18 @@ public class Service {
 				empty = false;
 		}
 		if (empty) drawerDAO.remove(drawer);
+		else{
+			// If number entered is negative, error message appears.
+			ErrorDialog errorDialog = new ErrorDialog("Error!");
+			// Text of the error message:
+			errorDialog.setLblText("This drawer has parts. You cannot remove drawer with parts in it. Please move them first.");
+			errorDialog.setVisible(true);
+
+			// Waiting for error dialog to close
+
+			errorDialog.dispose(); // release MS Windows resources
+			return;
+		}
 	}
 	
 	/**
