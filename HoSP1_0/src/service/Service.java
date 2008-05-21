@@ -6,7 +6,7 @@ import java.util.List;
 
 
 import dao.*;
-
+import daoDB.DB4OManager;
 import model.*;
 
 public class Service {
@@ -33,7 +33,7 @@ public class Service {
 	private MachineTypeDAO machineTypeDAO = MachineTypeDAO.getInstance();
 
 	public Service() {
-		//startUp();
+		startUp();
 	}
 	
 	/**
@@ -41,6 +41,13 @@ public class Service {
 	 */
 	public static Service getInstance() {
 		return instance;
+	}
+	
+	/**
+	 * Closes the db4o database.
+	 */
+	public void closeDb4o() {
+		DB4OManager.getInstance().getObjectContainer().close();
 	}
 
 	private void startUp() {
@@ -53,19 +60,12 @@ public class Service {
 		addMachineType(mt2);
 		addMachineType(mt3);
 		
-		m1 = new Machine(00000, "Music");
-		m2 = new Machine(555555, "Bungle");
-		m3 = new Machine(777777, "Cungle");
-		m4 = new Machine(22222, "Turtle");
-		m5 = new Machine(11111, "Rabit");
-		m6 = new Machine(666666, "Dungle");
-		
-		mt3.addMachine(m1);
-		mt2.addMachine(m2);
-		mt2.addMachine(m3);
-		mt2.addMachine(m4);
-		mt1.addMachine(m5);
-		mt1.addMachine(m6);
+		mt3.createMachine(00000, "Music");
+		mt2.createMachine(555555, "Bungle");
+		mt2.createMachine(777777, "Cungle");
+		mt2.createMachine(22222, "Turtle");
+		mt1.createMachine(11111, "Rabit");
+		mt1.createMachine(666666, "Dungle");
 		
 		stDate1 = new GregorianCalendar(2008, 02, 13, 5, 25);
 		eDate1 = new GregorianCalendar(2008, 04, 14, 10, 03);
@@ -79,10 +79,10 @@ public class Service {
 		stDate4 = new GregorianCalendar(2008, 04, 16, 5, 25);
 		eDate4 = new GregorianCalendar(2008, 04, 16, 9, 03);
 
-		r1 = new Repair(1, stDate1, eDate1, m1);
-		r2 = new Repair(2, stDate2, eDate2, m2);
-		r3 = new Repair(3, stDate3, eDate3, m2);
-		r4 = new Repair(4, stDate4, eDate4, m2);
+		r1 = new Repair(1, stDate1, eDate1, mt1.getMachines().get(0));
+		r2 = new Repair(2, stDate2, eDate2, mt1.getMachines().get(1));
+		r3 = new Repair(3, stDate3, eDate3, mt2.getMachines().get(1));
+		r4 = new Repair(4, stDate4, eDate4, mt2.getMachines().get(2));
 		
 		addRepair(r1);
 		addRepair(r2);
