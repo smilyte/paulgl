@@ -1,6 +1,7 @@
 package gui;
 
-import gui.Dialog.CreateMachine_Dialog;
+import gui.Dialog.ErrorDialog;
+import gui.Dialog.Machine_Dialog;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -21,7 +22,6 @@ import service.Service;
 
 public class MachinePanel extends JPanel {
 
-
 	private JList lstMachine;
 	private JButton btnDelete;
 	private JButton btnUpdate;
@@ -30,7 +30,7 @@ public class MachinePanel extends JPanel {
 	private JLabel lblChooseMachine;
 	private JScrollPane scrollPaneMachine;
 	private JComboBox cbxMachineType;
-	
+
 	private Controller controller = new Controller();
 
 	/**
@@ -51,7 +51,7 @@ public class MachinePanel extends JPanel {
 		scrollPaneMachine.setViewportView(lstMachine);
 
 		cbxMachineType = new JComboBox();
-	//	cbxMachineType.setModel(new DefaultComboBoxModel());
+		// cbxMachineType.setModel(new DefaultComboBoxModel());
 		cbxMachineType.setBounds(10, 42, 152, 20);
 		cbxMachineType.addActionListener(controller);
 		this.add(cbxMachineType);
@@ -83,17 +83,18 @@ public class MachinePanel extends JPanel {
 		btnDelete.setBounds(521, 163, 93, 23);
 		btnDelete.addActionListener(controller);
 		this.add(btnDelete);
-		
+
 		//
 		controller.updateView();
 		controller.fillCbxMachineType();
-		
+
 	}
 
 	private class Controller implements ActionListener {
-		
+
 		// .............GETTING INSTANCE..................//
 		private Service service = Service.getInstance();
+
 		// ...............................................//
 
 		/**
@@ -101,7 +102,7 @@ public class MachinePanel extends JPanel {
 		 */
 		public void fillLstMachines(MachineType machineType) {
 			List<Machine> listMachines = new ArrayList<Machine>();
-			if(machineType != null)
+			if (machineType != null)
 				lstMachine.setListData(machineType.getMachines().toArray());
 			else {
 				for (MachineType mType : service.getMachineTypes()) {
@@ -109,63 +110,101 @@ public class MachinePanel extends JPanel {
 						listMachines.add(machine);
 					}
 				}
-				lstMachine.setListData(listMachines.toArray());	
+				lstMachine.setListData(listMachines.toArray());
 			}
 		}
+
 		/**
 		 * Method which fills cbxMachineType1 with Machine Type list
 		 */
 		public void fillCbxMachineType() {
-			DefaultComboBoxModel cbxModel = new DefaultComboBoxModel(
-					service.getMachineTypes().toArray());
-			cbxModel.insertElementAt("All",	0);
+			DefaultComboBoxModel cbxModel = new DefaultComboBoxModel(service
+					.getMachineTypes().toArray());
+			cbxModel.insertElementAt("All", 0);
 			cbxMachineType.setModel(cbxModel);
 			cbxMachineType.setSelectedIndex(0);
 		}
-		
+
 		/**
 		 * Clears JList and calls method to fill the list of Machines
 		 */
 		public void updateView() {
 			int id = cbxMachineType.getSelectedIndex() - 1;
-			
+
 			/** ..............REMOVE DATA FROM JLIST START............... * */
 			lstMachine.setModel(new DefaultListModel());
 			DefaultListModel model = (DefaultListModel) lstMachine.getModel();
 			model.clear();
 			/** ..............REMOVE DATA FROM JLIST END................. * */
-			
-				if (id >= 0){
-					MachineType machineType = (MachineType) cbxMachineType.getSelectedItem();
-					fillLstMachines(machineType);
-				}
-				else
-					fillLstMachines(null);	
-		}
-		
-		public void actionPerformed(ActionEvent e) {
-			
-			if (e.getSource() == btnCreate){
-				   CreateMachine_Dialog createMachineDialog = new CreateMachine_Dialog(MachinePanel.this, "Create Machine");
-				   createMachineDialog.setVisible(true);
-				        
-				   //waiting for modal dialog to close
-				        
-				        
-				  if (createMachineDialog.isOKed()) {
-				        	updateView();
-				        	}
-				  
-				  createMachineDialog.dispose(); //release MS Windows resources			        
-			}
-			if (e.getSource() == btnUpdate){
-				Machine machine = (Machine) lstMachine.getSelectedValue();
-				if(machine != null){
 
+			if (id >= 0) {
+				MachineType machineType = (MachineType) cbxMachineType
+						.getSelectedItem();
+				fillLstMachines(machineType);
+			} else
+				fillLstMachines(null);
+		}
+
+		public void actionPerformed(ActionEvent e) {
+
+			if (e.getSource() == btnCreate) {
+				Machine_Dialog createMachineDialog = new Machine_Dialog(
+						MachinePanel.this, "Create Machine");
+
+				Machine machine = new Machine(0, "", null);
+				createMachineDialog.setMachine(machine);
+
+				createMachineDialog.setVisible(true);
+
+				// waiting for modal dialog to close
+
+				if (createMachineDialog.isOKed()) {
+					machine.getType().createMachine(machine.getSerialNumber(),
+							"");
+					updateView();
 				}
+				// release MS Windows resources
+				createMachineDialog.dispose(); 
 			}
-			if (e.getSource() == "btnDelete"){
-				
+			if (e.getSource() == btnUpdate) {
+				Machine machine = (Machine) lstMachine.getSelectedValue();
+				if (machine != null) {
+					Machine_Dialog createMachineDialog = new Machine_Dialog(
+							MachinePanel.this, "Create Machine");
+
+					createMachineDialog.setMachine(machine);
+					createMachineDialog.setVisible(true);
+
+					// waiting for modal dialog to close
+
+					if (createMachineDialog.isOKed()) {
+						updateView();
+					}
+					// release MS Windows resources
+					createMachineDialog.dispose(); 
+				} else {
+					// Show error message
+					ErrorDialog errorDialog = new ErrorDialog("Error");
+					errorDialog
+							.showMessage("You have to select a machine first.");
+					return;
+				}
+
+			}
+			if (e.getSource() == btnDelete) {
+				Machine machine = (Machine) lstMachine.getSelectedValue();
+				if (machine != null) {
+					machine.getType().removeMachine(machine);
+					updateView();
+				} else {
+					// Show error message
+					ErrorDialog errorDialog = new ErrorDialog("Error");
+					errorDialog
+							.showMessage("You have to select a machine first.");
+
+					return;
+				}
+
 			}
 			if (e.getSource() == cbxMachineType) {
 				updateView();
