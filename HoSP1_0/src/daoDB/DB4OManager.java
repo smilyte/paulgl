@@ -1,4 +1,4 @@
-package dao;
+package daoDB;
 
 public interface DB4OManager {
 	//Do nothing right now. We will use it later.
