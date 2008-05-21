@@ -63,6 +63,16 @@ public class ErrorDialog extends JDialog {
 	public void setLblText(String text) {
 		lblQuestion.setText("<html><b>" + text + "</b></html>");
 	}
+	
+	public void showMessage(String msg){
+		// ... error message appears.
+		// Text of the error message:
+		this.setLblText(msg);
+		this.setVisible(true);
+		// Waiting for error dialog to close
+
+		this.dispose(); // release MS Windows resources
+	}
 
 	private class Controller implements ActionListener {
 		// This method is called when a button is pressed.
