@@ -75,8 +75,8 @@ public class MachineType {
 	/**
 	 * Creates a Machine and adds the machine to this machine type
 	 */
-	public void createMachine(int serialNumber, String manufacturer) {
-		machines.add(new Machine(serialNumber, manufacturer, this));
+	public void addMachine(Machine machine) {
+		machines.add(machine);
 	}
 
 	/**
