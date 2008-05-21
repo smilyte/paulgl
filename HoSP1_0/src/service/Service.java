@@ -2,9 +2,8 @@ package service;
 
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
+
 
 import dao.*;
 
@@ -12,7 +11,7 @@ import model.*;
 
 public class Service {
 	private static GregorianCalendar stDate1, eDate1, stDate2, eDate2, stDate3, eDate3, stDate4, eDate4;
-	private static Machine m1, m2, m3;
+	private static Machine m1, m2, m3, m4, m5, m6;
 	private static MachineType mt1, mt2, mt3;
 	private static Repair r1, r2, r3, r4;
 	
@@ -34,7 +33,7 @@ public class Service {
 	private MachineTypeDAO machineTypeDAO = MachineTypeDAO.getInstance();
 
 	public Service() {
-		startUp();
+		//startUp();
 	}
 	
 	/**
@@ -46,10 +45,27 @@ public class Service {
 
 	private void startUp() {
 
+		mt1 = new MachineType("MT Turbo 1");
+		mt2 = new MachineType("MT Rocket 2");
+		mt3 = new MachineType("MT Jazz 3");
 		
-		m1 = new Machine(9898989, "FOL", new MachineType("C"));
-		m2 = new Machine(2222222, "BBB", new MachineType("G"));
-		m3 = new Machine(3333333, "AAA", new MachineType("V"));
+		addMachineType(mt1);
+		addMachineType(mt2);
+		addMachineType(mt3);
+		
+		m1 = new Machine(00000, "Music");
+		m2 = new Machine(555555, "Bungle");
+		m3 = new Machine(777777, "Cungle");
+		m4 = new Machine(22222, "Turtle");
+		m5 = new Machine(11111, "Rabit");
+		m6 = new Machine(666666, "Dungle");
+		
+		mt3.addMachine(m1);
+		mt2.addMachine(m2);
+		mt2.addMachine(m3);
+		mt2.addMachine(m4);
+		mt1.addMachine(m5);
+		mt1.addMachine(m6);
 		
 		stDate1 = new GregorianCalendar(2008, 02, 13, 5, 25);
 		eDate1 = new GregorianCalendar(2008, 04, 14, 10, 03);
@@ -67,24 +83,6 @@ public class Service {
 		r2 = new Repair(2, stDate2, eDate2, m2);
 		r3 = new Repair(3, stDate3, eDate3, m2);
 		r4 = new Repair(4, stDate4, eDate4, m2);
-		
-		mt1 = new MachineType("MT Turbo 1");
-		mt2 = new MachineType("MT Rocket 2");
-		mt3 = new MachineType("MT Jazz 3");
-		
-		mt1.createMachine(444444, "Jungle");
-		mt1.createMachine(555555, "Bungle");
-		mt1.createMachine(666666, "Dungle");
-		mt1.createMachine(777777, "Cungle");
-		
-		mt2.createMachine(11111, "Rabit");
-		mt2.createMachine(22222, "Turtle");
-
-		mt3.createMachine(00000, "Music");
-
-		addMachineType(mt1);
-		addMachineType(mt2);
-		addMachineType(mt3);
 		
 		addRepair(r1);
 		addRepair(r2);
@@ -208,7 +206,7 @@ public class Service {
 	@SuppressWarnings("static-access")
 	public int[] getMachineDowntime(Machine machine) {
 		// This variable will store number of days. Maximum value will be 31.
-		int downtimeInDays;
+		long downtimeInDays = 0;
 		// This variable will be used to make code shorter.
 		GregorianCalendar date;
 		// This variable is representing whole year. It will store numbers of
@@ -225,47 +223,52 @@ public class Service {
 				// We take Repair's StartDate and assign it to variable 'date'
 				// just to make code shorter.
 				date = repair.getStartDate();
-
+				
+				System.out.println("lialia: "+date.getActualMaximum(date.DAY_OF_MONTH));
 				// First condition: If repair has been started and finished in
 				// the same month we just get the difference between end date
 				// and start date
-				if (date.MONTH == repair.getEndDate().MONTH) {
+				if (date.get(GregorianCalendar.MONTH) == repair.getEndDate().get(GregorianCalendar.MONTH)) {
 					// Getting number of days machine was broke down this month
-					
-					downtimeInDays = repair.getEndDate().DAY_OF_MONTH
-							- date.DAY_OF_MONTH;
+
+//					downtimeInDays = repair.getEndDate().get(GregorianCalendar.DAY_OF_MONTH)
+//							- date.get(GregorianCalendar.DAY_OF_MONTH);
+					downtimeInDays = repair.getEndDate().getTimeInMillis()
+					- date.getTimeInMillis();
+					downtimeInDays = downtimeInDays/(1000 * 60 * 60);
+					downtimeInDays = downtimeInDays/24;
 					// Store number of down time days into array by increasing
 					// the value. Value can't be higher than 31.
-					System.out.println("1: "+downtimeInDays);
-					monthlyDown[date.MONTH] += downtimeInDays;
+					System.out.println("1d: "+downtimeInDays);
+					monthlyDown[date.get(GregorianCalendar.MONTH)] += downtimeInDays;
 				} else {
 					// Second condition: If repair has started in one month and
 					// ended in another. We will repeat this loop until we go
 					// through all of the months
 					while (!finished) {
 						// If current month is not the same as end date.
-						if (date.MONTH != repair.getEndDate().MONTH) {
+						if (date.get(GregorianCalendar.MONTH) != repair.getEndDate().get(GregorianCalendar.MONTH)) {
 							// We get the difference between maximum number of
 							// days in that month and current day of month
-							downtimeInDays = date.getActualMaximum(date.MONTH)
-									- date.DAY_OF_MONTH;
+							downtimeInDays = date.getActualMaximum(date.DAY_OF_MONTH)
+									- date.get(GregorianCalendar.DAY_OF_MONTH);
 							// Store number of down time days into array by
 							// increasing the value.
 							// Value can't be higher than 31.
-							System.out.println("2: "+downtimeInDays);
-							monthlyDown[date.MONTH] += downtimeInDays;
+							System.out.println("2d: "+downtimeInDays);
+							monthlyDown[date.get(GregorianCalendar.MONTH)] += downtimeInDays;
 							// Changing the current date by going one month
 							// further
-							date.set(date.YEAR, date.MONTH + 1, 01);
+							date.set(date.get(GregorianCalendar.YEAR), date.get(GregorianCalendar.MONTH) + 1, 01);
 						} else {
 							// But if current month is the same as end date.
 							// We get the difference between mend date and
 							// current day of month
-							downtimeInDays = repair.getEndDate().MONTH
-									- date.DAY_OF_MONTH;
+							downtimeInDays = repair.getEndDate().get(GregorianCalendar.DAY_OF_MONTH)
+									- date.get(GregorianCalendar.DAY_OF_MONTH);
 							// --,,--
-							System.out.println("3: "+downtimeInDays);
-							monthlyDown[date.MONTH] += downtimeInDays;
+							System.out.println("3d: "+downtimeInDays);
+							monthlyDown[date.get(GregorianCalendar.MONTH)] += downtimeInDays+1;
 							// Changing value to finish the loop, because we
 							// went through all months.
 							finished = true;
