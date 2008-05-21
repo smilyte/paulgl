@@ -1,7 +1,8 @@
 package model;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
+
 
 /**
  * 
@@ -13,10 +14,10 @@ public class MachineType {
 	private String name;
 
 	// link to [SparePart] class (--> 0..*)
-	private Set<SparePart> spareParts = new HashSet<SparePart>();
+	private List<SparePart> spareParts = new ArrayList<SparePart>();
 
 	// link to [Machine] class (Aggregation <>--> 0..*)
-	private Set<Machine> machines = new HashSet<Machine>();
+	private List<Machine> machines = new ArrayList<Machine>();
 
 	/**
 	 * Constructor of Machine type
@@ -45,7 +46,7 @@ public class MachineType {
 	/**
 	 * @return the spareParts
 	 */
-	public Set<SparePart> getSpareParts() {
+	public List<SparePart> getSpareParts() {
 		return spareParts;
 	}
 
@@ -75,14 +76,14 @@ public class MachineType {
 	/**
 	 * Creates a Machine and adds the machine to this machine type
 	 */
-	public void addMachine(Machine machine) {
-		machines.add(machine);
+	public void createMachine(int sNumber, String name) {
+		machines.add(new Machine(sNumber, name, this));
 	}
 
 	/**
 	 * @return this Machine Type's machines
 	 */
-	public Set<Machine> getMachines() {
+	public List<Machine> getMachines() {
 		return machines;
 	}
 
