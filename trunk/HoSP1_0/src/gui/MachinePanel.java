@@ -89,6 +89,7 @@ public class MachinePanel extends JPanel {
 		controller.fillCbxMachineType();
 		
 	}
+
 	private class Controller implements ActionListener {
 		
 		// .............GETTING INSTANCE..................//
@@ -144,11 +145,20 @@ public class MachinePanel extends JPanel {
 		
 		public void actionPerformed(ActionEvent e) {
 			
-			if (e.getSource() == "btnCreate"){
-				        CreateMachine_Dialog createMachineDialog = new CreateMachine_Dialog(MachinePanel.this, "Create Machine");
-				        createMachineDialog.setVisible(true);
+			if (e.getSource() == btnCreate){
+				   CreateMachine_Dialog createMachineDialog = new CreateMachine_Dialog(MachinePanel.this, "Create Machine");
+				   createMachineDialog.setVisible(true);
+				        
+				   //waiting for modal dialog to close
+				        
+				        
+				  if (createMachineDialog.isOKed()) {
+				        	updateView();
+				        	}
+				  
+				  createMachineDialog.dispose(); //release MS Windows resources			        
 			}
-			if (e.getSource() == "btnUpdate"){
+			if (e.getSource() == btnUpdate){
 				Machine machine = (Machine) lstMachine.getSelectedValue();
 				if(machine != null){
 
