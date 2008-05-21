@@ -19,10 +19,12 @@ public class Machine {
 	 *            Serial number of machine
 	 * @param manufacturer
 	 *            The manufacturer of machine
+	 * @param machineType 
 	 */
-	public Machine(int serialNumber, String manufacturer) {
+	public Machine(int serialNumber, String manufacturer, MachineType machineType) {
 		this.serialNumber = serialNumber;
 		this.manufacturer = manufacturer;
+		this.type = machineType;
 	}
 
 	/**
