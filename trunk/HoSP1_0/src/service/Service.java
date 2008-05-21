@@ -16,7 +16,7 @@ public class Service {
 	private static MachineType mt1, mt2, mt3;
 	private static Repair r1, r2, r3, r4;
 	
-	private static Service instance = new Service();
+	private static Service instance;
 
 	// Gets the one and only instance of the Repair DAO class.
 	private RepairDAO repairDao = RepairDAO.getInstance();
@@ -41,6 +41,8 @@ public class Service {
 	 * @return the instance
 	 */
 	public static Service getInstance() {
+		if (instance == null)
+			instance = new Service();
 		return instance;
 	}
 	
@@ -91,11 +93,11 @@ public class Service {
 		addRepair(r4);
 		
 		//data for spareparts
-		addSparePart(new SparePart(10, 1111111, getDrawers().get(0).getBoxes().get(1)));
-		addSparePart(new SparePart(20, 3333333, getDrawers().get(0).getBoxes().get(2)));
-		addSparePart(new SparePart(5, 5555555, getDrawers().get(1).getBoxes().get(1)));
-		addSparePart(new SparePart(100, 7777777, getDrawers().get(1).getBoxes().get(2)));
-		
+//		addSparePart(new SparePart(10, 1111111, getDrawers().get(0).getBoxes().get(1)));
+//		addSparePart(new SparePart(20, 3333333, getDrawers().get(0).getBoxes().get(0)));
+//		addSparePart(new SparePart(5, 5555555, getDrawers().get(1).getBoxes().get(1)));
+//		addSparePart(new SparePart(100, 7777777, getDrawers().get(1).getBoxes().get(2)));
+//		
 		// TODO Write method for: calculation(history) of last 7 days (week)
 		// repairs
 		// TODO Write method for: calculation(history) of last 30 days (month)
@@ -231,13 +233,13 @@ public class Service {
 				while(daysMachineWasDown > 0){
 				
 					if (firstDate.get(GregorianCalendar.MONTH) == repair.getEndDate().get(GregorianCalendar.MONTH)){
-						monthlyDown[repair.getStartDate().get(GregorianCalendar.MONTH)] += daysMachineWasDown;
+						monthlyDown[repair.getStartDate().get(GregorianCalendar.MONTH)] += daysMachineWasDown + 1;
 						daysMachineWasDown = 0;
 					}
 				
 					else{			
 						int days = 0;
-						days = firstDate.getActualMaximum(firstDate.DAY_OF_MONTH) - firstDate.get(GregorianCalendar.DAY_OF_MONTH);
+						days = firstDate.getActualMaximum(firstDate.DAY_OF_MONTH) - firstDate.get(GregorianCalendar.DAY_OF_MONTH) + 1;
 						
 						monthlyDown[firstDate.get(GregorianCalendar.MONTH)] += days;
 						

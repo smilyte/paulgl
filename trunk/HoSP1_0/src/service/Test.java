@@ -50,7 +50,7 @@ public class Test {
 		mt1.createMachine(666666, "Dungle");
 		
 		stDate1 = new GregorianCalendar(2008, 1, 13, 8, 25);
-		eDate1 = new GregorianCalendar(2008, 4, 17, 10, 03);
+		eDate1 = new GregorianCalendar(2008, 4, 20, 10, 03);
 		
 		stDate2 = new GregorianCalendar(2008, 4, 15, 5, 25);
 		eDate2 = new GregorianCalendar(2008, 4, 15, 12, 18);
