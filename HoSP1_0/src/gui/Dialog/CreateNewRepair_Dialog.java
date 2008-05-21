@@ -1,12 +1,15 @@
 package gui.Dialog;
 
-import gui.MachinePanel;
+
 import gui.RepairPanel;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.text.DateFormat;
+import java.util.GregorianCalendar;
+
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -21,17 +24,18 @@ import model.*;
 import service.Service;
 
 public class CreateNewRepair_Dialog extends JDialog {
-
-	private JTextField txfrepairId, txfstartDate, txfstartTime, txfendDate,
-			txfendTime;
+private GregorianCalendar startDate,endDate;
+	private JTextField txfRepairId, txfStartDate, txfStartTime, txfEndDate,
+			txfEndTime;
 	private JComboBox cbxRepairType, cbxMachineType, cbxMachine;
-	private JList listsparePart;
-	private JLabel lbrepareId, lbmachineType, lbsparePart, lbrepairType,
-			lbstartDate, lbstartTime, label, lbendTime, lbmachine, label_1;
-	private JButton butstart, butend, btncreateNewRepairtype, butcreate,
-			butcancel;
+	private JList lstSparePart;
+	private JLabel lblRepareId, lblMachineType, lblSparePart, lblRepairType,
+			lblStartDate, lblStartTime, lblEndDate, lblEndTime, lblMachine, label_1;
+	private JButton btnStart, btnEnd, btnCreateNewRepairtype, btnCreate,
+			btnCancel;
 	// l object for inner class Controller
 	private Controller controller = new Controller();
+	
 
 	/**
 	 * Create the dialog
@@ -42,117 +46,117 @@ public class CreateNewRepair_Dialog extends JDialog {
 		setTitle("Create New Repair");
 		getContentPane().setLayout(null);
 		setBounds(100, 100, 459, 427);
-		// this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-		this.setVisible(true);
+		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		this.setModal(true);
 
 		// Repair ID Label and TextField
-		lbrepareId = new JLabel();
-		lbrepareId.setText("Repair ID:");
-		lbrepareId.setBounds(10, 28, 54, 14);
-		getContentPane().add(lbrepareId);
+		lblRepareId = new JLabel();
+		lblRepareId.setText("Repair ID:");
+		lblRepareId.setBounds(10, 28, 54, 14);
+		getContentPane().add(lblRepareId);
 
-		txfrepairId = new JTextField();
-		getContentPane().add(txfrepairId);
-		txfrepairId.setBounds(20, 48, 129, 20);
+		txfRepairId = new JTextField();
+		getContentPane().add(txfRepairId);
+		txfRepairId.setBounds(20, 48, 129, 20);
 
 		// Spare Part Label and list in the JScrollPane
-		lbsparePart = new JLabel();
-		getContentPane().add(lbsparePart);
-		lbsparePart.setText("Spare Part:");
-		lbsparePart.setBounds(191, 28, 63, 14);
+		lblSparePart = new JLabel();
+		getContentPane().add(lblSparePart);
+		lblSparePart.setText("Spare Part:");
+		lblSparePart.setBounds(191, 28, 63, 14);
 
 		JScrollPane scrollPane = new JScrollPane();
 		getContentPane().add(scrollPane);
 		scrollPane.setBounds(191, 48, 232, 130);
 
-		listsparePart = new JList();
-		scrollPane.setViewportView(listsparePart);
+		lstSparePart = new JList();
+		scrollPane.setViewportView(lstSparePart);
 
 		// Repair Type Label and the ComboBox to Repair Type
-		lbrepairType = new JLabel();
-		getContentPane().add(lbrepairType);
-		lbrepairType.setText("Repair Type:");
-		lbrepairType.setBounds(10, 74, 69, 14);
+		lblRepairType = new JLabel();
+		getContentPane().add(lblRepairType);
+		lblRepairType.setText("Repair Type:");
+		lblRepairType.setBounds(10, 74, 69, 14);
 
 		cbxRepairType = new JComboBox();
 		getContentPane().add(cbxRepairType);
 		cbxRepairType.setBounds(20, 93, 129, 20);
 
 		// Machine Type Label and the ComboBox to Machine Type
-		lbmachineType = new JLabel();
-		lbmachineType.setText("Machine Type:");
-		lbmachineType.setBounds(10, 119, 79, 14);
-		getContentPane().add(lbmachineType);
+		lblMachineType = new JLabel();
+		lblMachineType.setText("Machine Type:");
+		lblMachineType.setBounds(10, 119, 79, 14);
+		getContentPane().add(lblMachineType);
 
 		cbxMachineType = new JComboBox();
 		getContentPane().add(cbxMachineType);
 		cbxMachineType.setBounds(20, 139, 129, 20);
 
 		// Machine Label and the ComboBox to
-		lbmachine = new JLabel();
-		getContentPane().add(lbmachine);
-		lbmachine.setText("Machine:");
-		lbmachine.setBounds(10, 165, 54, 14);
+		lblMachine = new JLabel();
+		getContentPane().add(lblMachine);
+		lblMachine.setText("Machine:");
+		lblMachine.setBounds(10, 165, 54, 14);
 
 		cbxMachine = new JComboBox();
 		getContentPane().add(cbxMachine);
 		cbxMachine.setBounds(20, 185, 129, 20);
 
 		// Start Date Label, TextField.
-		lbstartDate = new JLabel();
-		getContentPane().add(lbstartDate);
-		lbstartDate.setText("Start Date:");
-		lbstartDate.setBounds(10, 226, 54, 14);
+		lblStartDate = new JLabel();
+		getContentPane().add(lblStartDate);
+		lblStartDate.setText("Start Date:");
+		lblStartDate.setBounds(10, 226, 54, 14);
 
-		txfstartDate = new JTextField();
-		getContentPane().add(txfstartDate);
-		txfstartDate.setBounds(10, 246, 79, 20);
+		txfStartDate = new JTextField();
+		getContentPane().add(txfStartDate);
+		txfStartDate.setBounds(10, 246, 79, 20);
 
 		// Start Time Label, TextField.
-		lbstartTime = new JLabel();
-		getContentPane().add(lbstartTime);
-		lbstartTime.setText("Start Time:");
-		lbstartTime.setBounds(95, 226, 54, 14);
+		lblStartTime = new JLabel();
+		getContentPane().add(lblStartTime);
+		lblStartTime.setText("Start Time:");
+		lblStartTime.setBounds(95, 226, 54, 14);
 
-		txfstartTime = new JTextField();
-		getContentPane().add(txfstartTime);
-		txfstartTime.setBounds(95, 246, 79, 20);
+		txfStartTime = new JTextField();
+		getContentPane().add(txfStartTime);
+		txfStartTime.setBounds(95, 246, 79, 20);
 
 		// Start Button
-		butstart = new JButton();
-		butstart.setText("Start");
-		butstart.setBounds(191, 245, 93, 23);
-		getContentPane().add(butstart);
-		butstart.addActionListener(controller);
+		btnStart = new JButton();
+		btnStart.setText("Start");
+		btnStart.setBounds(191, 245, 93, 23);
+		getContentPane().add(btnStart);
+		btnStart.addActionListener(controller);
 
-		label = new JLabel();
-		getContentPane().add(label);
-		label.setText("End Date:");
-		label.setBounds(10, 272, 54, 14);
+		lblEndDate = new JLabel();
+		getContentPane().add(lblEndDate);
+		lblEndDate.setText("End Date:");
+		lblEndDate.setBounds(10, 272, 54, 14);
 
-		txfendDate = new JTextField();
-		getContentPane().add(txfendDate);
-		txfendDate.setBounds(10, 292, 79, 20);
+		txfEndDate = new JTextField();
+		getContentPane().add(txfEndDate);
+		txfEndDate.setBounds(10, 292, 79, 20);
 
-		lbendTime = new JLabel();
-		getContentPane().add(lbendTime);
-		lbendTime.setText("End Time:");
-		lbendTime.setBounds(95, 272, 54, 14);
+		lblEndTime = new JLabel();
+		getContentPane().add(lblEndTime);
+		lblEndTime.setText("End Time:");
+		lblEndTime.setBounds(95, 272, 54, 14);
 
-		txfendTime = new JTextField();
-		getContentPane().add(txfendTime);
-		txfendTime.setBounds(95, 292, 79, 20);
+		txfEndTime = new JTextField();
+		getContentPane().add(txfEndTime);
+		txfEndTime.setBounds(95, 292, 79, 20);
 
-		butend = new JButton();
-		getContentPane().add(butend);
-		butend.setText("End");
-		butend.setBounds(191, 291, 93, 23);
+		btnEnd = new JButton();
+		getContentPane().add(btnEnd);
+		btnEnd.setText("End");
+		btnEnd.setBounds(191, 291, 93, 23);
 
-		btncreateNewRepairtype = new JButton();
-		btncreateNewRepairtype.setText("Create New Repair Type");
-		btncreateNewRepairtype.setBounds(191, 184, 151, 23);
-		getContentPane().add(btncreateNewRepairtype);
-		btncreateNewRepairtype.addActionListener(controller);
+		btnCreateNewRepairtype = new JButton();
+		btnCreateNewRepairtype.setText("Create New Repair Type");
+		btnCreateNewRepairtype.setBounds(191, 184, 151, 23);
+		getContentPane().add(btnCreateNewRepairtype);
+		btnCreateNewRepairtype.addActionListener(controller);
 
 		label_1 = new JLabel();
 		getContentPane().add(label_1);
@@ -164,36 +168,42 @@ public class CreateNewRepair_Dialog extends JDialog {
 		getContentPane().add(separator);
 
 		// Create button
-		butcreate = new JButton();
-		butcreate.setText("Create");
-		butcreate.setBounds(231, 358, 93, 23);
-		getContentPane().add(butcreate);
-		butcreate.addActionListener(controller);
+		btnCreate = new JButton();
+		btnCreate.setText("Create");
+		btnCreate.setBounds(231, 358, 93, 23);
+		getContentPane().add(btnCreate);
+		btnCreate.addActionListener(controller);
 
-		butcancel = new JButton();
-		butcancel.setText("Cancel");
-		butcancel.setBounds(330, 358, 93, 23);
-		getContentPane().add(butcancel);
-		butcancel.addActionListener(controller);
+		btnCancel = new JButton();
+		btnCancel.setText("Cancel");
+		btnCancel.setBounds(330, 358, 93, 23);
+		getContentPane().add(btnCancel);
+		btnCancel.addActionListener(controller);
 
 		JSeparator separator_1 = new JSeparator();
 		separator_1.setBounds(10, 343, 421, 2);
 		getContentPane().add(separator_1);
+	
 
 	}
+	
+	public boolean isOKed() {
+		return controller.closedByOk;
+		}
 
 	private class Controller implements ActionListener {
 		private Service service = Service.getInstance();
-
-		public void actionPerformed(ActionEvent e) {
-			if (e.getSource() == btncreateNewRepairtype)
-				;
-			CreateNewRepairType_Dialog createNRTD = new CreateNewRepairType_Dialog(
-					CreateNewRepair_Dialog.this, "Create Machine");
-			createNRTD.setVisible(true);
-
-			{
-			}
+		private boolean closedByOk = false;
+		
+		/**
+		 * Method which fills cbxRepairTypes with Repair Type list
+		 */
+		public void fillCbxRepairType() {
+			DefaultComboBoxModel cbxModel = new DefaultComboBoxModel(service
+					.getRepairTypes().toArray());
+			cbxModel.insertElementAt("All", 0);
+			cbxRepairType.setModel(cbxModel);
+			cbxRepairType.setSelectedIndex(0);
 		}
 
 		/**
@@ -210,12 +220,52 @@ public class CreateNewRepair_Dialog extends JDialog {
 		/**
 		 * Method which fills cbxMachine with Machine list
 		 */
-		public void fillCbxMachine() {
-			DefaultComboBoxModel cbxModel = new DefaultComboBoxModel(service
-					.getMachineTypes().toArray());
+		public void fillCbxMachine(MachineType mT) {
+			DefaultComboBoxModel cbxModel = new DefaultComboBoxModel(mT.getMachines().toArray());
 			cbxModel.insertElementAt("All", 0);
 			cbxMachine.setModel(cbxModel);
 			cbxMachine.setSelectedIndex(0);
 		}
+
+		public void actionPerformed(ActionEvent e) {
+			if (e.getSource() == btnCreateNewRepairtype)
+			{	
+			CreateNewRepairType_Dialog createNRTD = new CreateNewRepairType_Dialog(
+					CreateNewRepair_Dialog.this, "Create Machine");
+			createNRTD.setVisible(true);
+
+			}
+			if (e.getSource() == btnCreate){
+				
+				closedByOk = true;
+				CreateNewRepair_Dialog.this.setVisible(false);
+
+			}
+			if (e.getSource() == btnStart) {
+			startDate = new GregorianCalendar();
+
+			DateFormat dateFormatter = DateFormat.getDateInstance(DateFormat.DEFAULT, getLocale());
+			DateFormat timeFormatter = DateFormat.getTimeInstance(DateFormat.DEFAULT, getLocale());
+
+			txfStartDate.setText(dateFormatter.format(startDate));
+			txfStartTime.setText(timeFormatter.format(startDate));
+
+			btnStart.setEnabled(false);
+//			start = true;
+		}  
+			if (e.getSource() == btnEnd) {
+			endDate = new GregorianCalendar();
+
+			DateFormat dateFormatter = DateFormat.getDateInstance(DateFormat.DEFAULT, getLocale());
+			DateFormat timeFormatter = DateFormat.getTimeInstance(DateFormat.DEFAULT, getLocale());
+
+			txfEndDate.setText(dateFormatter.format(endDate));
+			txfEndTime.setText(timeFormatter.format(endDate));
+			
+			btnEnd.setEnabled(false);
+//			ended=true;
+		} if (e.getSource() == btnCancel) {
+			CreateNewRepair_Dialog.this.setVisible(false);
+		}
 	}
-}
+}}
