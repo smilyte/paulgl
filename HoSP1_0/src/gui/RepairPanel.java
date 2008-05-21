@@ -72,8 +72,7 @@ public class RepairPanel extends JPanel {
 		btnRegisterRepair.setText("Register repair...");
 		btnRegisterRepair.setBounds(212, 198, 105, 23);
 		this.add(btnRegisterRepair);
-		btnRegisterRepair.addActionListener(controller); 
-			
+		btnRegisterRepair.addActionListener(controller);
 
 		btnPrint = new JButton();
 		btnPrint.setText("Print");
@@ -87,18 +86,27 @@ public class RepairPanel extends JPanel {
 	}
 
 	private class Controller implements ActionListener {
+		// .............GETTING INSTANCE..................//
 		private Service service = Service.getInstance();
+		// ...............................................//
 
 		public void actionPerformed(ActionEvent e) {
-			if (e.getSource() == btnRegisterRepair);
+			if (e.getSource() == btnRegisterRepair) {
 
-			CreateNewRepair_Dialog createNewRepairDialog = new CreateNewRepair_Dialog(
-					RepairPanel.this, "Create");
-			createNewRepairDialog.setVisible(true);
+				CreateNewRepair_Dialog createNewRepairDialog = new CreateNewRepair_Dialog(
+						RepairPanel.this, "Create");
+				createNewRepairDialog.setVisible(true);
 
-			{
+				if (createNewRepairDialog.isOKed()) {
+					// Update view
+				}
+				createNewRepairDialog.dispose(); // release MS Windows
+													// resources
+
 			}
+
 		}
+		
 	}
 
 }
