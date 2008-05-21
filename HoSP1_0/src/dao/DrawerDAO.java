@@ -20,8 +20,8 @@ public class DrawerDAO {
 
 	private DrawerDAO() {
 		
-		drawers.add(new Drawer(1, 2));
-		drawers.add(new Drawer(2,3));
+		drawers.add(new Drawer(1,10));
+		drawers.add(new Drawer(2,11));
 
 	}
 

@@ -1,7 +1,12 @@
 package gui;
 
+import gui.Dialog.CreateDrawer_Dialog;
+import gui.Dialog.CreateSpartPart_Dialog;
+
 import java.awt.Color;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
@@ -12,6 +17,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
+
+import service.Service;
 
 public class SparePartPanel extends JPanel {
 	
@@ -26,6 +33,8 @@ public class SparePartPanel extends JPanel {
 	private JButton btnCreateNew;
 	private JScrollPane scrollPaneSpareParts;
 	private JComboBox cbxMachineType;
+	
+	private Controller controller = new Controller();
 	/**
 	 * Create the panel
 	 */
@@ -52,6 +61,7 @@ public class SparePartPanel extends JPanel {
 		btnCreateNew.setMargin(new Insets(2, 4, 2, 4));
 		btnCreateNew.setText("Create new...");
 		btnCreateNew.setBounds(553, 35, 93, 23);
+		btnCreateNew.addActionListener(controller);
 		this.add(btnCreateNew);
 
 		btnUpdate = new JButton();
@@ -88,6 +98,31 @@ public class SparePartPanel extends JPanel {
 		lblChooseMachineType.setText("Choose machine type:");
 		lblChooseMachineType.setBounds(10, 17, 152, 14);
 		this.add(lblChooseMachineType);
+	}
+	
+	private class Controller implements ActionListener{
+		private Service service = Service.getInstance();
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			if(e.getSource() == btnCreateNew){
+				// New "Create Spare part" dialog is initiated and displayed
+				CreateSpartPart_Dialog createSpartPartDialog = new CreateSpartPart_Dialog(
+						SparePartPanel.this, "Create Spare Part");
+				
+				createSpartPartDialog.setVisible(true);
+				
+				// waiting for modal dialog to close
+				
+				//if (createSpartPartDialog.isCreate()) {
+					// update view
+					//fillLstDrawers();
+				//}
+				createSpartPartDialog.dispose(); //release MS Windows resources
+			}
+			
+		}
+		
 	}
 
 }
