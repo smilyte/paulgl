@@ -211,7 +211,47 @@ public class Service {
 	 */
 
 	@SuppressWarnings("static-access")
-	public int[] getMachineDowntime(Machine machine) {
+	public int[] getMachineMonthlyDowntime2(Machine machine){
+		// This variable is representing whole year. It will store numbers of
+		// days machine was broke down in each month.
+		int[] monthlyDown = new int[12];
+		
+		long daysMachineWasDown;
+		
+		// We use 'for each' to go through all list of repairs
+		for (Repair repair: getRepairs()){
+			
+			GregorianCalendar firstDate = repair.getStartDate();
+			
+			if (repair.getMachine().equals(machine)) {
+				
+				long timeMachineWasDown = repair.getEndDate().getTimeInMillis() - repair.getStartDate().getTimeInMillis();
+				daysMachineWasDown = (timeMachineWasDown/(1000*60*60)) / 24;
+				
+				while(daysMachineWasDown > 0){
+				
+					if (firstDate.get(GregorianCalendar.MONTH) == repair.getEndDate().get(GregorianCalendar.MONTH)){
+						monthlyDown[repair.getStartDate().get(GregorianCalendar.MONTH)] += daysMachineWasDown;
+						daysMachineWasDown = 0;
+					}
+				
+					else{			
+						int days = 0;
+						days = firstDate.getActualMaximum(firstDate.DAY_OF_MONTH) - firstDate.get(GregorianCalendar.DAY_OF_MONTH);
+						
+						monthlyDown[firstDate.get(GregorianCalendar.MONTH)] += days;
+						
+						daysMachineWasDown -= days;
+						
+						firstDate.set(firstDate.get(GregorianCalendar.YEAR), firstDate.get(GregorianCalendar.MONTH) + 1, 01);	
+					}
+				}
+			}	
+		}
+		return monthlyDown;
+	}
+	@SuppressWarnings("static-access")
+	public int[] getMachineMonthlyDowntime(Machine machine) {
 		// This variable will store number of days. Maximum value will be 31.
 		long downtimeInDays = 0;
 		// This variable will be used to make code shorter.
