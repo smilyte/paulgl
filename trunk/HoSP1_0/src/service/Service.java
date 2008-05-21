@@ -11,7 +11,6 @@ import model.*;
 
 public class Service {
 	private static GregorianCalendar stDate1, eDate1, stDate2, eDate2, stDate3, eDate3, stDate4, eDate4;
-	private static Machine m1, m2, m3, m4, m5, m6;
 	private static MachineType mt1, mt2, mt3;
 	private static Repair r1, r2, r3, r4;
 	
@@ -502,9 +501,4 @@ public class Service {
 			sp.setBox(newBox);
 		}
 	}
-
-
-
-
-
 }
