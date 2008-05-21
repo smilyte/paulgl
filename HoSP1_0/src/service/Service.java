@@ -439,7 +439,7 @@ public class Service {
 	public void removeDrawer(Drawer drawer) {
 		boolean empty = true;
 		for (Box box : drawer.getBoxes()) {
-			if (!box.getSparePart().equals(null))
+			if (box.getSparePart() != null)
 				empty = false;
 		}
 		if (empty) drawerDAO.remove(drawer);

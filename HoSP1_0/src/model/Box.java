@@ -49,4 +49,8 @@ public class Box {
 			this.sparePart = sp;
 	}
 	
+	public String toString(){
+		return serialNumber+" - "+sparePart;
+	}
+	
 }
