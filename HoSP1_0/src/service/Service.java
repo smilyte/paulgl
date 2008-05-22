@@ -623,17 +623,14 @@ public class Service {
 	/**
 	 * Dynamic search for spare parts. Search returns all spare parts from the
 	 * list, that have a number starting with given text.
-	 * 
-	 * @param list
-	 *            list of spare parts to look through.
 	 * @param number
 	 *            number of spare part we are looking for.
 	 */
-	public List<SparePart> searchPart(List<SparePart> list, String number) {
+	public List<SparePart> searchPart(String number) {
 		// list of spare parts that the method will return.
 		List<SparePart> returnList = new ArrayList<SparePart>();
 		// we go through given list
-		for (SparePart sparePart : list) {
+		for (SparePart sparePart : getSpareParts()) {
 			String sp = "" + sparePart.getNumber();
 			// if current spare part number starts with given text, we add it to
 			// returnList

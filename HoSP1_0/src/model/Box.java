@@ -4,17 +4,20 @@
 package model;
 
 public class Box {
-	
+
 	private String serialNumber;
 	private Drawer drawer;
 	private SparePart sparePart = null;
-	
+
 	/**
 	 * Creates a box
-	 * @param serialNumber serial number of this box
-	 * @param drawerNumber drawer number, where this box is.
+	 * 
+	 * @param serialNumber
+	 *            serial number of this box
+	 * @param drawerNumber
+	 *            drawer number, where this box is.
 	 */
-	public Box(String serialNumber, Drawer drawer){
+	public Box(String serialNumber, Drawer drawer) {
 		this.serialNumber = serialNumber;
 		this.drawer = drawer;
 	}
@@ -41,16 +44,16 @@ public class Box {
 	}
 
 	/**
-	 * @param sp the new spare part to this drawer
-	 * Requires this drawer to be empty.
+	 * @param sp
+	 *            the new spare part to this drawer Requires this drawer to be
+	 *            empty.
 	 */
 	public void setSp(SparePart sp) {
-		//if(this.sparePart == null)
-			this.sparePart = sp;
+		this.sparePart = sp;
 	}
-	
-	public String toString(){
-		return serialNumber+" - "+sparePart;
+
+	public String toString() {
+		return serialNumber + " - " + sparePart;
 	}
-	
+
 }

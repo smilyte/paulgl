@@ -1,6 +1,5 @@
 package gui;
 
-import gui.Dialog.CreateDrawer_Dialog;
 import gui.Dialog.CreateSpartPart_Dialog;
 import gui.Dialog.DeleteSparePart_Dialog;
 import gui.Dialog.UpdateSparePart_Dialog;
@@ -9,6 +8,9 @@ import java.awt.Color;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.util.List;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
@@ -99,6 +101,7 @@ public class SparePartPanel extends JPanel {
 
 		txtSearch = new JTextField();
 		txtSearch.setBounds(10, 162, 152, 20);
+		txtSearch.addKeyListener(controller);
 		this.add(txtSearch);
 
 		lblSpareParts = new JLabel();
@@ -114,7 +117,7 @@ public class SparePartPanel extends JPanel {
 		controller.fillLstSpareParts();
 	}
 
-	private class Controller implements ActionListener {
+	private class Controller implements ActionListener, KeyListener {
 		private Service service = Service.getInstance();
 
 		// Fills spare part list
@@ -126,6 +129,17 @@ public class SparePartPanel extends JPanel {
 			model.clear();
 			/** ..............REMOVE DATA FROM JLIST END................. * */
 			lstSpareParts.setListData(service.getSpareParts().toArray());
+			lstSpareParts.setSelectedIndex(0);
+		}
+
+		public void fillLstSpareParts(List<SparePart> list) {
+			/** ..............REMOVE DATA FROM JLIST START............... * */
+			lstSpareParts.setModel(new DefaultListModel());
+			DefaultListModel model = (DefaultListModel) lstSpareParts
+					.getModel();
+			model.clear();
+			/** ..............REMOVE DATA FROM JLIST END................. * */
+			lstSpareParts.setListData(list.toArray());
 			lstSpareParts.setSelectedIndex(0);
 		}
 
@@ -151,7 +165,8 @@ public class SparePartPanel extends JPanel {
 				// New "Update Spare part" dialog is initiated and displayed
 				UpdateSparePart_Dialog updateSpartPartDialog = new UpdateSparePart_Dialog(
 						SparePartPanel.this, "Update Spare Part");
-				SparePart sp = service.getSpareParts().get(lstSpareParts.getSelectedIndex());
+				SparePart sp = service.getSpareParts().get(
+						lstSpareParts.getSelectedIndex());
 				updateSpartPartDialog.setSparePart(sp);
 				updateSpartPartDialog.setAmount(sp.getAmount());
 				updateSpartPartDialog.setVisible(true);
@@ -169,7 +184,8 @@ public class SparePartPanel extends JPanel {
 				// New "Delete Spare part" dialog is initiated and displayed
 				DeleteSparePart_Dialog deleteSpartPartDialog = new DeleteSparePart_Dialog(
 						SparePartPanel.this, "Delete Spare Part");
-				SparePart sp = service.getSpareParts().get(lstSpareParts.getSelectedIndex());
+				SparePart sp = service.getSpareParts().get(
+						lstSpareParts.getSelectedIndex());
 				deleteSpartPartDialog.setSparePart(sp);
 				deleteSpartPartDialog.setVisible(true);
 
@@ -182,6 +198,31 @@ public class SparePartPanel extends JPanel {
 				deleteSpartPartDialog.dispose();
 				// release MS Windows resources
 			}
+		}
+
+		@Override
+		public void keyPressed(KeyEvent e) {
+			// not used but must implement.
+
+		}
+
+		@Override
+		public void keyReleased(KeyEvent e) {
+			if (e.getKeyCode() == KeyEvent.VK_DOWN) {
+				System.out.println("key down was pressed");
+			}
+			if (e.getKeyCode() == KeyEvent.VK_UP) {
+				System.out.println("key up was pressed");
+			}
+			if(e.getSource() == txtSearch){
+				fillLstSpareParts(service.searchPart(txtSearch.getText()));
+			}
+		}
+
+		@Override
+		public void keyTyped(KeyEvent e) {
+			// not used,but must implement.
+
 		}
 
 	}
