@@ -151,9 +151,7 @@ public class Machine_Dialog extends JDialog {
 				closedByOk = false;
 				Machine_Dialog.this.setVisible(false);
 			}
-
 		}
-
 	}
 
 }
