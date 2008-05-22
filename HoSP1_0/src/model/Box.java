@@ -45,7 +45,7 @@ public class Box {
 	 * Requires this drawer to be empty.
 	 */
 	public void setSp(SparePart sp) {
-		if(this.sparePart == null)
+		//if(this.sparePart == null)
 			this.sparePart = sp;
 	}
 	

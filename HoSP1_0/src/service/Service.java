@@ -444,8 +444,8 @@ public class Service {
 			Drawing drawing, Box box) {
 		if (number != 0)
 			sparePart.setNumber(number);
-		if (amount < 0)
-			sparePart.setAmount(amount);
+		if (amount > 0)
+			sparePart.setAmount(sparePart.getAmount()+amount);
 		if (drawing != null)
 			sparePart.setDrawing(drawing);
 		if (box != null)
@@ -459,6 +459,7 @@ public class Service {
 	 */
 	public void removeSparePart(SparePart sparePart) {
 		sparePart.getBox().setSp(null);
+		System.out.println(sparePart.getBox());
 		sparePartDao.remove(sparePart);
 	}
 
