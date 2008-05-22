@@ -564,4 +564,37 @@ public class Service {
 			sp.setBox(newBox);
 		}
 	}
+	
+	/**
+	 * We start by comparing the number with the middle element in the list
+	 * whose low index is 0 and high index is list.size()-1. If number <
+	 * list[mid], set the high index to mid-1; if number == list[mid], a match
+	 * is found and return mid; if number > list[mid], set the low index to
+	 * mid+1. Continue the search until low > high or a match is found. If low >
+	 * high, return –1 – low, where low is the insertion point. Use binary
+	 * search to find the NUMBER in the list
+	 */
+	public static int binarySearchSp(List<SparePart> list, int number) {
+		int low = 0;
+		int high = list.size() - 1;
+		// look for each sparePart in the list
+		for (SparePart sparePart : list) {
+
+			while (high >= low) {
+
+				int mid = (low + high) / 2;
+				// If number < sparePart.getNumber, set the high index to mid-1
+				if (number < sparePart.getNumber())
+
+					high = mid - 1;
+				// if number == sparePart.getNumbe match is found and return mid
+				else if (number == sparePart.getNumber())
+					// a match is found and return mid
+					return mid;
+				else
+					low = mid + 1;
+			} // end of while loop.
+		} // end of for each loop.
+		return low - 1; // No return.
+	} // end of the search method.
 }
