@@ -60,7 +60,8 @@ public class MachineTypeDAO {
 		 * Updates the information about the machineTypes.
 		 */
 		public void update(MachineType machineType) {
-			// do nothing: the machineType is already in the container
+			db.set(machineType);
+			db.commit();
 		}
 	}
 

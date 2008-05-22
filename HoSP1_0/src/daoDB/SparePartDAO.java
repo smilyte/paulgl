@@ -48,7 +48,7 @@ public class SparePartDAO {
 	 * Updates an object of Spare Part
 	 */
 	public void update(SparePart sparePart){
-		// nothing to do.
-
+		db.set(sparePart);
+		db.commit();
 	}
 }
