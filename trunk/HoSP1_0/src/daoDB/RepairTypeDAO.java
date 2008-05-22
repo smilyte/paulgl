@@ -49,7 +49,7 @@ public class RepairTypeDAO {
 	 * Updates an object of RepairType
 	 */
 	public void update(RepairType repairType){
-		// nothing to do.
-
+		db.set(repairType);
+		db.commit();
 	}
 }

@@ -61,6 +61,7 @@ public class DrawerDAO {
 	 * Updates the information about the drawers.
 	 */
 	public void update(Drawer drawer) {
-		// do nothing: the drawer is already in the container
+		db.set(drawer);
+		db.commit();
 	}
 }

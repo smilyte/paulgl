@@ -56,6 +56,7 @@ public class RepairDAO{
 	 * Updates the information about the repair.
 	 */
 	public void update(Repair repair) {
-		//do nothing: the repair is already in the container
+		db.set(repair);
+		db.commit();
 	}	
 }
