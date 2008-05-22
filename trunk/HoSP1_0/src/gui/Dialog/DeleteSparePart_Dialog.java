@@ -12,23 +12,23 @@ import com.swtdesigner.SwingResourceManager;
 
 import service.Service;
 
-import model.Drawer;
+import model.SparePart;
 
-public class DeleteDrawer_Dialog extends JDialog {
+public class DeleteSparePart_Dialog extends JDialog {
 
 	private JLabel label;
 	private JLabel lblQuestion;
 	private JButton btnNo;
 	private JButton btnYes;
 
-	private Drawer drawer = null;
+	private SparePart sparePart = null;
 
 	private Controller controller = new Controller();
 
 	/**
 	 * Create the dialog
 	 */
-	public DeleteDrawer_Dialog(JPanel owner, String title) {
+	public DeleteSparePart_Dialog(JPanel owner, String title) {
 		super();
 		getContentPane().setLayout(null);
 		setResizable(false);
@@ -52,12 +52,14 @@ public class DeleteDrawer_Dialog extends JDialog {
 		btnNo.addActionListener(controller);
 
 		lblQuestion = new JLabel();
-		lblQuestion.setText("<html><b>Are you sure you want to delete this drawer? The action cannot be undone.</b></html>");
+		lblQuestion
+				.setText("<html><b>Are you sure you want to delete this part? The action cannot be undone.</b></html>");
 		lblQuestion.setBounds(111, 18, 200, 77);
 		getContentPane().add(lblQuestion);
 
 		label = new JLabel();
-		label.setIcon(SwingResourceManager.getIcon(DeleteDrawer_Dialog.class, "excl3.gif"));
+		label.setIcon(SwingResourceManager.getIcon(
+				DeleteSparePart_Dialog.class, "excl3.gif"));
 		label.setBounds(30, 18, 75, 77);
 		getContentPane().add(label);
 
@@ -65,6 +67,7 @@ public class DeleteDrawer_Dialog extends JDialog {
 
 	/**
 	 * Checks if user chose to delete spare part.
+	 * 
 	 * @return boolean "true" if yes was clicked.
 	 */
 	public boolean isYes() {
@@ -72,12 +75,12 @@ public class DeleteDrawer_Dialog extends JDialog {
 	}
 
 	/**
-	 * Sets drawer to delete.
+	 * Sets spare part to delete.
 	 */
-	public void setDrawer(Drawer d){
-		this.drawer = d;
+	public void setSparePart(SparePart sp) {
+		this.sparePart = sp;
 	}
-	
+
 	private class Controller implements ActionListener {
 		private boolean closedByYes = false;
 		private Service service = Service.getInstance();
@@ -85,15 +88,14 @@ public class DeleteDrawer_Dialog extends JDialog {
 		// This method is called when a button is pressed.
 		public void actionPerformed(ActionEvent e) {
 			if (e.getSource() == btnYes) {
-				
-				service.removeDrawer(drawer);
-				
+
+				service.removeSparePart(sparePart);
 
 				closedByYes = true;
-				DeleteDrawer_Dialog.this.setVisible(false);
+				DeleteSparePart_Dialog.this.setVisible(false);
 			}
 			if (e.getSource() == btnNo) {
-				DeleteDrawer_Dialog.this.setVisible(false);
+				DeleteSparePart_Dialog.this.setVisible(false);
 			}
 		}
 	}

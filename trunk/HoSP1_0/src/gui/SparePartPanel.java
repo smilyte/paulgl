@@ -2,6 +2,8 @@ package gui;
 
 import gui.Dialog.CreateDrawer_Dialog;
 import gui.Dialog.CreateSpartPart_Dialog;
+import gui.Dialog.DeleteSparePart_Dialog;
+import gui.Dialog.UpdateSparePart_Dialog;
 
 import java.awt.Color;
 import java.awt.Insets;
@@ -9,6 +11,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -16,12 +19,15 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
 import javax.swing.border.LineBorder;
+
+import model.SparePart;
 
 import service.Service;
 
 public class SparePartPanel extends JPanel {
-	
+
 	private JTextField txtSearch;
 	private JLabel lblSearch;
 	private JButton btnViewDrawing;
@@ -33,8 +39,9 @@ public class SparePartPanel extends JPanel {
 	private JButton btnCreateNew;
 	private JScrollPane scrollPaneSpareParts;
 	private JComboBox cbxMachineType;
-	
+
 	private Controller controller = new Controller();
+
 	/**
 	 * Create the panel
 	 */
@@ -43,9 +50,11 @@ public class SparePartPanel extends JPanel {
 		createComponents();
 	}
 
-	public void createComponents(){
+	public void createComponents() {
 		this.cbxMachineType = new JComboBox();
-		this.cbxMachineType.setModel(new DefaultComboBoxModel(new String[] {"All", "Machine type 1", "Machine type 2", "Machine type 3", "Machine type 4", "Machine type 5"}));
+		this.cbxMachineType.setModel(new DefaultComboBoxModel(new String[] {
+				"All", "Machine type 1", "Machine type 2", "Machine type 3",
+				"Machine type 4", "Machine type 5" }));
 		this.cbxMachineType.setBounds(10, 36, 152, 20);
 		this.add(this.cbxMachineType);
 
@@ -54,6 +63,7 @@ public class SparePartPanel extends JPanel {
 		this.add(this.scrollPaneSpareParts);
 
 		lstSpareParts = new JList();
+		lstSpareParts.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		lstSpareParts.setBorder(new LineBorder(Color.black, 1, false));
 		this.scrollPaneSpareParts.setViewportView(lstSpareParts);
 
@@ -67,11 +77,13 @@ public class SparePartPanel extends JPanel {
 		btnUpdate = new JButton();
 		btnUpdate.setText("Update...");
 		btnUpdate.setBounds(553, 87, 93, 23);
+		btnUpdate.addActionListener(controller);
 		this.add(btnUpdate);
 
-		this.btnDelete = new JButton();
-		this.btnDelete.setText("Delete");
-		this.btnDelete.setBounds(553, 138, 93, 23);
+		btnDelete = new JButton();
+		btnDelete.setText("Delete");
+		btnDelete.setBounds(553, 138, 93, 23);
+		btnDelete.addActionListener(controller);
 		this.add(this.btnDelete);
 
 		btnViewDrawing = new JButton();
@@ -98,32 +110,79 @@ public class SparePartPanel extends JPanel {
 		lblChooseMachineType.setText("Choose machine type:");
 		lblChooseMachineType.setBounds(10, 17, 152, 14);
 		this.add(lblChooseMachineType);
+
+		controller.fillLstSpareParts();
 	}
-	
-	private class Controller implements ActionListener{
+
+	private class Controller implements ActionListener {
 		private Service service = Service.getInstance();
+
+		// Fills spare part list
+		public void fillLstSpareParts() {
+			/** ..............REMOVE DATA FROM JLIST START............... * */
+			lstSpareParts.setModel(new DefaultListModel());
+			DefaultListModel model = (DefaultListModel) lstSpareParts
+					.getModel();
+			model.clear();
+			/** ..............REMOVE DATA FROM JLIST END................. * */
+			lstSpareParts.setListData(service.getSpareParts().toArray());
+			lstSpareParts.setSelectedIndex(0);
+		}
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			if(e.getSource() == btnCreateNew){
+			if (e.getSource() == btnCreateNew) {
 				// New "Create Spare part" dialog is initiated and displayed
 				CreateSpartPart_Dialog createSpartPartDialog = new CreateSpartPart_Dialog(
 						SparePartPanel.this, "Create Spare Part");
-				
+
 				createSpartPartDialog.setVisible(true);
-				
+
 				// waiting for modal dialog to close
-				
-				//if (createSpartPartDialog.isCreate()) {
+
+				if (createSpartPartDialog.isCreate()) {
 					// update view
-					//fillLstDrawers();
-				//}
-				createSpartPartDialog.dispose(); //release MS Windows resources
+					fillLstSpareParts();
+				}
+				createSpartPartDialog.dispose();
+				// release MS Windows resources
 			}
-			
+			if (e.getSource() == btnUpdate) {
+				// New "Update Spare part" dialog is initiated and displayed
+				UpdateSparePart_Dialog updateSpartPartDialog = new UpdateSparePart_Dialog(
+						SparePartPanel.this, "Update Spare Part");
+				SparePart sp = service.getSpareParts().get(lstSpareParts.getSelectedIndex());
+				updateSpartPartDialog.setSparePart(sp);
+				updateSpartPartDialog.setAmount(sp.getAmount());
+				updateSpartPartDialog.setVisible(true);
+
+				// waiting for modal dialog to close
+
+				if (updateSpartPartDialog.isUpdated()) {
+					// update view
+					fillLstSpareParts();
+				}
+				updateSpartPartDialog.dispose();
+				// release MS Windows resources
+			}
+			if (e.getSource() == btnDelete) {
+				// New "Delete Spare part" dialog is initiated and displayed
+				DeleteSparePart_Dialog deleteSpartPartDialog = new DeleteSparePart_Dialog(
+						SparePartPanel.this, "Delete Spare Part");
+				SparePart sp = service.getSpareParts().get(lstSpareParts.getSelectedIndex());
+				deleteSpartPartDialog.setSparePart(sp);
+				deleteSpartPartDialog.setVisible(true);
+
+				// waiting for modal dialog to close
+
+				if (deleteSpartPartDialog.isYes()) {
+					// update view
+					fillLstSpareParts();
+				}
+				deleteSpartPartDialog.dispose();
+				// release MS Windows resources
+			}
 		}
-		
+
 	}
-
 }
-

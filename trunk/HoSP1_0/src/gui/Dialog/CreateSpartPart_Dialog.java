@@ -1,7 +1,9 @@
 package gui.Dialog;
 
-import java.awt.Dimension;
-import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
@@ -10,85 +12,209 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import model.Box;
+import model.SparePart;
+
+import service.Service;
+
 public class CreateSpartPart_Dialog extends JDialog {
 
-	private JComboBox cbBoxNr,cbDrawNr;
-	private JTextField txfNumber,txfamount;
-	private JLabel lbnumber,lbamunt;
-	private JButton butcreate,butcancel;
-	
+	private JButton btnCancel;
+	private JButton btnCreate;
+	private JComboBox cbxBox;
+	private JComboBox cbxDrawer;
+	private JTextField txfAmount;
+	private JTextField txfNumber;
+	private JLabel lblBox;
+	private JLabel lblDrawer;
+	private JLabel lblAmount;
+	private JLabel lblNumber;
+
+	private SparePart sparePart = null;
+
+	private Controller controller = new Controller();
+
 	/**
 	 * Create the dialog
-	 * @param string 
-	 * @param  
 	 */
 	public CreateSpartPart_Dialog(JPanel owner, String title) {
 		super();
 		getContentPane().setLayout(null);
-		//setTitle("Create New Spare Parts");
-		//setBounds(100, 100, 212, 255);
-		//getContentPane().setLayout(new FlowLayout(10,10,20));
-		//getContentPane().setLayout(null);
 		setResizable(false);
 		this.setTitle(title);
 		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		this.setLocation(500, 250);
-		this.setSize(254, 353);
-		//this.setLayout(null);
+		this.setSize(254, 271);
+		this.setLayout(null);
 		this.setModal(true);
-		
-		
 
-		//
-		lbnumber = new JLabel();
-		lbnumber.setBounds(0, 0, 0, 0);
-		lbnumber.setText("Number:");
-		getContentPane().add(lbnumber);
+		lblNumber = new JLabel();
+		lblNumber.setText("Number:");
+		lblNumber.setBounds(10, 10, 66, 16);
+		getContentPane().add(lblNumber);
+
+		lblAmount = new JLabel();
+		lblAmount.setText("Amount:");
+		lblAmount.setBounds(10, 58, 66, 16);
+		getContentPane().add(lblAmount);
+
+		lblDrawer = new JLabel();
+		lblDrawer.setText("Drawer:");
+		lblDrawer.setBounds(10, 124, 66, 16);
+		getContentPane().add(lblDrawer);
+
+		lblBox = new JLabel();
+		lblBox.setText("Box:");
+		lblBox.setBounds(10, 155, 66, 16);
+		getContentPane().add(lblBox);
 
 		txfNumber = new JTextField();
-		txfNumber.setBounds(-10000, 0, 100, 20);
-		txfNumber.setPreferredSize(new Dimension(100, 20));
-		txfNumber.setToolTipText("Please insert the 7 diget number of the Spare part");
+		txfNumber.setBounds(10, 32, 228, 20);
 		getContentPane().add(txfNumber);
 
-		lbamunt = new JLabel();
-		lbamunt.setBounds(0, 0, 0, 0);
-		lbamunt.setText("Amount:");
-		getContentPane().add(lbamunt);
+		txfAmount = new JTextField();
+		txfAmount.setBounds(10, 80, 228, 20);
+		getContentPane().add(txfAmount);
 
-		txfamount = new JTextField();
-		txfamount.setBounds(-10000, 0, 100, 20);
-		txfamount.setPreferredSize(new Dimension(100, 20));
-		getContentPane().add(txfamount);
+		cbxDrawer = new JComboBox();
+		cbxDrawer.setBounds(82, 120, 156, 25);
+		cbxDrawer.addActionListener(controller);
+		getContentPane().add(cbxDrawer);
 
-		JLabel lbdrawNr = new JLabel();
-		lbdrawNr.setBounds(0, 0, 0, 0);
-		getContentPane().add(lbdrawNr);
-		lbdrawNr.setText("Draw Nr:");
+		cbxBox = new JComboBox();
+		cbxBox.setBounds(82, 151, 156, 25);
+		cbxBox.addActionListener(controller);
+		getContentPane().add(cbxBox);
 
-		cbDrawNr = new JComboBox();
-		cbDrawNr.setBounds(0, 0, 0, 0);
-		getContentPane().add(cbDrawNr);
+		btnCreate = new JButton();
+		btnCreate.setText("Create");
+		btnCreate.setBounds(10, 203, 106, 26);
+		btnCreate.addActionListener(controller);
+		getContentPane().add(btnCreate);
 
-		JLabel lbboxnNr = new JLabel();
-		lbboxnNr.setBounds(0, 0, 0, 0);
-		getContentPane().add(lbboxnNr);
-		lbboxnNr.setText("Box Nr  :");
+		btnCancel = new JButton();
+		btnCancel.setText("Cancel");
+		btnCancel.setBounds(132, 203, 106, 26);
+		btnCancel.addActionListener(controller);
+		getContentPane().add(btnCancel);
 
-		cbBoxNr = new JComboBox();
-		cbBoxNr.setBounds(0, 0, 0, 0);
-		getContentPane().add(cbBoxNr);
-
-		butcreate = new JButton();
-		butcreate.setBounds(0, 0, 0, 0);
-		butcreate.setText("Create");
-		getContentPane().add(butcreate);
-
-		butcancel = new JButton();
-		butcancel.setBounds(0, 0, 248, 326);
-		butcancel.setText("Cancel");
-		getContentPane().add(butcancel);
-		
+		controller.fillCbxDrawer();
 	}
 
+	/**
+	 * Check if the "Create" button closed dialog.
+	 * Returns "true", if yes.
+	 */
+	public boolean isCreate() {
+		return controller.closedByCreate;
+	}
+
+	private class Controller implements ActionListener {
+		private boolean closedByCreate = false;
+		private Service service = Service.getInstance();
+
+		/**
+		 * Method which fills cbxDrawer with Drawer list
+		 */
+		public void fillCbxDrawer() {
+			DefaultComboBoxModel cbxModel = new DefaultComboBoxModel(service
+					.getDrawers().toArray());
+			cbxDrawer.setModel(cbxModel);
+			cbxDrawer.setSelectedIndex(0);
+		}
+
+		/**
+		 * Method which fills cbxBox with Box list
+		 */
+		public void fillCbxBox() {
+			DefaultComboBoxModel cbxModel = new DefaultComboBoxModel(service
+					.getDrawers().get(cbxDrawer.getSelectedIndex()).getBoxes()
+					.toArray());
+			cbxBox.setModel(cbxModel);
+			cbxBox.setSelectedIndex(0);
+		}
+
+		public void actionPerformed(ActionEvent e) {
+			// List of actions when "Create" button is pressed.
+			if (e.getSource() == btnCreate) {
+				// Checking if data in "number" field is valid.
+				String numberStr = txfNumber.getText().trim();
+				// if there is nothing typed in or it's not a 7 digit number...
+				if (numberStr.length() != 7) {
+					// ... error message is displayed
+					ErrorDialog errorDialog = new ErrorDialog("Error!");
+					errorDialog
+							.showMessage("Pleaste type in 7 digit number for spare part.");
+					return;
+				}
+				// Check if it is a number typed in
+				int number = -1;
+				try {
+					// If it's a number, value of "amount" is changed
+					// successfully
+					number = Integer.parseInt(numberStr);
+				} catch (NumberFormatException ex) {
+					// If it's not a number, error message appears.
+					ErrorDialog errorDialog = new ErrorDialog("Error!");
+					errorDialog
+							.showMessage("Please enter number of spare parts in digits.");
+					return;
+				}
+				// checking if data in "amount" field is valid.
+				String amountStr = txfAmount.getText().trim();
+				// if there is nothing typed in...
+				if (amountStr.length() == 0 || amountStr.length() > 7) {
+
+					// ... show error message
+					ErrorDialog errorDialog = new ErrorDialog("Error!");
+					errorDialog
+							.showMessage("Please specify amount of new spare parts.");
+					return;
+				}
+				// Initiate object for amount of this part
+				int amount = -1;
+				// Check if it is a number typed in
+				try {
+					// If it's a number, value of "amount" is changed
+					// successfully
+					amount = Integer.parseInt(amountStr);
+				} catch (NumberFormatException ex) {
+					// If it's not a number, error message appears.
+					ErrorDialog errorDialog = new ErrorDialog("Error!");
+					errorDialog.showMessage("Please enter amount in numbers.");
+					return;
+				}
+				if (amount < 0) {
+					// If number entered is negative, error message appears.
+					ErrorDialog errorDialog = new ErrorDialog("Error!");
+					errorDialog.showMessage("The ammount must bigger than 0.");
+					return;
+				}
+				Box bx = service.getDrawers().get(cbxDrawer.getSelectedIndex())
+						.getBoxes().get(cbxBox.getSelectedIndex());
+				if (bx.getSparePart() != null) {
+					// If box is not empty, display error.
+					ErrorDialog errorDialog = new ErrorDialog("Error!");
+					errorDialog
+							.showMessage("This box is not empty. Please select empty box.");
+					return;
+				} else {
+					if (sparePart == null) {
+						service.addSparePart(new SparePart(amount, number, bx));
+					}
+				}
+
+				// new Spare part is created.
+
+				closedByCreate = true;
+				CreateSpartPart_Dialog.this.setVisible(false);
+			}
+			if (e.getSource() == btnCancel) {
+				CreateSpartPart_Dialog.this.setVisible(false);
+			}
+			if (e.getSource() == cbxDrawer) {
+				fillCbxBox();
+			}
+		}
+	}
 }
