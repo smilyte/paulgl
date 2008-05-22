@@ -585,6 +585,19 @@ public class Service {
 		}
 	}
 
+	public String getDowntime(GregorianCalendar startDate,GregorianCalendar endDate) {
+		long time; 
+		time = endDate.getTimeInMillis() - startDate.getTimeInMillis();  //Gets the difference between the dates
+		long days = time/(1000*60*60*24);                  //Converts the difference to days
+		long hours = (time%(1000*60*60*24))/(1000*60*60);  //Converts the difference to hours
+		long minutes = ((time%(1000*60*60*24))%(1000*60*60))/(1000*60); //Converts the difference to minutes
+		if (days == 0 && hours == 0 && minutes == 0) return "None."; //Filter 1: If the difference is equal to 0 program return "None"
+		else if (days == 0 && hours == 0) return minutes+"minutes."; //Filter 2: If days and hours are equal to 0 than return "minutes"
+		else if (days == 0) return hours+" hours, "+minutes+"minutes.";//Filter 3: If days are equal to 0 than return "hours" and "minutes"
+		else return days+" days, "+hours+" hours, "+minutes+"minutes.";//Filter 4: If all atributes has value return "days", "hours" and "minutes"
+	}
+	
+
 	// /**
 	// * We start by comparing the number with the middle element in the list
 	// * whose low index is 0 and high index is list.size()-1. If number <
@@ -619,6 +632,7 @@ public class Service {
 	// return low - 1; // No return.
 	// } // end of the search method.
 
+>>>>>>> .r183
 	/**
 	 * Dynamic search for spare parts. Search returns all spare parts from the
 	 * list, that have a number starting with given text.
