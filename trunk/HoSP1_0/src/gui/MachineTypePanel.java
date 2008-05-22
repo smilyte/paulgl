@@ -1,8 +1,16 @@
 package gui;
 
+import gui.Dialog.ErrorDialog;
+import gui.Dialog.MachineType_Dialog;
+
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -11,6 +19,11 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
+
+import model.Machine;
+import model.MachineType;
+
+import service.Service;
 
 public class MachineTypePanel extends JPanel {
 
@@ -27,9 +40,11 @@ public class MachineTypePanel extends JPanel {
 	private JScrollPane scrollPaneMachines;
 	private JButton btnDelete;
 	private JButton btnUpdate;
-	private JButton btnCreateNew;
+	private JButton btnCreate;
 	private JScrollPane scrollPaneSparePart;
 	private JComboBox cbxMachineType;
+	
+	private Controller controller = new Controller();
 	/**
 	 * Create the panel
 	 */
@@ -39,21 +54,24 @@ public class MachineTypePanel extends JPanel {
 	}
 
 	public void createComponents(){
-		btnCreateNew = new JButton();
-		btnCreateNew.setMargin(new Insets(2, 4, 2, 4));
-		btnCreateNew.setBounds(26, 130, 93, 23);
-		btnCreateNew.setText("Create new...");
-		this.add(btnCreateNew);
+		btnCreate = new JButton();
+		btnCreate.setMargin(new Insets(2, 4, 2, 4));
+		btnCreate.setBounds(26, 130, 93, 23);
+		btnCreate.setText("Create new...");
+		btnCreate.addActionListener(controller);
+		this.add(btnCreate);
 
 		btnUpdate = new JButton();
 		btnUpdate.setMargin(new Insets(2, 4, 2, 4));
 		btnUpdate.setText("Update...");
 		btnUpdate.setBounds(26, 174, 93, 23);
+		btnUpdate.addActionListener(controller);
 		this.add(btnUpdate);
 
 		btnDelete = new JButton();
 		btnDelete.setText("Delete");
 		btnDelete.setBounds(26, 223, 93, 23);
+		btnDelete.addActionListener(controller);
 		this.add(btnDelete);
 
 		scrollPaneMachines = new JScrollPane();
@@ -121,6 +139,129 @@ public class MachineTypePanel extends JPanel {
 		lblChooseMachineType.setBounds(26, 30, 168, 14);
 		this.add(lblChooseMachineType);
 	}
+	
+	private class Controller implements ActionListener {
 
+		// .............GETTING INSTANCE..................//
+		private Service service = Service.getInstance();
+
+		// ...............................................//
+
+	/**
+	 * Method which fills JList with Machines
+	 */
+	public void fillLstMachines(MachineType machineType) {
+		List<Machine> listMachines = new ArrayList<Machine>();
+		if (machineType != null)
+			lstMachine.setListData(machineType.getMachines().toArray());
+		else {
+			for (MachineType mType : service.getMachineTypes()) {
+				for (Machine machine : mType.getMachines()) {
+					listMachines.add(machine);
+				}
+			}
+			lstMachine.setListData(listMachines.toArray());
+		}
+	}
+
+	/**
+	 * Method which fills cbxMachineType with Machine Type list
+	 */
+	public void fillCbxMachineType() {
+		DefaultComboBoxModel cbxModel = new DefaultComboBoxModel(service
+				.getMachineTypes().toArray());
+		cbxMachineType.setModel(cbxModel);
+	}
+	
+	/**
+	 * Clears JList and calls method to fill the list of Machines
+	 */
+	public void updateView() {
+		int id = cbxMachineType.getSelectedIndex() - 1;
+
+		/** ..............REMOVE DATA FROM JLIST START............... * */
+		lstMachine.setModel(new DefaultListModel());
+		DefaultListModel model = (DefaultListModel) lstMachine.getModel();
+		model.clear();
+		/** ..............REMOVE DATA FROM JLIST END................. * */
+
+		if (id >= 0) {
+			MachineType machineType = (MachineType) cbxMachineType
+					.getSelectedItem();
+			fillLstMachines(machineType);
+		} else
+			fillLstMachines(null);
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		if (e.getSource() == btnCreate) {
+			MachineType_Dialog machineTypeDialog = new MachineType_Dialog(
+					MachineTypePanel.this, "Create Machine Type");
+
+			MachineType machineType = new MachineType("");
+			machineTypeDialog.setMachineType(machineType);
+
+			machineTypeDialog.setVisible(true);
+
+			// waiting for modal dialog to close
+
+			if (machineTypeDialog.isOKed()) {
+				service.addMachineType(machineType);
+				updateView();
+			}
+			// release MS Windows resources
+			machineTypeDialog.dispose(); 
+		}
+		if (e.getSource() == btnUpdate) {
+			MachineType machineType;
+			try {
+				machineType = (MachineType) cbxMachineType.getSelectedItem();
+			} catch (Exception ex) {
+				// Show error message
+				ErrorDialog errorDialog = new ErrorDialog("Error");
+				errorDialog.showMessage("You have to select a machine type first.");
+				return;
+			}
+				MachineType_Dialog machineTypeDialog = new MachineType_Dialog(
+						MachineTypePanel.this, "Update Machine Type");
+
+				machineTypeDialog.setMachineType(machineType);
+				machineTypeDialog.setVisible(true);
+
+				// waiting for modal dialog to close
+
+				if (machineTypeDialog.isOKed()) {
+					updateView();
+				}
+				// release MS Windows resources
+				machineTypeDialog.dispose(); 
+				
+			}
+	
+	
+
+		if (e.getSource() == btnDelete) {
+			MachineType machineType = (MachineType) cbxMachineType.getSelectedItem();
+			if (machineType != null) {
+				service.removeMachineType(machineType);
+				updateView();
+			} else {
+				// Show error message
+				ErrorDialog errorDialog = new ErrorDialog("Error");
+				errorDialog
+						.showMessage("You have to select a machine type first.");
+
+				return;
+			}
+
+		}
+		if (e.getSource() == cbxMachineType) {
+			updateView();
+		}
+		
+	}
+	}
+	
 }
 
