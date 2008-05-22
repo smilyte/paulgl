@@ -170,7 +170,7 @@ public class MachinePanel extends JPanel {
 				Machine machine = (Machine) lstMachine.getSelectedValue();
 				if (machine != null) {
 					Machine_Dialog createMachineDialog = new Machine_Dialog(
-							MachinePanel.this, "Create Machine");
+							MachinePanel.this, "Update Machine");
 
 					createMachineDialog.setMachine(machine);
 					createMachineDialog.setVisible(true);
