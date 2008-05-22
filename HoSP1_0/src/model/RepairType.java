@@ -7,8 +7,7 @@ public class RepairType {
 	
 	private String name;
 	
-	// link to [MachineTyep] Class(0..* --> 1)
-	private MachineType machineType;
+	//TODO Link to Type Usage --> 0..*
 	
 	/**
 	 * Constructor of Repair Type 
@@ -17,7 +16,7 @@ public class RepairType {
 	 */
 	public RepairType(String name,MachineType machineType) {
 		this.name = name;
-		this.machineType = machineType;
+		machineType.addRepairType(this);
 	}
 
 	/**
@@ -34,21 +33,7 @@ public class RepairType {
 		this.name = name;
 	}
 
-	/**
-	 * @return the machineType
-	 */
-	public MachineType getMachineType() {
-		return machineType;
-	}
-
-	/**
-	 * @param machineType the machineType to set
-	 */
-	public void setMachineType(MachineType machineType) {
-		this.machineType = machineType;
-	}
-
 	public String toString(){
-	return name+"MachineType"+machineType;	
+	return name;	
 	}
 }
