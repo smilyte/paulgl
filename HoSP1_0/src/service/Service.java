@@ -108,7 +108,6 @@ public class Service {
 		// repairs
 		// TODO Write method for: calculation(history) of last 12 months (year)
 		// repairs
-		// TODO Search for spare parts using 7 digit number.... :)
 	}
 
 	/**
@@ -623,6 +622,7 @@ public class Service {
 	/**
 	 * Dynamic search for spare parts. Search returns all spare parts from the
 	 * list, that have a number starting with given text.
+	 * 
 	 * @param number
 	 *            number of spare part we are looking for.
 	 */
@@ -638,5 +638,23 @@ public class Service {
 				returnList.add(sparePart);
 		}
 		return returnList;
+	}
+
+	/**
+	 * getMonthlyPartUsage()
+	 */
+	public int[] getMonthlyPartUsage(SparePart sparePart) {
+		int[] usage = new int[12];
+		GregorianCalendar date = sparePart.getPartsUsage().get(sparePart.getPartsUsage().size()-1).getDate();
+
+		for (int i = sparePart.getPartsUsage().size()-1; i > 0; i--) {
+			PartUsage currentUsage = sparePart.getPartsUsage().get(i);
+			if(date.MONTH - currentUsage.getDate().MONTH <= 12){
+				int k = date.MONTH - currentUsage.getDate().MONTH;
+				usage[k] += currentUsage.getAmount();
+			}
+		}
+
+		return usage;
 	}
 }
