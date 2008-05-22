@@ -6,16 +6,16 @@ import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.List;
 
-
 import dao.*;
 import daoDB.DB4OManager;
 import model.*;
 
 public class Service {
-	private static GregorianCalendar stDate1, eDate1, stDate2, eDate2, stDate3, eDate3, stDate4, eDate4;
+	private static GregorianCalendar stDate1, eDate1, stDate2, eDate2, stDate3,
+			eDate3, stDate4, eDate4;
 	private static MachineType mt1, mt2, mt3;
 	private static Repair r1, r2, r3, r4;
-	
+
 	private static Service instance;
 
 	// Gets the one and only instance of the Repair DAO class.
@@ -26,7 +26,7 @@ public class Service {
 
 	// Gets the one and only instance of the RepairTypeDAO class.
 	private RepairTypeDAO repairTypeDao = RepairTypeDAO.getInstance();
-	
+
 	// Gets the one and only instance of the DrawerDAO class.
 	private DrawerDAO drawerDAO = DrawerDAO.getInstance();
 
@@ -36,7 +36,7 @@ public class Service {
 	public Service() {
 		startUp();
 	}
-	
+
 	/**
 	 * @return the instance
 	 */
@@ -45,7 +45,7 @@ public class Service {
 			instance = new Service();
 		return instance;
 	}
-	
+
 	/**
 	 * Closes the db4o database.
 	 */
@@ -58,27 +58,27 @@ public class Service {
 		mt1 = new MachineType("MT Turbo 1");
 		mt2 = new MachineType("MT Rocket 2");
 		mt3 = new MachineType("MT Jazz 3");
-		
+
 		addMachineType(mt1);
 		addMachineType(mt2);
 		addMachineType(mt3);
-		
+
 		mt3.createMachine(00000, "Music");
 		mt2.createMachine(555555, "Bungle");
 		mt2.createMachine(777777, "Cungle");
 		mt2.createMachine(22222, "Turtle");
 		mt1.createMachine(11111, "Rabit");
 		mt1.createMachine(666666, "Dungle");
-		
+
 		stDate1 = new GregorianCalendar(2008, 02, 13, 5, 25);
 		eDate1 = new GregorianCalendar(2008, 04, 14, 10, 03);
-		
+
 		stDate2 = new GregorianCalendar(2008, 04, 15, 5, 25);
 		eDate2 = new GregorianCalendar(2008, 04, 15, 12, 18);
-		
+
 		stDate3 = new GregorianCalendar(2008, 04, 16, 5, 25);
 		eDate3 = new GregorianCalendar(2008, 04, 19, 10, 03);
-		
+
 		stDate4 = new GregorianCalendar(2008, 04, 16, 5, 25);
 		eDate4 = new GregorianCalendar(2008, 04, 16, 9, 03);
 
@@ -86,18 +86,22 @@ public class Service {
 		r2 = new Repair(2, stDate2, eDate2, mt1.getMachines().get(1));
 		r3 = new Repair(3, stDate3, eDate3, mt2.getMachines().get(1));
 		r4 = new Repair(4, stDate4, eDate4, mt2.getMachines().get(2));
-		
+
 		addRepair(r1);
 		addRepair(r2);
 		addRepair(r3);
 		addRepair(r4);
-		
-		//data for spareparts
-		addSparePart(new SparePart(10, 1111111, getDrawers().get(0).getBoxes().get(1)));
-		addSparePart(new SparePart(20, 3333333, getDrawers().get(0).getBoxes().get(0)));
-		addSparePart(new SparePart(5, 5555555, getDrawers().get(1).getBoxes().get(1)));
-		addSparePart(new SparePart(100, 7777777, getDrawers().get(1).getBoxes().get(2)));
-		
+
+		// data for spareparts
+		addSparePart(new SparePart(10, 1111111, getDrawers().get(0).getBoxes()
+				.get(1)));
+		addSparePart(new SparePart(20, 3333333, getDrawers().get(0).getBoxes()
+				.get(0)));
+		addSparePart(new SparePart(5, 5555555, getDrawers().get(1).getBoxes()
+				.get(1)));
+		addSparePart(new SparePart(100, 7777777, getDrawers().get(1).getBoxes()
+				.get(2)));
+
 		// TODO Write method for: calculation(history) of last 7 days (week)
 		// repairs
 		// TODO Write method for: calculation(history) of last 30 days (month)
@@ -213,45 +217,53 @@ public class Service {
 	 */
 
 	@SuppressWarnings("static-access")
-	public int[] getMachineMonthlyDowntime2(Machine machine){
+	public int[] getMachineMonthlyDowntime2(Machine machine) {
 		// This variable is representing whole year. It will store numbers of
 		// days machine was broke down in each month.
 		int[] monthlyDown = new int[12];
-		
+
 		long daysMachineWasDown;
-		
+
 		// We use 'for each' to go through all list of repairs
-		for (Repair repair: getRepairs()){
-			
+		for (Repair repair : getRepairs()) {
+
 			GregorianCalendar firstDate = repair.getStartDate();
-			
+
 			if (repair.getMachine().equals(machine)) {
-				
-				long timeMachineWasDown = repair.getEndDate().getTimeInMillis() - repair.getStartDate().getTimeInMillis();
-				daysMachineWasDown = (timeMachineWasDown/(1000*60*60)) / 24;
-				
-				while(daysMachineWasDown > 0){
-				
-					if (firstDate.get(GregorianCalendar.MONTH) == repair.getEndDate().get(GregorianCalendar.MONTH)){
-						monthlyDown[repair.getStartDate().get(GregorianCalendar.MONTH)] += daysMachineWasDown + 1;
+
+				long timeMachineWasDown = repair.getEndDate().getTimeInMillis()
+						- repair.getStartDate().getTimeInMillis();
+				daysMachineWasDown = (timeMachineWasDown / (1000 * 60 * 60)) / 24;
+
+				while (daysMachineWasDown > 0) {
+
+					if (firstDate.get(GregorianCalendar.MONTH) == repair
+							.getEndDate().get(GregorianCalendar.MONTH)) {
+						monthlyDown[repair.getStartDate().get(
+								GregorianCalendar.MONTH)] += daysMachineWasDown + 1;
 						daysMachineWasDown = 0;
 					}
-				
-					else{			
+
+					else {
 						int days = 0;
-						days = firstDate.getActualMaximum(firstDate.DAY_OF_MONTH) - firstDate.get(GregorianCalendar.DAY_OF_MONTH) + 1;
-						
+						days = firstDate
+								.getActualMaximum(firstDate.DAY_OF_MONTH)
+								- firstDate.get(GregorianCalendar.DAY_OF_MONTH)
+								+ 1;
+
 						monthlyDown[firstDate.get(GregorianCalendar.MONTH)] += days;
-						
+
 						daysMachineWasDown -= days;
-						
-						firstDate.set(firstDate.get(GregorianCalendar.YEAR), firstDate.get(GregorianCalendar.MONTH) + 1, 01);	
+
+						firstDate.set(firstDate.get(GregorianCalendar.YEAR),
+								firstDate.get(GregorianCalendar.MONTH) + 1, 01);
 					}
 				}
-			}	
+			}
 		}
 		return monthlyDown;
 	}
+
 	@SuppressWarnings("static-access")
 	public int[] getMachineMonthlyDowntime(Machine machine) {
 		// This variable will store number of days. Maximum value will be 31.
@@ -272,23 +284,26 @@ public class Service {
 				// We take Repair's StartDate and assign it to variable 'date'
 				// just to make code shorter.
 				date = repair.getStartDate();
-				
-				System.out.println("lialia: "+date.getActualMaximum(date.DAY_OF_MONTH));
+
+				System.out.println("lialia: "
+						+ date.getActualMaximum(date.DAY_OF_MONTH));
 				// First condition: If repair has been started and finished in
 				// the same month we just get the difference between end date
 				// and start date
-				if (date.get(GregorianCalendar.MONTH) == repair.getEndDate().get(GregorianCalendar.MONTH)) {
+				if (date.get(GregorianCalendar.MONTH) == repair.getEndDate()
+						.get(GregorianCalendar.MONTH)) {
 					// Getting number of days machine was broke down this month
 
-//					downtimeInDays = repair.getEndDate().get(GregorianCalendar.DAY_OF_MONTH)
-//							- date.get(GregorianCalendar.DAY_OF_MONTH);
+					// downtimeInDays =
+					// repair.getEndDate().get(GregorianCalendar.DAY_OF_MONTH)
+					// - date.get(GregorianCalendar.DAY_OF_MONTH);
 					downtimeInDays = repair.getEndDate().getTimeInMillis()
-					- date.getTimeInMillis();
-					downtimeInDays = downtimeInDays/(1000 * 60 * 60);
-					downtimeInDays = downtimeInDays/24;
+							- date.getTimeInMillis();
+					downtimeInDays = downtimeInDays / (1000 * 60 * 60);
+					downtimeInDays = downtimeInDays / 24;
 					// Store number of down time days into array by increasing
 					// the value. Value can't be higher than 31.
-					System.out.println("1d: "+downtimeInDays);
+					System.out.println("1d: " + downtimeInDays);
 					monthlyDown[date.get(GregorianCalendar.MONTH)] += downtimeInDays;
 				} else {
 					// Second condition: If repair has started in one month and
@@ -296,28 +311,32 @@ public class Service {
 					// through all of the months
 					while (!finished) {
 						// If current month is not the same as end date.
-						if (date.get(GregorianCalendar.MONTH) != repair.getEndDate().get(GregorianCalendar.MONTH)) {
+						if (date.get(GregorianCalendar.MONTH) != repair
+								.getEndDate().get(GregorianCalendar.MONTH)) {
 							// We get the difference between maximum number of
 							// days in that month and current day of month
-							downtimeInDays = date.getActualMaximum(date.DAY_OF_MONTH)
+							downtimeInDays = date
+									.getActualMaximum(date.DAY_OF_MONTH)
 									- date.get(GregorianCalendar.DAY_OF_MONTH);
 							// Store number of down time days into array by
 							// increasing the value.
 							// Value can't be higher than 31.
-							System.out.println("2d: "+downtimeInDays);
+							System.out.println("2d: " + downtimeInDays);
 							monthlyDown[date.get(GregorianCalendar.MONTH)] += downtimeInDays;
 							// Changing the current date by going one month
 							// further
-							date.set(date.get(GregorianCalendar.YEAR), date.get(GregorianCalendar.MONTH) + 1, 01);
+							date.set(date.get(GregorianCalendar.YEAR), date
+									.get(GregorianCalendar.MONTH) + 1, 01);
 						} else {
 							// But if current month is the same as end date.
 							// We get the difference between mend date and
 							// current day of month
-							downtimeInDays = repair.getEndDate().get(GregorianCalendar.DAY_OF_MONTH)
+							downtimeInDays = repair.getEndDate().get(
+									GregorianCalendar.DAY_OF_MONTH)
 									- date.get(GregorianCalendar.DAY_OF_MONTH);
 							// --,,--
-							System.out.println("3d: "+downtimeInDays);
-							monthlyDown[date.get(GregorianCalendar.MONTH)] += downtimeInDays+1;
+							System.out.println("3d: " + downtimeInDays);
+							monthlyDown[date.get(GregorianCalendar.MONTH)] += downtimeInDays + 1;
 							// Changing value to finish the loop, because we
 							// went through all months.
 							finished = true;
@@ -351,10 +370,10 @@ public class Service {
 
 			return hours + " hours, " + minutes + "minutes.";
 		// Filter 4: If all attributes have value return "days", "hours" and
-		else 
+		else
 			return days + " days, " + hours + " hours, " + minutes + "minutes.";
-		
-		}
+
+	}
 
 	// *************************************************
 	// --------------REPAIR METHODS START--------------------------------
@@ -382,7 +401,7 @@ public class Service {
 		repair.setEndDate(endDate);
 		repairDao.update(repair);
 	}
-	
+
 	/**
 	 * Returns a list with all repairs.
 	 */
@@ -391,13 +410,13 @@ public class Service {
 	}
 
 	// --------------REPAIR METHODS END--------------------------------
-	
+
 	// -------------- REPAIR TYPE METHODS START -----------------------
 
 	/**
 	 * Creates an object of Repair Type
 	 */
-	public void addRepairType(RepairType repairType){
+	public void addRepairType(RepairType repairType) {
 		repairTypeDao.add(repairType);
 	}
 
@@ -410,7 +429,7 @@ public class Service {
 			repairType.setName(name);
 		if (machineType != null)
 			repairType.setMachineType(machineType);
-		
+
 		repairTypeDao.update(repairType);
 	}
 
@@ -420,13 +439,14 @@ public class Service {
 	public void removeRepairType(RepairType repairType) {
 		repairTypeDao.remove(repairType);
 	}
-	
+
 	/**
 	 * Returns list of repair types
 	 */
 	public List<RepairType> getRepairTypes() {
 		return repairTypeDao.getList();
 	}
+
 	// -------------- REPAIR TYPE METHODS END--------------------------
 
 	// --------------- SPARE PART METHODS START -----------------------
@@ -445,7 +465,7 @@ public class Service {
 		if (number != 0)
 			sparePart.setNumber(number);
 		if (amount > 0)
-			sparePart.setAmount(sparePart.getAmount()+amount);
+			sparePart.setAmount(sparePart.getAmount() + amount);
 		if (drawing != null)
 			sparePart.setDrawing(drawing);
 		if (box != null)
@@ -459,7 +479,6 @@ public class Service {
 	 */
 	public void removeSparePart(SparePart sparePart) {
 		sparePart.getBox().setSp(null);
-		System.out.println(sparePart.getBox());
 		sparePartDao.remove(sparePart);
 	}
 
@@ -472,10 +491,9 @@ public class Service {
 
 	// --------------- SPARE PART METHODS END -------------------------
 
-	
 	// --------------- DRAWER METHODS START -----------------------
-	//No Update Method: We never update the drawer.
-	
+	// No Update Method: We never update the drawer.
+
 	/**
 	 * Creates an object of Drawer
 	 */
@@ -492,12 +510,14 @@ public class Service {
 			if (box.getSparePart() != null)
 				empty = false;
 		}
-		if (empty) drawerDAO.remove(drawer);
-		else{
+		if (empty)
+			drawerDAO.remove(drawer);
+		else {
 			// If number entered is negative, error message appears.
 			ErrorDialog errorDialog = new ErrorDialog("Error!");
 			// Text of the error message:
-			errorDialog.setLblText("This drawer has parts. You cannot remove drawer with parts in it. Please move them first.");
+			errorDialog
+					.setLblText("This drawer has parts. You cannot remove drawer with parts in it. Please move them first.");
 			errorDialog.setVisible(true);
 
 			// Waiting for error dialog to close
@@ -506,18 +526,18 @@ public class Service {
 			return;
 		}
 	}
-	
+
 	/**
 	 * Returns List of drawers
 	 */
 	public List<Drawer> getDrawers() {
 		return drawerDAO.getList();
 	}
-	
-	// --------------- DRAWER METHODS END   -----------------------
-	
+
+	// --------------- DRAWER METHODS END -----------------------
+
 	// --------------- MACHINE TYPE METHODS START -----------------
-	
+
 	/**
 	 * Creates an object of Machine Type
 	 */
@@ -533,7 +553,7 @@ public class Service {
 		if (!name.equals(""))
 			machineType.setName(name);
 		if (drawing != null)
-			machineType.setDrawing(drawing);	
+			machineType.setDrawing(drawing);
 		machineTypeDAO.update(machineType);
 	}
 
@@ -543,14 +563,15 @@ public class Service {
 	public void removeMachineType(MachineType machineType) {
 		machineTypeDAO.remove(machineType);
 	}
-	
+
 	/**
 	 * Returns List of machines
 	 */
 	public List<MachineType> getMachineTypes() {
 		return machineTypeDAO.getList();
 	}
-	// --------------- MACHINE TYPE METHODS END   -----------------
+
+	// --------------- MACHINE TYPE METHODS END -----------------
 
 	/**
 	 * Moves spare part to newBox. Requires box to be empty, newBox != null and
@@ -564,37 +585,61 @@ public class Service {
 			sp.setBox(newBox);
 		}
 	}
-	
+
+	// /**
+	// * We start by comparing the number with the middle element in the list
+	// * whose low index is 0 and high index is list.size()-1. If number <
+	// * list[mid], set the high index to mid-1; if number == list[mid], a match
+	// * is found and return mid; if number > list[mid], set the low index to
+	// * mid+1. Continue the search until low > high or a match is found. If low
+	// >
+	// * high, return –1 – low, where low is the insertion point. Use binary
+	// * search to find the NUMBER in the list
+	// */
+	// public static int binarySearchSp(List<SparePart> list, int number) {
+	// int low = 0;
+	// int high = list.size() - 1;
+	// // look for each sparePart in the list
+	// for (SparePart sparePart : list) {
+	//
+	// while (high >= low) {
+	//
+	// int mid = (low + high) / 2;
+	// // If number < sparePart.getNumber, set the high index to mid-1
+	// if (number < sparePart.getNumber())
+	//
+	// high = mid - 1;
+	// // if number == sparePart.getNumbe match is found and return mid
+	// else if (number == sparePart.getNumber())
+	// // a match is found and return mid
+	// return mid;
+	// else
+	// low = mid + 1;
+	// } // end of while loop.
+	// } // end of for each loop.
+	// return low - 1; // No return.
+	// } // end of the search method.
+
 	/**
-	 * We start by comparing the number with the middle element in the list
-	 * whose low index is 0 and high index is list.size()-1. If number <
-	 * list[mid], set the high index to mid-1; if number == list[mid], a match
-	 * is found and return mid; if number > list[mid], set the low index to
-	 * mid+1. Continue the search until low > high or a match is found. If low >
-	 * high, return –1 – low, where low is the insertion point. Use binary
-	 * search to find the NUMBER in the list
+	 * Dynamic search for spare parts. Search returns all spare parts from the
+	 * list, that have a number starting with given text.
+	 * 
+	 * @param list
+	 *            list of spare parts to look through.
+	 * @param number
+	 *            number of spare part we are looking for.
 	 */
-	public static int binarySearchSp(List<SparePart> list, int number) {
-		int low = 0;
-		int high = list.size() - 1;
-		// look for each sparePart in the list
+	public List<SparePart> searchPart(List<SparePart> list, String number) {
+		// list of spare parts that the method will return.
+		List<SparePart> returnList = new ArrayList<SparePart>();
+		// we go through given list
 		for (SparePart sparePart : list) {
-
-			while (high >= low) {
-
-				int mid = (low + high) / 2;
-				// If number < sparePart.getNumber, set the high index to mid-1
-				if (number < sparePart.getNumber())
-
-					high = mid - 1;
-				// if number == sparePart.getNumbe match is found and return mid
-				else if (number == sparePart.getNumber())
-					// a match is found and return mid
-					return mid;
-				else
-					low = mid + 1;
-			} // end of while loop.
-		} // end of for each loop.
-		return low - 1; // No return.
-	} // end of the search method.
+			String sp = "" + sparePart.getNumber();
+			// if current spare part number starts with given text, we add it to
+			// returnList
+			if (sp.startsWith(number))
+				returnList.add(sparePart);
+		}
+		return returnList;
+	}
 }
