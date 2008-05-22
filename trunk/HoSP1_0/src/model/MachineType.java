@@ -18,6 +18,9 @@ public class MachineType {
 
 	// link to [Machine] class (Aggregation <>--> 0..*)
 	private List<Machine> machines = new ArrayList<Machine>();
+	
+	// link to [RepairTypes] class (--> 0..*)
+	private List<RepairType> repairTypes = new ArrayList<RepairType>();
 
 	/**
 	 * Constructor of Machine type
@@ -43,13 +46,6 @@ public class MachineType {
 		this.name = name;
 	}
 
-	/**
-	 * @return the spareParts
-	 */
-	public List<SparePart> getSpareParts() {
-		return spareParts;
-	}
-
 	// .................Spare Part.......................
 
 	/**
@@ -69,6 +65,40 @@ public class MachineType {
 		if (spareParts.contains(sparePart)) {
 			spareParts.remove(sparePart);
 		}
+	}
+	
+	/**
+	 * @return the spareParts
+	 */
+	public List<SparePart> getSpareParts() {
+		return spareParts;
+	}
+
+	// .................Repair Type  .......................
+
+	/**
+	 * Adds a Repair Type to this Machine Type Requirements: repairType != null
+	 */
+	public void addRepairType(RepairType repairType) {
+		if (!repairTypes.contains(repairType)) {
+			repairTypes.add(repairType);
+		}
+	}
+
+	/**
+	 * Removes a Repair Type from this Machine Type Requirements: repairType !=
+	 * null
+	 */
+	public void removeRepairType(RepairType repairType) {
+		if (repairTypes.contains(repairType)) {
+			repairTypes.remove(repairType);
+		}
+	}
+	/**
+	 * @return the repair types
+	 */
+	public List<RepairType> getRepairTypes() {
+		return repairTypes;
 	}
 
 	// .................Machine..........................
@@ -96,7 +126,7 @@ public class MachineType {
 	public List<Machine> getMachines() {
 		return machines;
 	}
-
+   //................Drawing.........................
 	public void setDrawing(Drawing drawing) {
 		// TODO Auto-generated method stub
 		
