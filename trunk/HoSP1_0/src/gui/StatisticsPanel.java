@@ -4,8 +4,12 @@ import gui.Dialog.ErrorDialog;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.swing.DefaultComboBoxModel;
 
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -13,6 +17,8 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
+
+import model.SparePart;
 
 import service.Service;
 
@@ -67,6 +73,7 @@ public class StatisticsPanel extends JPanel {
 		btnDisplay.setText("Display");
 		btnDisplay.setBounds(282, 9, 106, 26);
 		btnDisplay.setEnabled(false);
+		btnDisplay.addActionListener(controller);
 		this.add(btnDisplay);
 
 		lblStatistics = new JLabel();
@@ -126,15 +133,40 @@ public class StatisticsPanel extends JPanel {
 					errorDialog.showMessage("Please enter 7 digit spare part number.");
 					return;
 				}
-				int[] usage = service.getMonthlyPartUsage(service.searchPart(numberStr).get(0));
-				fillStatisticsList(usage);
+				SparePart sp = service.searchPart(numberStr).get(0);
+				if(sp == null) {
+					// If no such part exists, error message appears.
+					ErrorDialog errorDialog = new ErrorDialog("Error!");
+					errorDialog.showMessage("Part with this number does not exist.");
+					return;
+				}else{
+					int[] usage = new int[12];
+					try {
+						usage = service.getMonthlyPartUsage(sp);
+					} catch (ArrayIndexOutOfBoundsException ex) {
+						// if there's no usage of the part, error message appears.
+						ErrorDialog errorDialog = new ErrorDialog("Error!");
+						errorDialog.showMessage("Part has not been used.");
+						return;
+					}	
+					fillStatisticsList(usage);
+				}
+				
+				
 			}
 
 		}
 
 		private void fillStatisticsList(int[] usage) {
-			
-			
+			/** ..............REMOVE DATA FROM JLIST START............... * */
+			lstStatistics.setModel(new DefaultListModel());
+			DefaultListModel model = (DefaultListModel) lstStatistics.getModel();
+			model.clear();
+			/** ..............REMOVE DATA FROM JLIST END................. * */
+			List<Integer> list = new ArrayList<Integer>();
+			for(int i = 0; i < 12; i++)
+				list.add(usage[i]);
+			lstStatistics.setListData(list.toArray());
 		}
 
 	}
