@@ -92,6 +92,9 @@ public class Service {
 		addRepair(r2);
 		addRepair(r3);
 		addRepair(r4);
+		
+		addDrawer(new Drawer(1, 2));
+		addDrawer(new Drawer(2, 3)); 
 
 		// data for spareparts
 		addSparePart(new SparePart(10, 1111111, getDrawers().get(0).getBoxes()
@@ -105,8 +108,10 @@ public class Service {
 		
 		GregorianCalendar date = new GregorianCalendar(2008, 3, 10);
 		GregorianCalendar date2 = new GregorianCalendar(2007, 11, 5);
+		GregorianCalendar date3 = new GregorianCalendar(2008, 6, 20);
 		PartUsage p1 = new PartUsage(2, date, r1, getSpareParts().get(0));
 		PartUsage p2 = new PartUsage(3, date2, r1, getSpareParts().get(0));
+		PartUsage p3 = new PartUsage(5, date3, r1, getSpareParts().get(0));
 
 		// TODO Write method for: calculation(history) of last 7 days (week)
 		// repairs
