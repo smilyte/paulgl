@@ -632,7 +632,6 @@ public class Service {
 	// return low - 1; // No return.
 	// } // end of the search method.
 
->>>>>>> .r183
 	/**
 	 * Dynamic search for spare parts. Search returns all spare parts from the
 	 * list, that have a number starting with given text.
