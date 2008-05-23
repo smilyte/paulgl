@@ -58,7 +58,7 @@ public class SparePart {
 	/**
 	 * Adds a partUsage to partsUsage List Requires: partUsage != null
 	 */
-	void addPartUsage(PartUsage partUsage) {
+	public void addPartUsage(PartUsage partUsage) {
 		partsUsage.add(partUsage);
 	}
 

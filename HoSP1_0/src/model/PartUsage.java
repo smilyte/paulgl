@@ -39,7 +39,9 @@ public class PartUsage {
 		this.date = date;
 	}
 
-
+	public String toString(){
+		return date.get(GregorianCalendar.YEAR)+"."+date.get(GregorianCalendar.MONTH)+"."+date.get(GregorianCalendar.DAY_OF_MONTH)+" - "+amount;
+	}
 	
 	
 
