@@ -3,6 +3,7 @@ package service;
 import gui.Dialog.ErrorDialog;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 
@@ -101,6 +102,11 @@ public class Service {
 				.get(1)));
 		addSparePart(new SparePart(100, 7777777, getDrawers().get(1).getBoxes()
 				.get(2)));
+		
+		GregorianCalendar date = new GregorianCalendar(2008, 3, 10);
+		GregorianCalendar date2 = new GregorianCalendar(2007, 11, 5);
+		PartUsage p1 = new PartUsage(2, date, r1, getSpareParts().get(0));
+		PartUsage p2 = new PartUsage(3, date2, r1, getSpareParts().get(0));
 
 		// TODO Write method for: calculation(history) of last 7 days (week)
 		// repairs
@@ -598,40 +604,6 @@ public class Service {
 	}
 	
 
-	// /**
-	// * We start by comparing the number with the middle element in the list
-	// * whose low index is 0 and high index is list.size()-1. If number <
-	// * list[mid], set the high index to mid-1; if number == list[mid], a match
-	// * is found and return mid; if number > list[mid], set the low index to
-	// * mid+1. Continue the search until low > high or a match is found. If low
-	// >
-	// * high, return –1 – low, where low is the insertion point. Use binary
-	// * search to find the NUMBER in the list
-	// */
-	// public static int binarySearchSp(List<SparePart> list, int number) {
-	// int low = 0;
-	// int high = list.size() - 1;
-	// // look for each sparePart in the list
-	// for (SparePart sparePart : list) {
-	//
-	// while (high >= low) {
-	//
-	// int mid = (low + high) / 2;
-	// // If number < sparePart.getNumber, set the high index to mid-1
-	// if (number < sparePart.getNumber())
-	//
-	// high = mid - 1;
-	// // if number == sparePart.getNumbe match is found and return mid
-	// else if (number == sparePart.getNumber())
-	// // a match is found and return mid
-	// return mid;
-	// else
-	// low = mid + 1;
-	// } // end of while loop.
-	// } // end of for each loop.
-	// return low - 1; // No return.
-	// } // end of the search method.
-
 	/**
 	 * Dynamic search for spare parts. Search returns all spare parts from the
 	 * list, that have a number starting with given text.
@@ -657,17 +629,46 @@ public class Service {
 	 * getMonthlyPartUsage()
 	 */
 	public int[] getMonthlyPartUsage(SparePart sparePart) {
+		System.out.println(sparePart.getPartsUsage());
 		int[] usage = new int[12];
-		GregorianCalendar date = sparePart.getPartsUsage().get(sparePart.getPartsUsage().size()-1).getDate();
-
-		for (int i = sparePart.getPartsUsage().size()-1; i > 0; i--) {
+		// date of the last usage.
+		GregorianCalendar today = new GregorianCalendar();
+		// einam per visa array
+		for (int i = sparePart.getPartsUsage().size() - 1; i > -1; i--) {
+			// dabartinis usage
 			PartUsage currentUsage = sparePart.getPartsUsage().get(i);
-			if(date.MONTH - currentUsage.getDate().MONTH <= 12){
-				int k = date.MONTH - currentUsage.getDate().MONTH;
-				usage[k] += currentUsage.getAmount();
+			today = new GregorianCalendar();
+			// if we reached year usage which is more than 1 year old, we stop
+			// main cycle.
+			if (today.get(GregorianCalendar.YEAR)
+					- currentUsage.getDate().get(GregorianCalendar.YEAR) > 1) {
+				i = -1;
+			}
+			// if we reached usage which is more than 12 months ago, we stop
+			// main cycle.
+			else if (12 - currentUsage.getDate().get(
+					GregorianCalendar.MONTH
+							+ today.get(GregorianCalendar.MONTH)) > 12) {
+				i = -1;
+			} else {
+				// we look for a place in array, where to put the part
+				// we check all last 12 months and stop when found
+				for (int k = 0; k < 12; k++) {
+					// jeigu dabartinio usage ir siandienos menesiai sutampa
+					if (currentUsage.getDate().get(GregorianCalendar.MONTH) == today
+							.get(GregorianCalendar.MONTH)) {
+						usage[k] += currentUsage.getAmount();
+						k = 12;
+					} else {
+						if (today.get(GregorianCalendar.MONTH) == 0) {
+							today.roll(Calendar.YEAR, false);
+							today.roll(Calendar.MONTH, false);
+						} else
+							today.roll(Calendar.MONTH, false);
+					}
+				}
 			}
 		}
-
 		return usage;
 	}
 }
