@@ -428,13 +428,9 @@ public class Service {
 	/**
 	 * Updates an object of Repair Type
 	 */
-	public void updateRepairType(RepairType repairType, String name,
-			MachineType machineType) {
+	public void updateRepairType(RepairType repairType, String name) {
 		if (!name.equals(""))
 			repairType.setName(name);
-		if (machineType != null)
-			repairType.setMachineType(machineType);
-
 		repairTypeDao.update(repairType);
 	}
 
