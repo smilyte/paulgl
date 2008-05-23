@@ -5,7 +5,10 @@ import gui.Dialog.ErrorDialog;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Formatter;
+import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.Locale;
 
 import javax.swing.DefaultComboBoxModel;
 
@@ -163,9 +166,14 @@ public class StatisticsPanel extends JPanel {
 			DefaultListModel model = (DefaultListModel) lstStatistics.getModel();
 			model.clear();
 			/** ..............REMOVE DATA FROM JLIST END................. * */
-			List<Integer> list = new ArrayList<Integer>();
-			for(int i = 0; i < 12; i++)
-				list.add(usage[i]);
+			List<String> list = new ArrayList<String>();
+			GregorianCalendar today = new GregorianCalendar();
+	
+			for(int i = 0; i < 12; i++){
+				String s = today.getDisplayName(GregorianCalendar.MONTH, GregorianCalendar.LONG, new Locale("dk"));
+				list.add(s +"  -  "+usage[i]);
+				today.roll(GregorianCalendar.MONTH, false);
+			}
 			lstStatistics.setListData(list.toArray());
 		}
 

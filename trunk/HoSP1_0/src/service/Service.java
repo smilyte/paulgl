@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.Locale;
 
 import dao.*;
 import daoDB.DB4OManager;
@@ -108,10 +109,12 @@ public class Service {
 		
 		GregorianCalendar date = new GregorianCalendar(2008, 3, 10);
 		GregorianCalendar date2 = new GregorianCalendar(2007, 11, 5);
-		GregorianCalendar date3 = new GregorianCalendar(2008, 6, 20);
-		PartUsage p1 = new PartUsage(2, date, r1, getSpareParts().get(0));
-		PartUsage p2 = new PartUsage(3, date2, r1, getSpareParts().get(0));
-		PartUsage p3 = new PartUsage(5, date3, r1, getSpareParts().get(0));
+		GregorianCalendar date3 = new GregorianCalendar(2008, 4, 20);
+		
+		
+		PartUsage p3 = new PartUsage(5, date2, r1, getSpareParts().get(0));
+		PartUsage p2 = new PartUsage(3, date, r1, getSpareParts().get(0));
+		PartUsage p1 = new PartUsage(2, date3, r1, getSpareParts().get(0));
 
 		// TODO Write method for: calculation(history) of last 7 days (week)
 		// repairs
@@ -630,7 +633,6 @@ public class Service {
 	 * getMonthlyPartUsage()
 	 */
 	public int[] getMonthlyPartUsage(SparePart sparePart) {
-		System.out.println(sparePart.getPartsUsage());
 		int[] usage = new int[12];
 		// date of the last usage.
 		GregorianCalendar today = new GregorianCalendar();
@@ -651,13 +653,23 @@ public class Service {
 					GregorianCalendar.MONTH
 							+ today.get(GregorianCalendar.MONTH)) > 12) {
 				i = -1;
-			} else {
+			} 
+//			else if (currentUsage.getDate().get(GregorianCalendar.YEAR) > today.get(GregorianCalendar.YEAR) ||
+//					(currentUsage.getDate().get(GregorianCalendar.YEAR) ==  today.get(GregorianCalendar.YEAR) &&
+//							currentUsage.getDate().get(GregorianCalendar.MONTH) ==  today.get(GregorianCalendar.MONTH))){
+//				i = -1;
+//			}
+			
+			else {
 				// we look for a place in array, where to put the part
 				// we check all last 12 months and stop when found
 				for (int k = 0; k < 12; k++) {
+					System.out.println(currentUsage.getDate().get(GregorianCalendar.MONTH)+" - "+ today
+							.get(GregorianCalendar.MONTH));
 					// jeigu dabartinio usage ir siandienos menesiai sutampa
 					if (currentUsage.getDate().get(GregorianCalendar.MONTH) == today
 							.get(GregorianCalendar.MONTH)) {
+						//System.out.println(k);
 						usage[k] += currentUsage.getAmount();
 						k = 12;
 					} else {
