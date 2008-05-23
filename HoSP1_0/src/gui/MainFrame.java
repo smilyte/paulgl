@@ -1,9 +1,14 @@
 package gui;
 
 import java.awt.BorderLayout;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
+
+import service.Service;
 
 public class MainFrame extends JFrame {
 
@@ -24,6 +29,12 @@ public class MainFrame extends JFrame {
 		setBounds(100, 100, 725, 482);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setResizable(false);
+		
+		this.addWindowListener(new WindowAdapter() {
+			public void windowClosing(WindowEvent e){
+				Service.getInstance().closeDb4o();
+			}
+		});
 
 		tabbedPane = new JTabbedPane();
 		getContentPane().add(tabbedPane, BorderLayout.CENTER);
