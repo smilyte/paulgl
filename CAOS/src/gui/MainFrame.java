@@ -5,6 +5,9 @@ import java.awt.Font;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.GregorianCalendar;
+import java.util.List;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
@@ -12,26 +15,36 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
+
+import model.Machine;
+import model.PartUsage;
+import model.Repair;
+import model.SparePart;
 
 import service.Service;
 
 public class MainFrame extends JFrame {
 
 	private JLabel lblAddedSpareParts, lblHospCaos;
-	private JLabel lblEnterEndDate, lblEnterStartDate, lblChooseMachine;	
+	private JLabel lblEnterEndDate, lblEnterStartDate, lblChooseMachine;
 	private JList lstParts;
 	private JScrollPane scrollPane;
-	private JTextField addAmount, txfEndDate, txfStartDate;
+	private JTextField txfAmount, txfEndDate, txfStartDate;
 	private JLabel lblEnterAmount, lblSelectSparePart;
 	private JComboBox cbxSpareParts, cbxMachines;
 	private JButton btnRegisterRepair, btnAdd;
 
+	private int year1, year2, month1, month2, day1, day2, hour1, hour2, min1,
+			min2;
+	private GregorianCalendar startDate, endDate;
 
 	private Controller controller = new Controller();
+
 	/**
 	 * Create the frame
 	 */
@@ -61,7 +74,7 @@ public class MainFrame extends JFrame {
 
 		txfStartDate = new JTextField();
 		txfStartDate.setBorder(new LineBorder(Color.black, 1, false));
-		txfStartDate.setText("2008-05-24");
+		txfStartDate.setText("2008-05-24 12:05");
 		txfStartDate.setBounds(11, 148, 156, 25);
 		getContentPane().add(txfStartDate);
 
@@ -73,7 +86,7 @@ public class MainFrame extends JFrame {
 
 		txfEndDate = new JTextField();
 		txfEndDate.setBorder(new LineBorder(Color.black, 1, false));
-		txfEndDate.setText("2008-06-12");
+		txfEndDate.setText("2008-06-12 15:00");
 		txfEndDate.setBounds(11, 216, 156, 25);
 		getContentPane().add(txfEndDate);
 
@@ -103,9 +116,9 @@ public class MainFrame extends JFrame {
 		lblEnterAmount.setBounds(192, 128, 101, 16);
 		getContentPane().add(lblEnterAmount);
 
-		addAmount = new JTextField();
-		addAmount.setBounds(299, 124, 42, 20);
-		getContentPane().add(addAmount);
+		txfAmount = new JTextField();
+		txfAmount.setBounds(299, 124, 42, 20);
+		getContentPane().add(txfAmount);
 
 		btnAdd = new JButton();
 		btnAdd.setText("Add");
@@ -133,44 +146,143 @@ public class MainFrame extends JFrame {
 		lblAddedSpareParts.setText("Added parts (Amount):");
 		lblAddedSpareParts.setBounds(192, 194, 149, 16);
 		getContentPane().add(lblAddedSpareParts);
+
+		controller.updateView();
 	}
-	
+
 	private class Controller implements ActionListener {
 
 		// .............GETTING INSTANCE..................//
 		private Service service = Service.getInstance();
 		// ...............................................//
-		
-		public void updateView(){
-			
-			DefaultComboBoxModel cbxModel = new DefaultComboBoxModel(service
+		private List<SparePart> addedParts = new ArrayList<SparePart>();
+		private List<Integer> amounts = new ArrayList<Integer>();
+
+		public void updateView() {
+
+			DefaultComboBoxModel cbxModel1 = new DefaultComboBoxModel(service
 					.getMachines().toArray());
-			cbxMachines.setModel(cbxModel);
-			
+			cbxMachines.setModel(cbxModel1);
+
+			DefaultComboBoxModel cbxModel2 = new DefaultComboBoxModel(service
+					.getSpareParts().toArray());
+			cbxSpareParts.setModel(cbxModel2);
+		}
+
+		public void formDates() {
+			String date1 = txfStartDate.getText();
+			String date2 = txfEndDate.getText();
+			try {
+
+				year1 = Integer.parseInt(date1.substring(0, 4));
+				month1 = Integer.parseInt(date1.substring(5, 7));
+				day1 = Integer.parseInt(date1.substring(8, 10));
+				hour1 = Integer.parseInt(date1.substring(11, 13));
+				min1 = Integer.parseInt(date1.substring(14, date1.length()));
+
+				year2 = Integer.parseInt(date2.substring(0, 4));
+				month2 = Integer.parseInt(date2.substring(5, 7));
+				day2 = Integer.parseInt(date2.substring(8, 10));
+				hour2 = Integer.parseInt(date2.substring(11, 13));
+				min2 = Integer.parseInt(date2.substring(14, date1.length()));
+
+				startDate = new GregorianCalendar(year1, month1, day1, hour1,
+						min1);
+				endDate = new GregorianCalendar(year2, month2, day2, hour2,
+						min2);
+
+			} catch (Exception e) {
+//				JOptionPane.showMessageDialog(null,
+//						"<html>Incorrect date format. Format: YYYY-MM-DD HH:MM <html/>",
+//						"Date format error", JOptionPane.INFORMATION_MESSAGE);
+				return;
+			}
 		}
 		
+		public void fillPartsList(){
+			List<String> list = new ArrayList<String>();
+			
+			for (int i = 0; i < addedParts.size(); i++) {
+				
+				list.add(addedParts.get(i).toString()+"-  Amount: " + amounts.get(i).toString());
+				
+			}
+			lstParts.setListData(list.toArray());
+		}
+
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			
-			if (e.getSource() == btnAdd){
-				
-				//TODO Remove Lock  :)
-				
+
+			if (e.getSource() == btnAdd) {
+
+				int amount = 0;
+
+				try {
+					amount = Integer.parseInt(txfAmount.getText());
+				} catch (Exception ex) {
+					JOptionPane.showMessageDialog(null,
+							"You didn't specified the amount.", "Error",
+							JOptionPane.INFORMATION_MESSAGE);
+					return;
+				}
+
+				SparePart sparePart = (SparePart) cbxSpareParts
+						.getSelectedItem();
+				addedParts.add(sparePart);
+				amounts.add(amount);
+	
+				fillPartsList();
+				txfAmount.setText("");
+	
+				// TODO Remove Lock :)
 			}
-			
-			if (e.getSource() == btnRegisterRepair){
+
+			if (e.getSource() == btnRegisterRepair) {
+
+				//Program stops if user didn't add any spare parts to a repair.
+				if (addedParts.size() <=0){
+					JOptionPane.showMessageDialog(null,
+							"You didn't add any spare parts to this repair.",
+							"Error", JOptionPane.INFORMATION_MESSAGE);
+					return;
+				}
+					
+				formDates();
+				Machine machine = (Machine) cbxMachines.getSelectedItem();
+
+				Repair repair = new Repair(service.getRepairs().size() + 1,
+						startDate, endDate, machine);
+
+				SparePart sparePart;
+
+				for (int i = 0; i < addedParts.size(); i++) {
+					sparePart = addedParts.get(i);
+					int amount = amounts.get(i);
+					PartUsage partUsage = new PartUsage(amount, startDate,
+							repair, sparePart);
+					repair.addPartUsage(partUsage);
+				}
+
+				JOptionPane.showMessageDialog(null,
+						"<html>Repair for " + machine
+								+ " has been registered",
+						"Repair Complete", JOptionPane.INFORMATION_MESSAGE);
+
+				//Deleting old data
+				addedParts.clear();
+				amounts.clear();
+				updateView();
+				// TODO Register Repair
 				
-				//TODO Register Repair
-				
+
 			}
-			
-			if (e.getSource() == cbxSpareParts){
-				
-				//TODO Add Lock =]
-				
+
+			if (e.getSource() == cbxSpareParts) {
+
+				// TODO Add Lock =]
+
 			}
 		}
 
-		
 	}
 }

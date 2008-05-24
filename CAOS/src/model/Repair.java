@@ -67,7 +67,7 @@ public class Repair {
 	 * Requires: partUsage != null
 	 * 
 	 */
-	void addPartUsage(PartUsage partUsage) {
+	public void addPartUsage(PartUsage partUsage) {
 		partsUsage.add(partUsage);
 	}
 
