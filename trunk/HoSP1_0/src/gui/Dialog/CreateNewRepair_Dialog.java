@@ -343,6 +343,8 @@ public class CreateNewRepair_Dialog extends JDialog {
 		}
 		
 		public void actionPerformed(ActionEvent e) {
+//			boolean end;
+	
 			if (e.getSource() == btnCreateNewRepairtype) {
 				CreateNewRepairType_Dialog createNRTD = new CreateNewRepairType_Dialog(
 						CreateNewRepair_Dialog.this, "Create Machine");
@@ -354,6 +356,11 @@ public class CreateNewRepair_Dialog extends JDialog {
 				closedByOk = true;
 				CreateNewRepair_Dialog.this.setVisible(false);
 
+			}
+			
+			if  (e.getSource() == btnAdd){
+				 
+				
 			}
 			if (e.getSource() == btnStart) {
 				startDate = new GregorianCalendar();
@@ -381,7 +388,7 @@ public class CreateNewRepair_Dialog extends JDialog {
 				txfEndTime.setText(timeFormatter.format(endDate.getTime()));
 
 				btnEnd.setEnabled(false);
-				// ended=true;
+//				 end=true;
 			}
 			if (e.getSource() == btnCancel) {
 				CreateNewRepair_Dialog.this.setVisible(false);
