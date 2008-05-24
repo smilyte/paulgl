@@ -35,6 +35,6 @@ public class Machine {
 	}
 		
 	public String toString(){
-		return "Number:"+number;
+		return ""+number;
 	}
 }
