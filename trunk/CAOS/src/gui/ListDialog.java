@@ -2,6 +2,7 @@
  * @author Vytas
  * 
  */
+
 package gui;
 
 import java.awt.Color;
@@ -71,6 +72,7 @@ public class ListDialog extends JDialog {
 		
 		public void updateView() {
 			//TODO Fill List with Spare Parts and amount which needs to be ordered.  <<-- From 'ToBeOrdered' Table
+			list.setListData(service.getRepairs().toArray());
 		}
 
 		@Override

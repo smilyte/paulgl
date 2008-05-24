@@ -39,8 +39,4 @@ public class PartUsage {
 		this.date = date;
 	}
 
-
-	
-	
-
 }

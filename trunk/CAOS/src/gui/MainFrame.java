@@ -30,6 +30,7 @@ import service.Service;
 
 public class MainFrame extends JFrame {
 
+	private JButton btnL;
 	private JLabel lblAddedSpareParts, lblHospCaos;
 	private JLabel lblEnterEndDate, lblEnterStartDate, lblChooseMachine;
 	private JList lstParts;
@@ -146,6 +147,16 @@ public class MainFrame extends JFrame {
 		lblAddedSpareParts.setText("Added parts (Amount):");
 		lblAddedSpareParts.setBounds(192, 194, 149, 16);
 		getContentPane().add(lblAddedSpareParts);
+
+		btnL = new JButton();
+		btnL.setBackground(Color.ORANGE);
+		btnL.setForeground(Color.BLACK);
+		btnL.setOpaque(true);
+		btnL.setMargin(new Insets(1, 1, 1, 1));
+		btnL.setText("[L]");
+		btnL.setBounds(306, 10, 35, 31);
+		btnL.addActionListener(controller);
+		getContentPane().add(btnL);
 
 		controller.updateView();
 	}
@@ -268,12 +279,26 @@ public class MainFrame extends JFrame {
 								+ " has been registered",
 						"Repair Complete", JOptionPane.INFORMATION_MESSAGE);
 
+				service.addRepair(repair);
 				//Deleting old data
 				addedParts.clear();
 				amounts.clear();
 				updateView();
+				fillPartsList();
 				// TODO Register Repair
 				
+
+			}
+			if (e.getSource() == btnL) {
+
+				ListDialog listDialog = new ListDialog(
+						MainFrame.this, "View List");
+
+				listDialog.setVisible(true);
+				// waiting for modal dialog to close
+
+				// release MS Windows resources
+				listDialog.dispose(); 
 
 			}
 
