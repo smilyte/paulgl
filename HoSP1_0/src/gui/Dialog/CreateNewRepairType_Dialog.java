@@ -1,8 +1,5 @@
 package gui.Dialog;
 
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
@@ -11,12 +8,12 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 
 import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.JTextField;
-import javax.swing.SwingConstants;
 
 import service.Service;
 
@@ -37,7 +34,9 @@ public class CreateNewRepairType_Dialog extends JDialog {
 		setBounds(100, 100, 235, 416);
 		getContentPane().setLayout(null);
 		setTitle("Create New Repair Type");
-
+		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		this.setModal(true);
+		
 		lbname = new JLabel();
 		lbname.setText("Name:");
 		lbname.setBounds(10, 34, 54, 14);
