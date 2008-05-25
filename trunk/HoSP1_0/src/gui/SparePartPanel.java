@@ -24,6 +24,7 @@ import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.border.LineBorder;
 
+import model.MachineType;
 import model.SparePart;
 
 import service.Service;
@@ -53,11 +54,9 @@ public class SparePartPanel extends JPanel {
 	}
 
 	public void createComponents() {
-		this.cbxMachineType = new JComboBox();
-		this.cbxMachineType.setModel(new DefaultComboBoxModel(new String[] {
-				"All", "Machine type 1", "Machine type 2", "Machine type 3",
-				"Machine type 4", "Machine type 5" }));
-		this.cbxMachineType.setBounds(10, 36, 152, 20);
+		cbxMachineType = new JComboBox();
+		cbxMachineType.setBounds(10, 36, 152, 20);
+		cbxMachineType.addActionListener(controller);
 		this.add(this.cbxMachineType);
 
 		this.scrollPaneSpareParts = new JScrollPane();
@@ -115,11 +114,22 @@ public class SparePartPanel extends JPanel {
 		this.add(lblChooseMachineType);
 
 		controller.fillLstSpareParts();
+		controller.fillCbxMachineType();
 	}
 
 	private class Controller implements ActionListener, KeyListener {
 		private Service service = Service.getInstance();
 
+		/**
+		 * Method which fills cbxMachineType with Machine Type list
+		 */
+		public void fillCbxMachineType() {
+			DefaultComboBoxModel cbxModel = new DefaultComboBoxModel(service
+					.getMachineTypes().toArray());
+			cbxModel.insertElementAt("Choose machine type", 0);
+			cbxMachineType.setModel(cbxModel);
+			cbxMachineType.setSelectedIndex(0);
+		}
 		// Fills spare part list
 		public void fillLstSpareParts() {
 			/** ..............REMOVE DATA FROM JLIST START............... * */
@@ -197,6 +207,16 @@ public class SparePartPanel extends JPanel {
 				}
 				deleteSpartPartDialog.dispose();
 				// release MS Windows resources
+			}
+			if(e.getSource() == cbxMachineType){
+				if(cbxMachineType.getSelectedIndex() > 0){
+					MachineType mT = (MachineType) cbxMachineType.getSelectedItem();
+					fillLstSpareParts(mT.getSpareParts());
+				}
+				else if(cbxMachineType.getSelectedIndex() == 0){
+					fillLstSpareParts();
+				}
+				
 			}
 		}
 
