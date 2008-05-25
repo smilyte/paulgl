@@ -98,7 +98,7 @@ public class RepairPanel extends JPanel {
 		// ...............................................//
 
 		/**
-		 * Updates current repairs JList
+		 * Updates list of currently stopped machines - repairs in progress.
 		 */
 		public void updateCurrentRepairs() { 
 			/** ..............REMOVE DATA FROM JLIST START............... * */
@@ -110,17 +110,20 @@ public class RepairPanel extends JPanel {
 			lstRepairs.setSelectedIndex(0);
 		}
 		
-		
 		public void actionPerformed(ActionEvent e) {
+			// List of actions when "Register Repair" button is pressed
 			if (e.getSource() == btnRegisterRepair) {
-
+				
+				// initiate and open "Create new repair" dialog
 				CreateNewRepair_Dialog createNewRepairDialog = new CreateNewRepair_Dialog(
 						RepairPanel.this, "Create");
 				
 				createNewRepairDialog.setRepairID(service.getRepairs().size()+tempRepairs.size());				
 				createNewRepairDialog.setVisible(true);
 		
+				// waiting for modal dialog to close
 				
+				// if dialog was closed by pressing "create button" following code is executed
 				if (createNewRepairDialog.isCreate()) {
 					try {
 						tempRepairs.add(createNewRepairDialog.getTempRepairData());
@@ -132,38 +135,32 @@ public class RepairPanel extends JPanel {
 					}
 					updateCurrentRepairs();
 				}
-				if(createNewRepairDialog.isSubmit()){
-					
-				}
-				createNewRepairDialog.dispose(); 
+				
 				// release MS Windows resources
-
+				createNewRepairDialog.dispose(); 
 			}
+			// list of actions if "Open repair" button is pressed
 			if (e.getSource() == btnOpenRepair) {
-
+				// opening "create new repair" dialog
 				CreateNewRepair_Dialog createNewRepairDialog = new CreateNewRepair_Dialog(
 						RepairPanel.this, "Create");
-				
+				// setting the new dialog to display selected repair's data
 				Repair r = (Repair) lstRepairs.getSelectedValue();
 				createNewRepairDialog.setTempRepairData(r);
+				// removing from temporary repairs list, as it might be submitted
 				tempRepairs.remove(r);
 				createNewRepairDialog.setVisible(true);
 		
 				
 				if (createNewRepairDialog.isCreate()) {
+					// if dialog was closed by create button, data from dialog is saved into tempRepairs list
 					tempRepairs.add(createNewRepairDialog.getTempRepairData());
 					updateCurrentRepairs();
 				}
-				if(createNewRepairDialog.isSubmit()){
-					
-				}
-				createNewRepairDialog.dispose(); 
+
 				// release MS Windows resources
-
+				createNewRepairDialog.dispose(); 
 			}
-
 		}
-		
 	}
-
 }
