@@ -6,7 +6,10 @@ import java.awt.Color;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
 
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -32,6 +35,8 @@ public class RepairPanel extends JPanel {
 	// l object for inner class Controller
 	private Controller controller = new Controller();
 
+	private List<Repair> tempRepairs = new ArrayList<Repair>();
+	
 	/**
 	 * Create the panel
 	 */
@@ -90,18 +95,38 @@ public class RepairPanel extends JPanel {
 		private Service service = Service.getInstance();
 		// ...............................................//
 
+		/**
+		 * Updates current repairs JList
+		 */
+		public void updateCurrentRepairs() { 
+			/** ..............REMOVE DATA FROM JLIST START............... * */
+			lstRepairs.setModel(new DefaultListModel());
+			DefaultListModel model = (DefaultListModel) lstRepairs.getModel();
+			model.clear();
+			/** ..............REMOVE DATA FROM JLIST END................. * */ 
+			lstRepairs.setListData(tempRepairs.toArray());
+		}
+		
+		
 		public void actionPerformed(ActionEvent e) {
 			if (e.getSource() == btnRegisterRepair) {
 
 				CreateNewRepair_Dialog createNewRepairDialog = new CreateNewRepair_Dialog(
 						RepairPanel.this, "Create");
+				
+				createNewRepairDialog.setRepairID(service.getRepairs().size());				
 				createNewRepairDialog.setVisible(true);
-
-				if (createNewRepairDialog.isOKed()) {
-					// Update view
+		
+				
+				if (createNewRepairDialog.isCreate()) {
+					tempRepairs.add(createNewRepairDialog.getTempRepairData());
+					updateCurrentRepairs();
 				}
-				createNewRepairDialog.dispose(); // release MS Windows
-													// resources
+				if(createNewRepairDialog.isSubmit()){
+					
+				}
+				createNewRepairDialog.dispose(); 
+				// release MS Windows resources
 
 			}
 

@@ -208,12 +208,6 @@ public class SparePartPanel extends JPanel {
 
 		@Override
 		public void keyReleased(KeyEvent e) {
-			if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-				System.out.println("key down was pressed");
-			}
-			if (e.getKeyCode() == KeyEvent.VK_UP) {
-				System.out.println("key up was pressed");
-			}
 			if(e.getSource() == txtSearch){
 				fillLstSpareParts(service.searchPart(txtSearch.getText()));
 			}
