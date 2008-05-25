@@ -132,7 +132,17 @@ public class Repair {
 	}
 
 	public String toString() {
-		return num + ": Started: [" + startDate.getTime() + "] Ended: [" + endDate.getTime()+"]";
+		if(endDate != null)
+			return num + ": Started: [" + startDate.getTime() + "] Ended: [" + endDate.getTime()+"]";
+		else {
+//			String s = num+ ": Started: ["+startDate.get(GregorianCalendar.YEAR)+
+//			"."+startDate.get(GregorianCalendar.MONTH)+"."+startDate.get(GregorianCalendar.DAY_OF_MONTH)+
+//			", "+startDate.get(GregorianCalendar.DAY_OF_WEEK)+", "+startDate.get(GregorianCalendar.HOUR_OF_DAY)+
+//			":"+startDate.get(GregorianCalendar.MINUTE)+"]";
+//			return s;
+			return num + ": Started: [" + startDate.getTime() + "]";
+		}
+			
 	}
 
 }
