@@ -21,7 +21,6 @@ import model.*;
 
 import service.Service;
 
-
 public class Machine_Dialog extends JDialog {
 	private JLabel lblMachineType;
 	private JComboBox cbxMachineTypes;
@@ -76,6 +75,8 @@ public class Machine_Dialog extends JDialog {
 		lblMachineType.setText("Choose machine type:");
 		lblMachineType.setBounds(10, 10, 140, 16);
 		getContentPane().add(lblMachineType);
+
+		controller.updateView();
 	}
 
 	public boolean isOKed() {
@@ -84,7 +85,6 @@ public class Machine_Dialog extends JDialog {
 
 	public void setMachine(Machine machine) {
 		controller.machine = machine;
-		controller.updateView();
 	}
 
 	private class Controller implements ActionListener {
@@ -98,12 +98,13 @@ public class Machine_Dialog extends JDialog {
 		public void fillCbxMachineTypes() {
 			DefaultComboBoxModel cbxModel = new DefaultComboBoxModel(service
 					.getMachineTypes().toArray());
+
 			cbxMachineTypes.setModel(cbxModel);
 			cbxMachineTypes.setSelectedIndex(0);
 		}
 
 		public void updateView() {
-			
+
 			if (machine != null) {
 				txfNumber.setText("" + machine.getSerialNumber());
 				cbxMachineTypes.insertItemAt(machine.getType(), 0);

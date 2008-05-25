@@ -1,3 +1,6 @@
+/**
+ * @author Vytas
+ */
 package gui;
 
 import gui.Dialog.ErrorDialog;
@@ -9,7 +12,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -29,9 +31,9 @@ public class MachinePanel extends JPanel {
 	private JLabel lblMachines;
 	private JLabel lblChooseMachine;
 	private JScrollPane scrollPaneMachine;
-	private JComboBox cbxMachineType;
+	private JComboBox cbxMachineTypes;
 
-	private Controller controller = new Controller();
+	public Controller controller = new Controller();
 
 	/**
 	 * Create the panel
@@ -50,11 +52,10 @@ public class MachinePanel extends JPanel {
 		lstMachine = new JList();
 		scrollPaneMachine.setViewportView(lstMachine);
 
-		cbxMachineType = new JComboBox();
-		// cbxMachineType.setModel(new DefaultComboBoxModel());
-		cbxMachineType.setBounds(10, 42, 152, 20);
-		cbxMachineType.addActionListener(controller);
-		this.add(cbxMachineType);
+		cbxMachineTypes = new JComboBox();
+		cbxMachineTypes.setBounds(10, 42, 152, 20);
+		cbxMachineTypes.addActionListener(controller);
+		this.add(cbxMachineTypes);
 
 		lblChooseMachine = new JLabel();
 		lblChooseMachine.setText("Choose Machine Type:");
@@ -84,10 +85,9 @@ public class MachinePanel extends JPanel {
 		btnDelete.addActionListener(controller);
 		this.add(btnDelete);
 
-		//
+		// Calling methods from Controller class
 		controller.updateView();
-		controller.fillCbxMachineType();
-
+		controller.fillCbxMachineTypes();
 	}
 
 	private class Controller implements ActionListener {
@@ -115,73 +115,87 @@ public class MachinePanel extends JPanel {
 		}
 
 		/**
-		 * Method which fills cbxMachineType1 with Machine Type list
+		 * Method which fills JComboBox with Machine Type list
 		 */
-		public void fillCbxMachineType() {
+		public void fillCbxMachineTypes() {
 			DefaultComboBoxModel cbxModel = new DefaultComboBoxModel(service
 					.getMachineTypes().toArray());
 			cbxModel.insertElementAt("All", 0);
-			cbxMachineType.setModel(cbxModel);
-			cbxMachineType.setSelectedIndex(0);
+			cbxMachineTypes.setModel(cbxModel);
+			cbxMachineTypes.setSelectedIndex(0);
 		}
 
 		/**
-		 * Clears JList and calls method to fill the list of Machines
+		 * Calls method to fill the list of Machines and update combo box of
+		 * machine types
 		 */
 		public void updateView() {
-			int id = cbxMachineType.getSelectedIndex() - 1;
-
-			/** ..............REMOVE DATA FROM JLIST START............... * */
-			lstMachine.setModel(new DefaultListModel());
-			DefaultListModel model = (DefaultListModel) lstMachine.getModel();
-			model.clear();
-			/** ..............REMOVE DATA FROM JLIST END................. * */
+			//Getting selected index
+			int id = cbxMachineTypes.getSelectedIndex() - 1;
 
 			if (id >= 0) {
-				MachineType machineType = (MachineType) cbxMachineType
+				MachineType machineType = (MachineType) cbxMachineTypes
 						.getSelectedItem();
 				fillLstMachines(machineType);
 			} else
 				fillLstMachines(null);
+			fillCbxMachineTypes();
 		}
 
 		public void actionPerformed(ActionEvent e) {
 
+			/*
+			 * If CREATE button is pressed.
+			 */
 			if (e.getSource() == btnCreate) {
+				// Creating new instance of the Dialog
 				Machine_Dialog createMachineDialog = new Machine_Dialog(
 						MachinePanel.this, "Create Machine");
 
-				Machine machine = new Machine(0, "", null);
+				// Creating new instance of Machine
+				Machine machine = new Machine(0, null);
+				// Letting Dialog know about new created machine
 				createMachineDialog.setMachine(machine);
-
+				// Making Dialog window visible
 				createMachineDialog.setVisible(true);
 
-				// waiting for modal dialog to close
+				// Waiting for modal dialog to close
 
+				// When modal dialog is closed by OK, we set serial number to
+				// the machine and update view of the lists
 				if (createMachineDialog.isOKed()) {
-					machine.getType().createMachine(machine.getSerialNumber(),
-							"");
+					machine.getType().createMachine(machine.getSerialNumber());
 					updateView();
 				}
-				// release MS Windows resources
-				createMachineDialog.dispose(); 
+				// Release MS Windows resources
+				createMachineDialog.dispose();
 			}
+			/*
+			 * If UPDATE button is pressed.
+			 */
 			if (e.getSource() == btnUpdate) {
+
+				// Getting an object of selected Machine
 				Machine machine = (Machine) lstMachine.getSelectedValue();
+
 				if (machine != null) {
+					// Creating new instance of the Dialog
 					Machine_Dialog createMachineDialog = new Machine_Dialog(
 							MachinePanel.this, "Update Machine");
-
+					// Letting Dialog know about the machine we want to update
 					createMachineDialog.setMachine(machine);
+					// Making Dialog window visible
 					createMachineDialog.setVisible(true);
 
-					// waiting for modal dialog to close
+					// Waiting for modal dialog to close
 
+					// When modal dialog is closed by OK, we update view of the
+					// lists
 					if (createMachineDialog.isOKed()) {
 						updateView();
 					}
-					// release MS Windows resources
-					createMachineDialog.dispose(); 
+					// Release MS Windows resources
+					createMachineDialog.dispose();
 				} else {
 					// Show error message
 					ErrorDialog errorDialog = new ErrorDialog("Error");
@@ -189,10 +203,16 @@ public class MachinePanel extends JPanel {
 							.showMessage("You have to select a machine first.");
 					return;
 				}
-
 			}
+			/*
+			 * If DELETE button is pressed.
+			 */
 			if (e.getSource() == btnDelete) {
+
+				// Getting an object of selected Machine
 				Machine machine = (Machine) lstMachine.getSelectedValue();
+
+				// If selected machine is not null we update view of the list
 				if (machine != null) {
 					machine.getType().removeMachine(machine);
 					updateView();
@@ -201,12 +221,13 @@ public class MachinePanel extends JPanel {
 					ErrorDialog errorDialog = new ErrorDialog("Error");
 					errorDialog
 							.showMessage("You have to select a machine first.");
-
 					return;
 				}
-
 			}
-			if (e.getSource() == cbxMachineType) {
+			/*
+			 * If MACHINE TYPE in the list was selected.
+			 */
+			if (e.getSource() == cbxMachineTypes) {
 				updateView();
 			}
 		}
