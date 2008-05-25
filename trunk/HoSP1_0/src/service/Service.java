@@ -93,9 +93,9 @@ public class Service {
 		addRepair(r2);
 		addRepair(r3);
 		addRepair(r4);
-		
-		addDrawer(new Drawer(1, 2));
-		addDrawer(new Drawer(2, 3)); 
+
+		addDrawer(new Drawer(1, 5));
+		addDrawer(new Drawer(2, 6));
 
 		// data for spareparts
 		addSparePart(new SparePart(10, 1111111, getDrawers().get(0).getBoxes()
@@ -106,15 +106,31 @@ public class Service {
 				.get(1)));
 		addSparePart(new SparePart(100, 7777777, getDrawers().get(1).getBoxes()
 				.get(2)));
-		
+		addSparePart(new SparePart(50, 1231231, getDrawers().get(0).getBoxes()
+				.get(2)));
+		addSparePart(new SparePart(67, 2211221, getDrawers().get(0).getBoxes()
+				.get(3)));
+		addSparePart(new SparePart(14, 7234212, getDrawers().get(1).getBoxes()
+				.get(0)));
+		addSparePart(new SparePart(45, 5432345, getDrawers().get(1).getBoxes()
+				.get(4)));
+
 		GregorianCalendar date = new GregorianCalendar(2008, 3, 10);
 		GregorianCalendar date2 = new GregorianCalendar(2007, 11, 5);
 		GregorianCalendar date3 = new GregorianCalendar(2008, 4, 20);
-		
-		
+
 		PartUsage p3 = new PartUsage(5, date2, r1, getSpareParts().get(0));
 		PartUsage p2 = new PartUsage(3, date, r1, getSpareParts().get(0));
 		PartUsage p1 = new PartUsage(2, date3, r1, getSpareParts().get(0));
+		
+		mt1.addSparePart(getSpareParts().get(0));
+		mt1.addSparePart(getSpareParts().get(1));
+		mt1.addSparePart(getSpareParts().get(2));
+		mt2.addSparePart(getSpareParts().get(3));
+		mt2.addSparePart(getSpareParts().get(4));
+		mt2.addSparePart(getSpareParts().get(5));
+		mt3.addSparePart(getSpareParts().get(6));
+		mt3.addSparePart(getSpareParts().get(7));
 
 		// TODO Write method for: calculation(history) of last 7 days (week)
 		// repairs
@@ -192,7 +208,6 @@ public class Service {
 	/**
 	 * Returns list with repairs which have been finished repairing in last 24
 	 * hours Requirement: hours <= 24
-	 * 
 	 * 
 	 */
 	public List<Repair> getTodaysRepairs() {
@@ -595,18 +610,51 @@ public class Service {
 		}
 	}
 
-	public String getDowntime(GregorianCalendar startDate,GregorianCalendar endDate) {
-		long time; 
-		time = endDate.getTimeInMillis() - startDate.getTimeInMillis();  //Gets the difference between the dates
-		long days = time/(1000*60*60*24);                  //Converts the difference to days
-		long hours = (time%(1000*60*60*24))/(1000*60*60);  //Converts the difference to hours
-		long minutes = ((time%(1000*60*60*24))%(1000*60*60))/(1000*60); //Converts the difference to minutes
-		if (days == 0 && hours == 0 && minutes == 0) return "None."; //Filter 1: If the difference is equal to 0 program return "None"
-		else if (days == 0 && hours == 0) return minutes+"minutes."; //Filter 2: If days and hours are equal to 0 than return "minutes"
-		else if (days == 0) return hours+" hours, "+minutes+"minutes.";//Filter 3: If days are equal to 0 than return "hours" and "minutes"
-		else return days+" days, "+hours+" hours, "+minutes+"minutes.";//Filter 4: If all atributes has value return "days", "hours" and "minutes"
+	public String getDowntime(GregorianCalendar startDate,
+			GregorianCalendar endDate) {
+		long time;
+		time = endDate.getTimeInMillis() - startDate.getTimeInMillis(); // Gets
+																		// the
+																		// difference
+																		// between
+																		// the
+																		// dates
+		long days = time / (1000 * 60 * 60 * 24); // Converts the difference
+													// to days
+		long hours = (time % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60); // Converts
+																		// the
+																		// difference
+																		// to
+																		// hours
+		long minutes = ((time % (1000 * 60 * 60 * 24)) % (1000 * 60 * 60))
+				/ (1000 * 60); // Converts the difference to minutes
+		if (days == 0 && hours == 0 && minutes == 0)
+			return "None."; // Filter 1: If the difference is equal to 0 program
+							// return "None"
+		else if (days == 0 && hours == 0)
+			return minutes + "minutes."; // Filter 2: If days and hours are
+											// equal to 0 than return "minutes"
+		else if (days == 0)
+			return hours + " hours, " + minutes + "minutes.";// Filter 3: If
+																// days are
+																// equal to 0
+																// than return
+																// "hours" and
+																// "minutes"
+		else
+			return days + " days, " + hours + " hours, " + minutes + "minutes.";// Filter
+																				// 4:
+																				// If
+																				// all
+																				// atributes
+																				// has
+																				// value
+																				// return
+																				// "days",
+																				// "hours"
+																				// and
+																				// "minutes"
 	}
-	
 
 	/**
 	 * Dynamic search for spare parts. Search returns all spare parts from the
@@ -620,6 +668,30 @@ public class Service {
 		List<SparePart> returnList = new ArrayList<SparePart>();
 		// we go through given list
 		for (SparePart sparePart : getSpareParts()) {
+			String sp = "" + sparePart.getNumber();
+			// if current spare part number starts with given text, we add it to
+			// returnList
+			if (sp.startsWith(number))
+				returnList.add(sparePart);
+		}
+		return returnList;
+	}
+
+	/**
+	 * Dynamic search for spare parts, searching only through given list. Search
+	 * returns all spare parts from the list given, that have a number starting
+	 * with given text.
+	 * 
+	 * @param number
+	 *            number of spare part we are looking for.
+	 * @param list
+	 *            list of spare parts you want to look through.
+	 */
+	public List<SparePart> searchPart(List<SparePart> list, String number) {
+		// list of spare parts that the method will return.
+		List<SparePart> returnList = new ArrayList<SparePart>();
+		// we go through given list
+		for (SparePart sparePart : list) {
 			String sp = "" + sparePart.getNumber();
 			// if current spare part number starts with given text, we add it to
 			// returnList
@@ -653,23 +725,27 @@ public class Service {
 					GregorianCalendar.MONTH
 							+ today.get(GregorianCalendar.MONTH)) > 12) {
 				i = -1;
-			} 
-//			else if (currentUsage.getDate().get(GregorianCalendar.YEAR) > today.get(GregorianCalendar.YEAR) ||
-//					(currentUsage.getDate().get(GregorianCalendar.YEAR) ==  today.get(GregorianCalendar.YEAR) &&
-//							currentUsage.getDate().get(GregorianCalendar.MONTH) ==  today.get(GregorianCalendar.MONTH))){
-//				i = -1;
-//			}
-			
+			}
+			// else if (currentUsage.getDate().get(GregorianCalendar.YEAR) >
+			// today.get(GregorianCalendar.YEAR) ||
+			// (currentUsage.getDate().get(GregorianCalendar.YEAR) ==
+			// today.get(GregorianCalendar.YEAR) &&
+			// currentUsage.getDate().get(GregorianCalendar.MONTH) ==
+			// today.get(GregorianCalendar.MONTH))){
+			// i = -1;
+			// }
+
 			else {
 				// we look for a place in array, where to put the part
 				// we check all last 12 months and stop when found
 				for (int k = 0; k < 12; k++) {
-					System.out.println(currentUsage.getDate().get(GregorianCalendar.MONTH)+" - "+ today
-							.get(GregorianCalendar.MONTH));
+					System.out.println(currentUsage.getDate().get(
+							GregorianCalendar.MONTH)
+							+ " - " + today.get(GregorianCalendar.MONTH));
 					// jeigu dabartinio usage ir siandienos menesiai sutampa
 					if (currentUsage.getDate().get(GregorianCalendar.MONTH) == today
 							.get(GregorianCalendar.MONTH)) {
-						//System.out.println(k);
+						// System.out.println(k);
 						usage[k] += currentUsage.getAmount();
 						k = 12;
 					} else {
