@@ -6,9 +6,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
-import java.util.Locale;
 
-import dao.*;
+import daoDB.*;
 import daoDB.DB4OManager;
 import model.*;
 
@@ -726,22 +725,10 @@ public class Service {
 							+ today.get(GregorianCalendar.MONTH)) > 12) {
 				i = -1;
 			}
-			// else if (currentUsage.getDate().get(GregorianCalendar.YEAR) >
-			// today.get(GregorianCalendar.YEAR) ||
-			// (currentUsage.getDate().get(GregorianCalendar.YEAR) ==
-			// today.get(GregorianCalendar.YEAR) &&
-			// currentUsage.getDate().get(GregorianCalendar.MONTH) ==
-			// today.get(GregorianCalendar.MONTH))){
-			// i = -1;
-			// }
-
 			else {
 				// we look for a place in array, where to put the part
 				// we check all last 12 months and stop when found
 				for (int k = 0; k < 12; k++) {
-					System.out.println(currentUsage.getDate().get(
-							GregorianCalendar.MONTH)
-							+ " - " + today.get(GregorianCalendar.MONTH));
 					// jeigu dabartinio usage ir siandienos menesiai sutampa
 					if (currentUsage.getDate().get(GregorianCalendar.MONTH) == today
 							.get(GregorianCalendar.MONTH)) {
