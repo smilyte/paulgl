@@ -1,6 +1,16 @@
+/**
+ * @author Vytas
+ */
 package model;
 
 import java.awt.Image;
+
+/**
+ * PartDrawing class implements Drawing interface.
+ * <p>
+ * <b>Implemented methods: </b> getDrawing(), setDrawing(Image img)
+ * 
+ */
 
 public class PartDrawing implements Drawing {
 

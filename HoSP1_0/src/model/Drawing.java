@@ -1,11 +1,12 @@
-package model;
-
-import java.awt.Image;
 /**
  * Drawing <<interface>> 
  * @author Vytas
  *
  */
+package model;
+
+import java.awt.Image;
+
 public interface Drawing {
 	
 	// Gets Part's or Machine's drawing and returns it as Image type.

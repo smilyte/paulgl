@@ -10,7 +10,8 @@ public class Box {
 	private SparePart sparePart = null;
 
 	/**
-	 * Creates a box
+	 * <b>Constructor</b> Creates new box
+	 * <p>
 	 * 
 	 * @param serialNumber
 	 *            serial number of this box
@@ -45,13 +46,17 @@ public class Box {
 
 	/**
 	 * @param sp
-	 *            the new spare part to this drawer Requires this drawer to be
-	 *            empty.
+	 *            the new spare part to this drawer.
+	 *            <p>
+	 *            Requires: This drawer to be empty.
 	 */
 	public void setSp(SparePart sp) {
 		this.sparePart = sp;
 	}
 
+	/**
+	 * @return Serial number and spare part as a string.
+	 */
 	public String toString() {
 		return serialNumber + " - " + sparePart;
 	}

@@ -1,17 +1,20 @@
-package model;
-
 /**
  * @author Malik
- * 
  */
+package model;
+
 public class TypeUsage {
 	private int amount;
 
 	/**
+	 * <b>Constructor: </b> Creates new type usage
+	 * <p>
+	 * <b>Requires: </b> amount > 0
+	 * <p>
+	 * 
 	 * @param amount
 	 */
 	public TypeUsage(int amount) {
-
 		this.amount = amount;
 	}
 
@@ -30,8 +33,11 @@ public class TypeUsage {
 		this.amount = amount;
 	}
 
+	/**
+	 * @return amount of this type usage as string.
+	 */
 	public String toString() {
-		return amount + "Amount";
+		return "" + amount;
 	}
 
 }
