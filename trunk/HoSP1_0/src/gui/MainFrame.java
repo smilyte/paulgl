@@ -29,9 +29,9 @@ public class MainFrame extends JFrame {
 		setBounds(100, 100, 725, 482);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setResizable(false);
-		
+
 		this.addWindowListener(new WindowAdapter() {
-			public void windowClosing(WindowEvent e){
+			public void windowClosing(WindowEvent e) {
 				Service.getInstance().closeDb4o();
 			}
 		});
