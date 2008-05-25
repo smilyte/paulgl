@@ -454,6 +454,11 @@ public class CreateNewRepair_Dialog extends JDialog {
 					errorDialog.showMessage("Please enter amount of spare part to use");
 					return;
 				}
+				if(sp.getAmount() < amount){
+					ErrorDialog errorDialog = new ErrorDialog("Error!");
+					errorDialog.showMessage("The amount specified is bigger than the amount on stock.");
+					return;
+				}
 				// Adding temp.spare part to the list.
 				display.add(new SparePart(amount, sp.getNumber(), sp.getBox()));
 				updateDisplay();
