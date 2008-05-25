@@ -108,28 +108,10 @@ public class Repair {
 	}
 
 	/**
-	 * Moves a part usage from this repair to an other repair
-	 * <p>
-	 * <b>Requires: </b> repair != null
-	 */
-	public void movePartUsage(PartUsage partUsage, Repair repair) {
-		partUsages.remove(partUsage);
-		repair.addPartUsage(partUsage);
-	}
-
-	/**
 	 * @return the list of all part usages of this repair
 	 */
 	public List<PartUsage> getPartUsages() {
 		return partUsages;
-	}
-
-	/**
-	 * @param partsUsage
-	 *            the partsUsage to set
-	 */
-	public void setPartUsages(List<PartUsage> partUsages) {
-		this.partUsages = partUsages;
 	}
 
 	// .................Part Usage..End..................
