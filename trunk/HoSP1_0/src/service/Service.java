@@ -7,7 +7,7 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 
-import daoDB.*;
+import dao.*;
 import daoDB.DB4OManager;
 import model.*;
 

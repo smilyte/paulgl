@@ -19,9 +19,9 @@ public class DrawerDAO {
 
 	private DrawerDAO() {
 		
-		db.set(new Drawer(1, 2));
-		db.set(new Drawer(2,3));
-		db.commit();
+//		db.set(new Drawer(1, 2));
+//		db.set(new Drawer(2,3));
+//		db.commit();
 	}
 
 	/**
