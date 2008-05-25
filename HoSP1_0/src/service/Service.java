@@ -64,12 +64,12 @@ public class Service {
 		addMachineType(mt2);
 		addMachineType(mt3);
 
-		mt3.createMachine(00000, "Music");
-		mt2.createMachine(555555, "Bungle");
-		mt2.createMachine(777777, "Cungle");
-		mt2.createMachine(22222, "Turtle");
-		mt1.createMachine(11111, "Rabit");
-		mt1.createMachine(666666, "Dungle");
+		mt3.createMachine(242400000);
+		mt2.createMachine(155423455);
+		mt2.createMachine(277423377);
+		mt2.createMachine(822232462);
+		mt1.createMachine(112335611);
+		mt1.createMachine(366544666);
 
 		stDate1 = new GregorianCalendar(2008, 02, 13, 5, 25);
 		eDate1 = new GregorianCalendar(2008, 04, 14, 10, 03);
@@ -161,7 +161,7 @@ public class Service {
 		// We are going through one part's list(history) of all part
 		// usages from the end of the list in order to have newest
 		// records first.
-		for (int i = sparePart.getPartsUsage().size(); i > 0; i--) {
+		for (int i = sparePart.getPartUsages().size(); i > 0; i--) {
 
 			// In this variable we will count number of months we went
 			// through in order to know when we have to stop.
@@ -169,7 +169,7 @@ public class Service {
 
 			// We create the object of PartUsage class and assign value
 			// to it.
-			PartUsage partUsage = sparePart.getPartsUsage().get(i);
+			PartUsage partUsage = sparePart.getPartUsages().get(i);
 
 			// We create variable of GregorianCalendar and assign part
 			// usage date to it.
@@ -249,13 +249,41 @@ public class Service {
 		// days machine was broke down in each month.
 		int[] monthlyDown = new int[12];
 
+		// We use this variable to remember which was the last month we
+		// took to be able to count last 12 months.
+		int lastMonth = -1;
+		
+		// In this variable we will count number of months we went
+		// through in order to know when we have to stop.
+		int calculateMonths = 0;
+		
 		long daysMachineWasDown;
 
-		// We use 'for each' to go through all list of repairs
-		for (Repair repair : getRepairs()) {
 
+		// We use 'for each' to go through all list of repairs from the new ones
+		for (int i = getRepairs().size(); i < 0; i--) {
+
+		// We use 'for each' to go through all list of repairs
+		//for (Repair repair : getRepairs()) {
+
+			//Get the instance of repair
+			Repair repair = getRepairs().get(i);
+			
 			GregorianCalendar firstDate = repair.getStartDate();
 
+			// We create new variable to store repair's month.
+			int month = firstDate.get(GregorianCalendar.MONTH);
+				
+				// If last month we checked is not the same when we increase
+				// value of 'calculateMonths'
+				if (lastMonth != month)
+					calculateMonths++;
+				
+				// If we still didn't went through more than 12 months we
+				// increase that month's value.
+				// (We have to calculate usage based on only last 12 months)
+			if (calculateMonths < 12) {
+			
 			if (repair.getMachine().equals(machine)) {
 
 				long timeMachineWasDown = repair.getEndDate().getTimeInMillis()
@@ -285,8 +313,14 @@ public class Service {
 						firstDate.set(firstDate.get(GregorianCalendar.YEAR),
 								firstDate.get(GregorianCalendar.MONTH) + 1, 01);
 					}
+				
 				}
+
 			}
+			}	
+
+			
+
 		}
 		return monthlyDown;
 	}
@@ -401,8 +435,6 @@ public class Service {
 			return days + " days, " + hours + " hours, " + minutes + "minutes.";
 
 	}
-
-	// *************************************************
 	// --------------REPAIR METHODS START--------------------------------
 
 	/**
@@ -453,6 +485,7 @@ public class Service {
 	public void updateRepairType(RepairType repairType, String name) {
 		if (!name.equals(""))
 			repairType.setName(name);
+
 		repairTypeDao.update(repairType);
 	}
 
@@ -560,7 +593,6 @@ public class Service {
 	// --------------- DRAWER METHODS END -----------------------
 
 	// --------------- MACHINE TYPE METHODS START -----------------
-
 	/**
 	 * Creates an object of Machine Type
 	 */
@@ -708,9 +740,9 @@ public class Service {
 		// date of the last usage.
 		GregorianCalendar today = new GregorianCalendar();
 		// einam per visa array
-		for (int i = sparePart.getPartsUsage().size() - 1; i > -1; i--) {
+		for (int i = sparePart.getPartUsages().size() - 1; i > -1; i--) {
 			// dabartinis usage
-			PartUsage currentUsage = sparePart.getPartsUsage().get(i);
+			PartUsage currentUsage = sparePart.getPartUsages().get(i);
 			today = new GregorianCalendar();
 			// if we reached year usage which is more than 1 year old, we stop
 			// main cycle.
