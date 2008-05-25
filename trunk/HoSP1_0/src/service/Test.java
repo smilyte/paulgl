@@ -42,12 +42,12 @@ public class Test {
 		service.addMachineType(mt2);
 		service.addMachineType(mt3);
 
-		mt3.createMachine(00000, "Music");
-		mt2.createMachine(555555, "Bungle");
-		mt2.createMachine(777777, "Cungle");
-		mt2.createMachine(22222, "Turtle");
-		mt1.createMachine(11111, "Rabit");
-		mt1.createMachine(666666, "Dungle");
+		mt3.createMachine(500000);
+		mt2.createMachine(555555);
+		mt2.createMachine(777777);
+		mt2.createMachine(22222);
+		mt1.createMachine(11111);
+		mt1.createMachine(666666);
 		
 		stDate1 = new GregorianCalendar(2008, 1, 13, 8, 25);
 		eDate1 = new GregorianCalendar(2008, 4, 20, 10, 03);
