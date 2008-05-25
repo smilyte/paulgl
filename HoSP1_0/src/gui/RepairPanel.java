@@ -1,6 +1,7 @@
 package gui;
 
 import gui.Dialog.CreateNewRepair_Dialog;
+import gui.Dialog.ErrorDialog;
 
 import java.awt.Color;
 import java.awt.Insets;
@@ -70,6 +71,7 @@ public class RepairPanel extends JPanel {
 		btnOpenRepair.setMargin(new Insets(2, 4, 2, 4));
 		btnOpenRepair.setText("Open Repair...");
 		btnOpenRepair.setBounds(10, 198, 95, 23);
+		btnOpenRepair.addActionListener(controller);
 		this.add(btnOpenRepair);
 
 		btnRegisterRepair = new JButton();
@@ -105,6 +107,7 @@ public class RepairPanel extends JPanel {
 			model.clear();
 			/** ..............REMOVE DATA FROM JLIST END................. * */ 
 			lstRepairs.setListData(tempRepairs.toArray());
+			lstRepairs.setSelectedIndex(0);
 		}
 		
 		
@@ -114,7 +117,36 @@ public class RepairPanel extends JPanel {
 				CreateNewRepair_Dialog createNewRepairDialog = new CreateNewRepair_Dialog(
 						RepairPanel.this, "Create");
 				
-				createNewRepairDialog.setRepairID(service.getRepairs().size());				
+				createNewRepairDialog.setRepairID(service.getRepairs().size()+tempRepairs.size());				
+				createNewRepairDialog.setVisible(true);
+		
+				
+				if (createNewRepairDialog.isCreate()) {
+					try {
+						tempRepairs.add(createNewRepairDialog.getTempRepairData());
+					} catch (RuntimeException e1) {
+						ErrorDialog errorDialog = new ErrorDialog("Error!");
+						errorDialog
+								.showMessage("The repair was not started so will not be saved");
+						return;
+					}
+					updateCurrentRepairs();
+				}
+				if(createNewRepairDialog.isSubmit()){
+					
+				}
+				createNewRepairDialog.dispose(); 
+				// release MS Windows resources
+
+			}
+			if (e.getSource() == btnOpenRepair) {
+
+				CreateNewRepair_Dialog createNewRepairDialog = new CreateNewRepair_Dialog(
+						RepairPanel.this, "Create");
+				
+				Repair r = (Repair) lstRepairs.getSelectedValue();
+				createNewRepairDialog.setTempRepairData(r);
+				tempRepairs.remove(r);
 				createNewRepairDialog.setVisible(true);
 		
 				
