@@ -45,12 +45,15 @@ public class CreateNewRepair_Dialog extends JDialog {
 			lblStartDate, lblStartTime, lblEndDate, lblEndTime, lblMachine;
 	private JButton btnStart, btnEnd, btnAdd, btnRemove,
 			btnCreateNewRepairtype, btnCreate, btnCancel;
-	
+
 	// l object for inner class Controller
 	private Controller controller = new Controller();
-	
+
+	private Service service = Service.getInstance();
+
 	List<SparePart> usedList = new ArrayList<SparePart>();
 	List<SparePart> display = new ArrayList<SparePart>();
+
 	/**
 	 * Create the dialog
 	 */
@@ -101,13 +104,14 @@ public class CreateNewRepair_Dialog extends JDialog {
 		btnRemove.setBounds(360, 145, 54, 23);
 		getContentPane().add(btnRemove);
 		btnRemove.addActionListener(controller);
-		
+
 		JScrollPane scrollPane_1 = new JScrollPane();
 		scrollPane_1.setBounds(428, 48, 151, 130);
 		getContentPane().add(scrollPane_1);
 
 		lstAddedSparePart = new JList();
-		lstAddedSparePart.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+		lstAddedSparePart
+				.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 		scrollPane_1.setViewportView(lstAddedSparePart);
 
 		// Repair Type Label and the ComboBox to Repair Type
@@ -254,54 +258,78 @@ public class CreateNewRepair_Dialog extends JDialog {
 		btnSubmit = new JButton();
 		btnSubmit.setText("Submit");
 		btnSubmit.setBounds(331, 356, 106, 26);
+		btnSubmit.addActionListener(controller);
 		getContentPane().add(btnSubmit);
 
 		controller.fillCbxMachineType();
 
 	}
-	
+
 	public void setRepairID(int nr) {
 		txfRepairId.setText("" + nr);
-	}	
+	}
 
 	public boolean isCreate() {
 		return controller.closedByCreate;
 	}
+
 	public boolean isSubmit() {
 		return controller.closedBySubmit;
 	}
-	public Repair getTempRepairData(){
+
+	public Repair getTempRepairData() {
 		int nr = Integer.parseInt(txfRepairId.getText());
-		
-		int sdYear = Integer.parseInt(txfStartDate.getText().substring(0, 4));
-		int sdMonth = Integer.parseInt(txfStartDate.getText().substring(5, 6));
-		int sdDay = Integer.parseInt(txfStartDate.getText().substring(7));
-		int sdHour = Integer.parseInt(txfStartTime.getText().substring(0, 2));
-		int sdMinute = Integer.parseInt(txfStartTime.getText().substring(3, 5));
-		
+
+		String date = txfStartDate.getText();
+		String time = txfStartTime.getText();
+		int sdYear = Integer.parseInt(date.substring(0, date.indexOf(".")));
+		int sdMonth = Integer.parseInt(date.substring(date.indexOf(".")+1, date.lastIndexOf(".")));
+		int sdDay = Integer.parseInt(date.substring(date.lastIndexOf(".")+1));
+		int sdHour = Integer.parseInt(time.substring(0, time.indexOf(".")));
+		int sdMinute = Integer.parseInt(time.substring(time.indexOf(".")+1, time.lastIndexOf(".")));
+
 		Machine m = (Machine) cbxMachine.getSelectedItem();
-		Repair r = new Repair(nr, new GregorianCalendar(sdYear, sdMonth-1, sdDay, sdHour, sdMinute), null, m);
+		Repair r = new Repair(nr, new GregorianCalendar(sdYear, sdMonth - 1,
+				sdDay, sdHour, sdMinute), null, m);
 		
 		return r;
 	}
 
-	private class Controller implements ActionListener, ListSelectionListener, KeyListener {
-		private Service service = Service.getInstance();
+	public void setTempRepairData(Repair r) {
+		cbxMachineType.setSelectedItem(r.getMachine().getType());
+		cbxMachine.setSelectedItem(r.getMachine());
+		txfRepairId.setText(r.getNum() + "");
+		btnStart.setEnabled(false);
+		txfStartDate.setText(r.getStartDate().get(GregorianCalendar.YEAR) + "."
+				+ (r.getStartDate().get(GregorianCalendar.MONTH) + 1) + "."
+				+ r.getStartDate().get(GregorianCalendar.DAY_OF_MONTH));
+		txfStartTime.setText(r.getStartDate()
+				.get(GregorianCalendar.HOUR_OF_DAY)
+				+ "."
+				+ r.getStartDate().get(GregorianCalendar.MINUTE)
+				+ "."
+				+ r.getStartDate().get(GregorianCalendar.SECOND));
+
+	}
+
+	private class Controller implements ActionListener, ListSelectionListener,
+			KeyListener {
+
 		private boolean closedByCreate = false;
 		private boolean closedBySubmit = false;
 		private boolean start;
 
 		/**
 		 * Fills SparePart list
-		 */ 
+		 */
 		public void fillLstSparePart() {
 			MachineType mT = (MachineType) cbxMachineType.getSelectedItem();
 			lstSparePart.setListData(mT.getSpareParts().toArray());
 		}
-		
+
 		/**
 		 * Fills SparePart list with list given
-		 */ 
+		 */
 		public void fillLstSparePart(List<SparePart> list) {
 			lstSparePart.setListData(list.toArray());
 		}
@@ -310,15 +338,14 @@ public class CreateNewRepair_Dialog extends JDialog {
 		 * Method which fills cbxRepairTypes with Repair Type list
 		 */
 		public void fillCbxRepairType() {
-			 MachineType mT = (MachineType) cbxMachineType.getSelectedItem();
-			 DefaultComboBoxModel cbxModel = new
-			 DefaultComboBoxModel();
-			 if (!mT.getRepairTypes().isEmpty()){
-				 for(RepairType rt: mT.getRepairTypes()){
-					 cbxModel.addElement(rt);
-				 }
-			 }
-			 cbxRepairType.setModel(cbxModel);
+			MachineType mT = (MachineType) cbxMachineType.getSelectedItem();
+			DefaultComboBoxModel cbxModel = new DefaultComboBoxModel();
+			if (!mT.getRepairTypes().isEmpty()) {
+				for (RepairType rt : mT.getRepairTypes()) {
+					cbxModel.addElement(rt);
+				}
+			}
+			cbxRepairType.setModel(cbxModel);
 			// cbxRepairType.setSelectedIndex(0);
 		}
 
@@ -343,66 +370,48 @@ public class CreateNewRepair_Dialog extends JDialog {
 			cbxMachine.setSelectedIndex(0);
 		}
 
-//		public void prepareSummary() {
-//			lblDowntime.setText("Downtime: "
-//					+ service.getDowntime(startDate, endDate));
-//			btnCreate.setVisible(false);
-//			btnCancel.setText("Close");
-//			btnEnd.setEnabled(false);
-//			txfRepairId.setEditable(false);
-//			txfStartDate.setEnabled(true);
-//			txfStartDate.setEditable(false);
-//			txfStartTime.setEnabled(true);
-//			txfStartTime.setEditable(false);
-//			txfEndDate.setEditable(false);
-//			cbxMachine.setEnabled(false);
-//			cbxRepairType.setEnabled(false);
-//			txfEndTime.setEditable(false);
-//
-//		}
-
 		/**
 		 * 
 		 */
 		public void updateView() {
-			//int id = cbxMachineType.getSelectedIndex() - 1;
+			// int id = cbxMachineType.getSelectedIndex() - 1;
 			controller.fillCbxMachine();
 			controller.fillLstSparePart();
 			controller.fillCbxRepairType();
 			display.clear();
 			updateDisplay();
 		}
-		
+
 		/**
 		 * Updates display JList
 		 */
-		public void updateDisplay() { 
+		public void updateDisplay() {
 			/** ..............REMOVE DATA FROM JLIST START............... * */
 			lstAddedSparePart.setModel(new DefaultListModel());
-			DefaultListModel model = (DefaultListModel) lstAddedSparePart.getModel();
+			DefaultListModel model = (DefaultListModel) lstAddedSparePart
+					.getModel();
 			model.clear();
-			/** ..............REMOVE DATA FROM JLIST END................. * */ 
+			/** ..............REMOVE DATA FROM JLIST END................. * */
 			lstAddedSparePart.setListData(display.toArray());
 		}
-		
+
 		public void actionPerformed(ActionEvent e) {
-//			boolean end;
-	
+			// boolean end;
+
 			if (e.getSource() == btnCreate) {
 
 				closedByCreate = true;
 				CreateNewRepair_Dialog.this.setVisible(false);
 
 			}
-			
-			if  (e.getSource() == btnAdd){
+
+			if (e.getSource() == btnAdd) {
 				SparePart sp = null;
-				if(lstSparePart.getSelectedIndex() == -1){
+				if (lstSparePart.getSelectedIndex() == -1) {
 					ErrorDialog errorDialog = new ErrorDialog("Error!");
 					errorDialog.showMessage("Select part to use.");
 					return;
-				}
-				else{
+				} else {
 					sp = (SparePart) lstSparePart.getSelectedValue();
 				}
 				int amount = -1;
@@ -416,17 +425,16 @@ public class CreateNewRepair_Dialog extends JDialog {
 				display.add(new SparePart(amount, sp.getNumber(), sp.getBox()));
 				updateDisplay();
 			}
-			if  (e.getSource() == btnRemove){
+			if (e.getSource() == btnRemove) {
 				SparePart sp = null;
-				if(lstAddedSparePart.getSelectedIndex() == -1){
+				if (lstAddedSparePart.getSelectedIndex() == -1) {
 					ErrorDialog errorDialog = new ErrorDialog("Error!");
 					errorDialog.showMessage("Select part to remove.");
 					return;
-				}
-				else{
+				} else {
 					sp = (SparePart) lstSparePart.getSelectedValue();
 				}
-				
+
 				display.remove(sp);
 				updateDisplay();
 			}
@@ -456,21 +464,52 @@ public class CreateNewRepair_Dialog extends JDialog {
 				txfEndTime.setText(timeFormatter.format(endDate.getTime()));
 
 				btnEnd.setEnabled(false);
-//				 end=true;
+				// end=true;
 			}
 			if (e.getSource() == btnCancel) {
 				CreateNewRepair_Dialog.this.setVisible(false);
 			}
 			if (e.getSource() == cbxMachineType) {
-			   updateView();
+				updateView();
 			}
-			if(e.getSource() == btnSave){
+			if (e.getSource() == btnSave) {
 				SaveRepairType_Dialog saveRType = new SaveRepairType_Dialog(
 						CreateNewRepair_Dialog.this, "Save repair type");
 				saveRType.setVisible(true);
-				//service.addRepairType(new RepairType())
+				// service.addRepairType(new RepairType())
 				// TODO error handling
-				saveRType.dispose(); //release MS Windows resources
+				saveRType.dispose(); // release MS Windows resources
+			}
+			if (e.getSource() == btnSubmit) {
+				if (display.size() > 0) {
+					String date = txfEndDate.getText();
+					String time = txfEndTime.getText();
+					int edYear = Integer.parseInt(date.substring(0, date.indexOf(".")));
+					int edMonth = Integer.parseInt(date.substring((date.indexOf(".")+1), date.lastIndexOf(".")))-1;
+					int edDay = Integer.parseInt(date.substring(date.lastIndexOf(".")+1));
+					int edHour = Integer.parseInt(time.substring(0, time.indexOf(".")));
+					int edMinute = Integer.parseInt(time.substring(time.indexOf(".")+1, time.lastIndexOf(".")));
+					GregorianCalendar endDate = new GregorianCalendar(edYear,edMonth,edDay,edHour,edMinute);
+					Repair r = getTempRepairData();
+					r.setEndDate(endDate);
+					service.addRepair(r);
+					List<PartUsage> pu = new ArrayList<PartUsage>();
+					for (int i = 0; i < display.size(); i++) {
+						SparePart partUsed = display.get(i);
+						SparePart partInSystem = service.searchPart(partUsed.getNumber()+"").get(0);
+						partInSystem.setAmount(partInSystem.getAmount() - partUsed.getAmount());
+						pu.add(new PartUsage(partUsed.getAmount(), endDate, r, partInSystem));
+						
+					}
+					r.setPartsUsage(pu);
+					controller.closedBySubmit = true;
+					CreateNewRepair_Dialog.this.setVisible(false);
+				}
+				else{
+					ErrorDialog errorDialog = new ErrorDialog("Error!");
+					errorDialog.showMessage("Please specify parts used.");
+					return;
+				}
 			}
 
 		}
@@ -478,28 +517,29 @@ public class CreateNewRepair_Dialog extends JDialog {
 		@Override
 		public void keyPressed(KeyEvent arg0) {
 			// TODO Auto-generated method stub
-			
+
 		}
 
 		@Override
 		public void keyReleased(KeyEvent e) {
-			if(e.getSource() == txfSearch){
+			if (e.getSource() == txfSearch) {
 				MachineType mT = (MachineType) cbxMachineType.getSelectedItem();
-				fillLstSparePart(service.searchPart(mT.getSpareParts(), txfSearch.getText()));
+				fillLstSparePart(service.searchPart(mT.getSpareParts(),
+						txfSearch.getText()));
 			}
-			
+
 		}
 
 		@Override
 		public void keyTyped(KeyEvent arg0) {
 			// TODO Auto-generated method stub
-			
+
 		}
 
 		@Override
 		public void valueChanged(ListSelectionEvent e) {
 			// TODO Auto-generated method stub
-			
+
 		}
 	}
 }
