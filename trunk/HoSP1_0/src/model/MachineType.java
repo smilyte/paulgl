@@ -1,14 +1,13 @@
-package model;
-
-import java.util.ArrayList;
-import java.util.List;
-
-
 /**
  * 
  * @author Vytas
  * 
  */
+package model;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class MachineType {
 
 	private String name;
@@ -18,12 +17,13 @@ public class MachineType {
 
 	// link to [Machine] class (Aggregation <>--> 0..*)
 	private List<Machine> machines = new ArrayList<Machine>();
-	
+
 	// link to [RepairTypes] class (--> 0..*)
 	private List<RepairType> repairTypes = new ArrayList<RepairType>();
 
 	/**
-	 * Constructor of Machine type
+	 * <b>Constructor: </b> Creates new Machine type
+	 * <p>
 	 * 
 	 * @param name
 	 */
@@ -49,7 +49,9 @@ public class MachineType {
 	// .................Spare Part.......................
 
 	/**
-	 * Adds a Spare Part to this Machine Type Requirements: sparePart != null
+	 * Adds a Spare Part to this Machine Type
+	 * <p>
+	 * <b>Requires: </b> sparePart != null
 	 */
 	public void addSparePart(SparePart sparePart) {
 		if (!spareParts.contains(sparePart)) {
@@ -58,15 +60,16 @@ public class MachineType {
 	}
 
 	/**
-	 * Removes a Spare Part from this Machine Type Requirements: sparePart !=
-	 * null
+	 * Removes a Spare Part from this Machine Type
+	 * <p>
+	 * <b>Requires: </b> sparePart != null
 	 */
 	public void removeSparePart(SparePart sparePart) {
 		if (spareParts.contains(sparePart)) {
 			spareParts.remove(sparePart);
 		}
 	}
-	
+
 	/**
 	 * @return the spareParts
 	 */
@@ -74,10 +77,12 @@ public class MachineType {
 		return spareParts;
 	}
 
-	// .................Repair Type  .......................
+	// .................Repair Type..Start.................
 
 	/**
-	 * Adds a Repair Type to this Machine Type Requirements: repairType != null
+	 * Adds a Repair Type to this Machine Type
+	 * <p>
+	 * <b>Requires: </b> repairType != null
 	 */
 	public void addRepairType(RepairType repairType) {
 		if (!repairTypes.contains(repairType)) {
@@ -86,14 +91,16 @@ public class MachineType {
 	}
 
 	/**
-	 * Removes a Repair Type from this Machine Type Requirements: repairType !=
-	 * null
+	 * Removes a Repair Type from this Machine Type
+	 * <p>
+	 * <b>Requires: </b> repairType != null
 	 */
 	public void removeRepairType(RepairType repairType) {
 		if (repairTypes.contains(repairType)) {
 			repairTypes.remove(repairType);
 		}
 	}
+
 	/**
 	 * @return the repair types
 	 */
@@ -101,18 +108,21 @@ public class MachineType {
 		return repairTypes;
 	}
 
-	// .................Machine..........................
+	// .................Repair Type..End...................
+
+	// .................Machine..Start.....................
 
 	/**
 	 * Creates a Machine and adds the machine to this machine type
 	 */
-	public void createMachine(int sNumber, String name) {
-		machines.add(new Machine(sNumber, name, this));
+	public void createMachine(int serialNumber) {
+		machines.add(new Machine(serialNumber, this));
 	}
-	
+
 	/**
-	 * Removes a Machine from this Machine Type Requirements: machine !=
-	 * null
+	 * Removes a Machine from this Machine Type
+	 * <p>
+	 * <b>Requires: </b> machine != null
 	 */
 	public void removeMachine(Machine machine) {
 		if (machines.contains(machine)) {
@@ -126,14 +136,21 @@ public class MachineType {
 	public List<Machine> getMachines() {
 		return machines;
 	}
-   //................Drawing.........................
+
+	// .................Machine..End........................
+
+	// ................Drawing..Start.......................
 	public void setDrawing(Drawing drawing) {
 		// TODO Auto-generated method stub
-		
-	}
-	
-	public String toString(){
-		return name;
+
 	}
 
+	// ................Drawing..End.......................
+
+	/**
+	 * @return name of the machine type as string.
+	 */
+	public String toString() {
+		return name;
+	}
 }

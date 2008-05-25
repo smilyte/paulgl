@@ -1,7 +1,17 @@
+/**
+ * @author Vytas
+ */
 package model;
 
 import java.awt.Image;
 
+/**
+ * MachineDrawing class implements Drawing interface.
+ * <p>
+ * <b>Implemented methods: </b>
+ * getDrawing(), setDrawing(Image img)
+ *
+ */
 public class MachineDrawing implements Drawing {
 	private Image machineDrawing;
 
