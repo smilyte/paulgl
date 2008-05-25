@@ -21,6 +21,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
+import model.MachineType;
+import model.Machine;
 import model.SparePart;
 
 import service.Service;
@@ -96,6 +98,7 @@ public class StatisticsPanel extends JPanel {
 			cbxMachines.setEnabled(true);
 			btnDisplay.setEnabled(false);
 			lblStatistics.setText("Statistics for machine: ");
+			controller.fillCbxMachines();
 		}
 		if (type == "none") {
 			txfSparePart.setEditable(false);
@@ -107,6 +110,15 @@ public class StatisticsPanel extends JPanel {
 
 	private class Controller implements ActionListener {
 		private Service service = Service.getInstance();
+
+		public void fillCbxMachines() {
+			DefaultComboBoxModel cbxModel = new DefaultComboBoxModel();
+			for (MachineType mt : service.getMachineTypes()) {
+				for(Machine m : mt.getMachines())
+					cbxModel.addElement(m);
+			}
+			cbxMachines.setModel(cbxModel);
+		}
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
@@ -123,7 +135,8 @@ public class StatisticsPanel extends JPanel {
 				if (numberStr.length() != 7) {
 					// if nothing is typed in, display error
 					ErrorDialog errorDialog = new ErrorDialog("Error!");
-					errorDialog.showMessage("Please enter 7 digit spare part number.");
+					errorDialog
+							.showMessage("Please enter 7 digit spare part number.");
 					return;
 				}
 				int number = -1;
@@ -133,29 +146,31 @@ public class StatisticsPanel extends JPanel {
 				} catch (NumberFormatException ex) {
 					// If it's not a number, error message appears.
 					ErrorDialog errorDialog = new ErrorDialog("Error!");
-					errorDialog.showMessage("Please enter 7 digit spare part number.");
+					errorDialog
+							.showMessage("Please enter 7 digit spare part number.");
 					return;
 				}
 				SparePart sp = service.searchPart(numberStr).get(0);
-				if(sp == null) {
+				if (sp == null) {
 					// If no such part exists, error message appears.
 					ErrorDialog errorDialog = new ErrorDialog("Error!");
-					errorDialog.showMessage("Part with this number does not exist.");
+					errorDialog
+							.showMessage("Part with this number does not exist.");
 					return;
-				}else{
+				} else {
 					int[] usage = new int[12];
 					try {
 						usage = service.getMonthlyPartUsage(sp);
 					} catch (ArrayIndexOutOfBoundsException ex) {
-						// if there's no usage of the part, error message appears.
+						// if there's no usage of the part, error message
+						// appears.
 						ErrorDialog errorDialog = new ErrorDialog("Error!");
 						errorDialog.showMessage("Part has not been used.");
 						return;
-					}	
+					}
 					fillStatisticsList(usage);
 				}
-				
-				
+
 			}
 
 		}
@@ -163,15 +178,17 @@ public class StatisticsPanel extends JPanel {
 		private void fillStatisticsList(int[] usage) {
 			/** ..............REMOVE DATA FROM JLIST START............... * */
 			lstStatistics.setModel(new DefaultListModel());
-			DefaultListModel model = (DefaultListModel) lstStatistics.getModel();
+			DefaultListModel model = (DefaultListModel) lstStatistics
+					.getModel();
 			model.clear();
 			/** ..............REMOVE DATA FROM JLIST END................. * */
 			List<String> list = new ArrayList<String>();
 			GregorianCalendar today = new GregorianCalendar();
-	
-			for(int i = 0; i < 12; i++){
-				String s = today.getDisplayName(GregorianCalendar.MONTH, GregorianCalendar.LONG, new Locale("dk"));
-				list.add(s +"  -  "+usage[i]);
+
+			for (int i = 0; i < 12; i++) {
+				String s = today.getDisplayName(GregorianCalendar.MONTH,
+						GregorianCalendar.LONG, new Locale("dk"));
+				list.add(s + "  -  " + usage[i]);
 				today.roll(GregorianCalendar.MONTH, false);
 			}
 			lstStatistics.setListData(list.toArray());
