@@ -12,10 +12,7 @@ import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.List;
 
-import javax.swing.ComboBoxEditor;
-import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
@@ -47,10 +44,8 @@ public class CreateNewRepair_Dialog extends JDialog {
 			lblStartDate, lblStartTime, lblEndDate, lblEndTime, lblMachine;
 	private JButton btnStart, btnEnd, btnAdd, btnRemove, btnCreate, btnCancel;
 
-	// l object for inner class Controller
+	// Creating object for inner class - Controller
 	private Controller controller = new Controller();
-
-	private Service service = Service.getInstance();
 
 	// List of spare parts added to current repair
 	List<SparePart> display = new ArrayList<SparePart>();
@@ -256,8 +251,8 @@ public class CreateNewRepair_Dialog extends JDialog {
 		btnSubmit.addActionListener(controller);
 		getContentPane().add(btnSubmit);
 
+		// Calling methods from Controller class
 		controller.fillCbxMachineType();
-
 	}
 
 	/**
@@ -339,8 +334,13 @@ public class CreateNewRepair_Dialog extends JDialog {
 
 	private class Controller implements ActionListener, ListSelectionListener,
 			KeyListener {
+		// .............GETTING INSTANCE..................//
+		private Service service = Service.getInstance();
+
+		// ...............................................//
 
 		private boolean closedByCreate = false;
+		@SuppressWarnings("unused")
 		private boolean start;
 
 		/**
@@ -360,7 +360,7 @@ public class CreateNewRepair_Dialog extends JDialog {
 		}
 
 		/**
-		 * Method which fills cbxRepairTypes with Repair Type list
+		 * Fills cbxRepairTypes with Repair Type list
 		 */
 		public void fillCbxRepairType() {
 			MachineType mT = (MachineType) cbxMachineType.getSelectedItem();
@@ -375,7 +375,7 @@ public class CreateNewRepair_Dialog extends JDialog {
 		}
 
 		/**
-		 * Method which fills cbxMachineType with Machine Type list
+		 * Fills cbxMachineType with Machine Type list
 		 */
 		public void fillCbxMachineType() {
 			DefaultComboBoxModel cbxModel = new DefaultComboBoxModel(service
@@ -385,7 +385,7 @@ public class CreateNewRepair_Dialog extends JDialog {
 		}
 
 		/**
-		 * Method which fills cbxMachine with Machine list
+		 * Fills cbxMachine with Machine list
 		 */
 		public void fillCbxMachine() {
 			MachineType mT = (MachineType) cbxMachineType.getSelectedItem();
@@ -412,24 +412,39 @@ public class CreateNewRepair_Dialog extends JDialog {
 		 * Method updates list of spare parts, added to this repair.
 		 */
 		public void updateDisplay() {
-			/** ..............REMOVE DATA FROM JLIST START............... * */
-			lstAddedSparePart.setModel(new DefaultListModel());
-			DefaultListModel model = (DefaultListModel) lstAddedSparePart
-					.getModel();
-			model.clear();
-			/** ..............REMOVE DATA FROM JLIST END................. * */
+			// /** ..............REMOVE DATA FROM JLIST START............... *
+			// */
+			// lstAddedSparePart.setModel(new DefaultListModel());
+			// DefaultListModel model = (DefaultListModel) lstAddedSparePart
+			// .getModel();
+			// model.clear();
+			// /** ..............REMOVE DATA FROM JLIST END................. *
+			// */
 			lstAddedSparePart.setListData(display.toArray());
 		}
 
+		/*
+		 * List of actions when buttons are pressed. (non-Javadoc)
+		 * 
+		 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+		 */
+		@Override
 		public void actionPerformed(ActionEvent e) {
-			// List of actions when "Create" button is pressed.
+
+			/*
+			 * If CREATE button is pressed.
+			 */
 			if (e.getSource() == btnCreate) {
 				closedByCreate = true;
 				CreateNewRepair_Dialog.this.setVisible(false);
 			}
-			// List of actions when "Add" button is pressed.
+
+			/*
+			 * If ADD button is pressed.
+			 */
 			if (e.getSource() == btnAdd) {
-				// Temporary created spare part, which will be added to the list for this repair.
+				// Temporary created spare part, which will be added to the list
+				// for this repair.
 				SparePart sp = null;
 				if (lstSparePart.getSelectedIndex() == -1) {
 					// If no spare part is selected, show error.
@@ -437,7 +452,8 @@ public class CreateNewRepair_Dialog extends JDialog {
 					errorDialog.showMessage("Select part to use.");
 					return;
 				} else {
-					// Sets data for temporary created spare part from selected one.
+					// Sets data for temporary created spare part from selected
+					// one.
 					sp = (SparePart) lstSparePart.getSelectedValue();
 				}
 				int amount = -1;
@@ -449,39 +465,42 @@ public class CreateNewRepair_Dialog extends JDialog {
 					errorDialog.showMessage("Please enter amount in digits.");
 					return;
 				}
-				if(amount < 1) {
+				if (amount < 1) {
 					ErrorDialog errorDialog = new ErrorDialog("Error!");
-					errorDialog.showMessage("Please enter amount of spare part to use");
+					errorDialog
+							.showMessage("Please enter amount of spare part to use");
 					return;
 				}
-				if(sp.getAmount() < amount){
+				if (sp.getAmount() < amount) {
 					ErrorDialog errorDialog = new ErrorDialog("Error!");
-					errorDialog.showMessage("The amount specified is bigger than the amount on stock.");
+					errorDialog
+							.showMessage("The amount specified is bigger than the amount on stock.");
 					return;
 				}
 				// Adding temp.spare part to the list.
 				display.add(new SparePart(amount, sp.getNumber(), sp.getBox()));
 				updateDisplay();
 			}
-			// List of actions when "Remove" button is pressed
+			/*
+			 * If REMOVE button is pressed.
+			 */
 			if (e.getSource() == btnRemove) {
 				SparePart sp = null;
-				int a = -1;
 				if (lstAddedSparePart.getSelectedIndex() == -1) {
 					// if no part is selected, show error
 					ErrorDialog errorDialog = new ErrorDialog("Error!");
 					errorDialog.showMessage("Select part to remove.");
 					return;
 				} else {
-					//sp = (SparePart) lstSparePart.getSelectedValue();
-					a = lstSparePart.getSelectedIndex()-1;
+					sp = (SparePart) lstSparePart.getSelectedValue();
 				}
 				// Removes spare part from this repair.
-				//display.remove(sp);
-				display.remove(a);
+				display.remove(sp);
 				updateDisplay();
 			}
-			// List of actions when "Start" button is pressed.
+			/*
+			 * If START button is pressed.
+			 */
 			if (e.getSource() == btnStart) {
 				startDate = new GregorianCalendar();
 
@@ -496,7 +515,9 @@ public class CreateNewRepair_Dialog extends JDialog {
 				btnStart.setEnabled(false);
 				start = true;
 			}
-			// List of actions when "End" button is pressed.
+			/*
+			 * If END button is pressed.
+			 */
 			if (e.getSource() == btnEnd) {
 				endDate = new GregorianCalendar();
 
@@ -511,24 +532,34 @@ public class CreateNewRepair_Dialog extends JDialog {
 				btnEnd.setEnabled(false);
 				// end=true;
 			}
-			// List of actions when "Cancel" button is pressed.
+			/*
+			 * If CANCEL button is pressed.
+			 */
 			if (e.getSource() == btnCancel) {
 				CreateNewRepair_Dialog.this.setVisible(false);
 			}
-			// List of actions when machine type is selected.
+			/*
+			 * If MACHINE TYPE in the list is selected.
+			 */
 			if (e.getSource() == cbxMachineType) {
 				updateView();
 			}
-			// List of actions when "Save" button is pressed.
+			/*
+			 * If SAVE button is pressed.
+			 */
 			if (e.getSource() == btnSave) {
 				SaveRepairType_Dialog saveRType = new SaveRepairType_Dialog(
 						CreateNewRepair_Dialog.this, "Save repair type");
 				saveRType.setVisible(true);
 				// service.addRepairType(new RepairType())
 				// TODO error handling
-				saveRType.dispose(); // release MS Windows resources
+
+				// release MS Windows resources
+				saveRType.dispose();
 			}
-			// List of actions when "Submit" button is pressed.
+			/*
+			 * If SUBMIT button is pressed.
+			 */
 			if (e.getSource() == btnSubmit) {
 				// unless no parts added, creating repair.
 				if (display.size() > 0) {
@@ -554,7 +585,8 @@ public class CreateNewRepair_Dialog extends JDialog {
 					r.setEndDate(endDate);
 					// Storing repair
 					service.addRepair(r);
-					// Going through the list of spare parts added to this repair
+					// Going through the list of spare parts added to this
+					// repair
 					for (int i = 0; i < display.size(); i++) {
 						// Getting used spare part
 						SparePart partUsed = display.get(i);
@@ -579,33 +611,38 @@ public class CreateNewRepair_Dialog extends JDialog {
 
 		}
 
+		/*
+		 * List of actions when keys are pressed. (non-Javadoc)
+		 * 
+		 * @see java.awt.event.KeyListener#keyPressed(java.awt.event.KeyEvent)
+		 */
 		@Override
 		public void keyPressed(KeyEvent arg0) {
-			// TODO Auto-generated method stub
+			// not used,but must be implemented.
 
 		}
 
 		@Override
 		public void keyReleased(KeyEvent e) {
-			// List of actions when text is changed in txfSearch
+			/*
+			 * If a key is pressed while SEARCH text field was focused.
+			 */
 			if (e.getSource() == txfSearch) {
 				MachineType mT = (MachineType) cbxMachineType.getSelectedItem();
 				fillLstSparePart(service.searchPart(mT.getSpareParts(),
 						txfSearch.getText()));
 			}
-
 		}
 
 		@Override
 		public void keyTyped(KeyEvent arg0) {
-			// TODO Auto-generated method stub
+			// not used,but must be implemented.
 
 		}
 
 		@Override
 		public void valueChanged(ListSelectionEvent e) {
-			// TODO Auto-generated method stub
-
+			// not used,but must be implemented.
 		}
 	}
 }

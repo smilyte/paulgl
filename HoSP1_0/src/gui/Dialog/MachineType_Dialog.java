@@ -1,3 +1,6 @@
+/**
+ * @author Vytas
+ */
 package gui.Dialog;
 
 import java.awt.event.ActionEvent;
@@ -22,8 +25,10 @@ public class MachineType_Dialog extends JDialog {
 	private JTextField txtDrawing;
 	private JLabel lblName;
 	private JTextField txfName;
-	
+
+	// Creating object for inner class - Controller
 	private Controller controller = new Controller();
+
 	/**
 	 * Create the dialog
 	 */
@@ -83,6 +88,7 @@ public class MachineType_Dialog extends JDialog {
 		controller.machineType = machineType;
 		controller.updateView();
 	}
+
 	@SuppressWarnings("unused")
 	private class Controller implements ActionListener {
 		// .............GETTING INSTANCE..................//
@@ -90,35 +96,53 @@ public class MachineType_Dialog extends JDialog {
 		// ...............................................//
 		private boolean closedByOk = false;
 		private String name;
+
+		// Creating object for model class - Machine Type
 		private MachineType machineType;
 
+		/**
+		 * If dialog window is opened to update: sets name of machine type to
+		 * text field
+		 * <p>
+		 * If dialog window is opened to create: sets text of text field to ""
+		 */
 		public void updateView() {
-			
+
 			if (machineType != null) {
 				txfName.setText("" + machineType.getName());
 			} else {
 				txfName.setText("");
 			}
 		}
-		
-		
-		// This method is called when a button is pressed.
-		public void actionPerformed(ActionEvent e) {
-			if (e.getSource() == btnOk) {
-				
-				String name= txfName.getText();;
 
-			if (name.equals("")){
-				// Show error message
-				ErrorDialog errorDialog = new ErrorDialog("Error!");
-				errorDialog.showMessage("Illegal Serial Number value.");
-				return;
-			}
+		/*
+		 * List of actions when buttons are pressed. (non-Javadoc)
+		 * 
+		 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+		 */
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			/*
+			 * If OK button is pressed.
+			 */
+			if (e.getSource() == btnOk) {
+
+				String name = txfName.getText();
+				;
+
+				if (name.equals("")) {
+					// Show error message
+					ErrorDialog errorDialog = new ErrorDialog("Error!");
+					errorDialog.showMessage("Illegal Serial Number value.");
+					return;
+				}
 				machineType.setName(name);
 				closedByOk = true;
 				MachineType_Dialog.this.setVisible(false);
-
 			}
+			/*
+			 * If CANCEL button is pressed.
+			 */
 			if (e.getSource() == btnCancel) {
 				closedByOk = false;
 				MachineType_Dialog.this.setVisible(false);

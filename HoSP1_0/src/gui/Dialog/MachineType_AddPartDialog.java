@@ -1,10 +1,11 @@
+/**
+ * @author Vytas
+ */
+
 package gui.Dialog;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.swing.JButton;
 
 import javax.swing.JDialog;
@@ -13,10 +14,8 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTextField;
 
 import service.Service;
-import model.Machine;
 import model.MachineType;
 import model.SparePart;
 
@@ -27,8 +26,10 @@ public class MachineType_AddPartDialog extends JDialog {
 	private JButton btnCancel;
 	private JButton btnOk;
 	private JLabel lblSelectPart;
-	
+
+	// Creating object for inner class - Controller
 	private Controller controller = new Controller();
+
 	/**
 	 * Create the dialog
 	 */
@@ -67,51 +68,69 @@ public class MachineType_AddPartDialog extends JDialog {
 		lstSpareParts = new JList();
 		scrollPane.setViewportView(lstSpareParts);
 
+		// Calling methods from Controller class
 		controller.updateView();
 	}
 
 	public boolean isOKed() {
 		return controller.closedByOk;
 	}
-	
+
 	public void setMachineType(MachineType machineType) {
 		controller.machineType = machineType;
 		controller.updateView();
 	}
-	
+
 	@SuppressWarnings("unused")
 	private class Controller implements ActionListener {
 		// .............GETTING INSTANCE..................//
 		private Service service = Service.getInstance();
 		// ...............................................//
 		private boolean closedByOk = false;
+
+		// Creating object for model class - Spare Part
 		private SparePart sparePart;
+
+		// Creating object for model class - Machine Type
 		private MachineType machineType;
 
+		/**
+		 * Updates te list
+		 */
 		public void updateView() {
 			lstSpareParts.setListData(service.getSpareParts().toArray());
-		}		
-		
-		// This method is called when a button is pressed.
+		}
+
+		/*
+		 * List of actions when buttons are pressed. (non-Javadoc)
+		 * 
+		 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+		 */
+		@Override
 		public void actionPerformed(ActionEvent e) {
+
+			/*
+			 * If OK button is pressed.
+			 */
 			if (e.getSource() == btnOk) {
-				
-				if (lstSpareParts.getSelectedIndex() >= 0){
+
+				if (lstSpareParts.getSelectedIndex() >= 0) {
 					sparePart = (SparePart) lstSpareParts.getSelectedValue();
+				} else {
+					// Show error message
+					ErrorDialog errorDialog = new ErrorDialog("Error!");
+					errorDialog.showMessage("You have to select Spare Part.");
+					return;
 				}
-				else
-				{
-				// Show error message
-				ErrorDialog errorDialog = new ErrorDialog("Error!");
-				errorDialog.showMessage("You have to select Spare Part.");
-				return;
-				}
-				
+
 				machineType.addSparePart(sparePart);
 				closedByOk = true;
 				MachineType_AddPartDialog.this.setVisible(false);
 
 			}
+			/*
+			 * If CANCEL button is pressed.
+			 */
 			if (e.getSource() == btnCancel) {
 				closedByOk = false;
 				MachineType_AddPartDialog.this.setVisible(false);

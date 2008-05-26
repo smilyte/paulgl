@@ -107,16 +107,21 @@ public class RepairPanel extends JPanel {
 		 * Updates list of currently stopped machines - repairs in progress.
 		 */
 		public void updateCurrentRepairs() {
-//			/** ..............REMOVE DATA FROM JLIST START............... * */
-//			lstRepairs.setModel(new DefaultListModel());
-//			DefaultListModel model = (DefaultListModel) lstRepairs.getModel();
-//			model.clear();
-//			/** ..............REMOVE DATA FROM JLIST END................. * */
+			// /** ..............REMOVE DATA FROM JLIST START............... *
+			// */
+			// lstRepairs.setModel(new DefaultListModel());
+			// DefaultListModel model = (DefaultListModel)
+			// lstRepairs.getModel();
+			// model.clear();
+			// /** ..............REMOVE DATA FROM JLIST END................. *
+			// */
 			lstRepairs.setListData(tempRepairs.toArray());
 			lstRepairs.setSelectedIndex(0);
 		}
-		/* List of actions when buttons are pressed.
-		 * (non-Javadoc)
+
+		/*
+		 * List of actions when buttons are pressed. (non-Javadoc)
+		 * 
 		 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 		 */
 		public void actionPerformed(ActionEvent e) {
@@ -135,7 +140,6 @@ public class RepairPanel extends JPanel {
 
 				// Waiting for modal dialog to close
 
-				
 				/*
 				 * If Dialog was closed by CREATE button.
 				 */

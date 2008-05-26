@@ -21,6 +21,7 @@ public class ErrorDialog extends JDialog {
 	private JLabel lblQuestion;
 	private JButton btnOK;
 
+	// Creating object for inner class - Controller
 	private Controller controller = new Controller();
 
 	/**
@@ -52,31 +53,45 @@ public class ErrorDialog extends JDialog {
 				"excl3.gif"));
 		label.setBounds(30, 18, 75, 77);
 		getContentPane().add(label);
-
 	}
 
 	/**
 	 * Custom error text.
 	 * 
-	 * @param text text to be displayed in message.
+	 * @param text
+	 *            text to be displayed in message.
 	 */
 	public void setLblText(String text) {
 		lblQuestion.setText("<html><b>" + text + "</b></html>");
 	}
-	
-	public void showMessage(String msg){
+
+	/**
+	 * Shows Option pane dialog with text inside
+	 * 
+	 * @param msg
+	 */
+	public void showMessage(String msg) {
 		// ... error message appears.
 		// Text of the error message:
 		this.setLblText(msg);
 		this.setVisible(true);
 		// Waiting for error dialog to close
 
-		this.dispose(); // release MS Windows resources
+		// release MS Windows resources
+		this.dispose();
 	}
 
 	private class Controller implements ActionListener {
-		// This method is called when a button is pressed.
+		/*
+		 * List of actions when buttons are pressed. (non-Javadoc)
+		 * 
+		 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+		 */
+		@Override
 		public void actionPerformed(ActionEvent e) {
+			/*
+			 * If OK button is pressed.
+			 */
 			if (e.getSource() == btnOK) {
 				ErrorDialog.this.setVisible(false);
 			}

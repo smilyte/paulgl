@@ -1,3 +1,6 @@
+/**
+ * @author Elena
+ */
 package gui.Dialog;
 
 import java.awt.event.ActionEvent;
@@ -35,11 +38,15 @@ public class UpdateSparePart_Dialog extends JDialog {
 	private JLabel lblNewPartsArrived;
 	private JLabel lblCurrent;
 
+	// Creating object for inner class - Controller
 	private Controller controller = new Controller();
-
+	// Creating object for model class - Spare Part
 	private SparePart sparePart = null;
 
+	// .............GETTING INSTANCE..................//
 	private Service service = Service.getInstance();
+
+	// ...............................................//
 
 	/**
 	 * Create the dialog
@@ -116,6 +123,7 @@ public class UpdateSparePart_Dialog extends JDialog {
 		checkBox.addItemListener(controller);
 		getContentPane().add(checkBox);
 
+		// Calling methods from Controller class
 		controller.fillCbxDrawer();
 	}
 
@@ -150,7 +158,7 @@ public class UpdateSparePart_Dialog extends JDialog {
 		private boolean selected = false;
 
 		/**
-		 * Method which fills cbxBox with Box list
+		 * Fills cbxBox with Box list
 		 */
 		public void fillCbxBox() {
 			DefaultComboBoxModel cbxModel = new DefaultComboBoxModel(service
@@ -161,7 +169,7 @@ public class UpdateSparePart_Dialog extends JDialog {
 		}
 
 		/**
-		 * Method which fills cbxDrawer with Drawer list
+		 * Fills cbxDrawer with Drawer list
 		 */
 		public void fillCbxDrawer() {
 			DefaultComboBoxModel cbxModel = new DefaultComboBoxModel(service
@@ -170,8 +178,16 @@ public class UpdateSparePart_Dialog extends JDialog {
 			cbxDrawer.setSelectedIndex(0);
 		}
 
+		/*
+		 * List of actions when buttons are pressed. (non-Javadoc)
+		 * 
+		 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+		 */
+		@Override
 		public void actionPerformed(ActionEvent e) {
-			// List of actions when "Update" button is pressed.
+			/*
+			 * If UPDATE button is pressed.
+			 */
 			if (e.getSource() == btnUpdate) {
 				// checking if data in "amount" field is valid.
 				String amountStr = txfNewAmount.getText().trim();
@@ -225,23 +241,37 @@ public class UpdateSparePart_Dialog extends JDialog {
 				closedByUpdate = true;
 				UpdateSparePart_Dialog.this.setVisible(false);
 			}
+			/*
+			 * If CANCEL button is pressed.
+			 */
 			if (e.getSource() == btnCancel) {
 				UpdateSparePart_Dialog.this.setVisible(false);
 			}
+			/*
+			 * If DRAWER in the list was selected.
+			 */
 			if (e.getSource() == cbxDrawer) {
 				fillCbxBox();
 			}
 		}
 
+		/*
+		 * List of actions when Check Box items state is changed
+		 */
 		@Override
 		public void itemStateChanged(ItemEvent e) {
+			/*
+			 * If CheckBox was CHECHED.
+			 */
 			if (e.getSource() == checkBox) {
 				selected = true;
 			}
+			/*
+			 * If CheckBox was UNCHECHED.
+			 */
 			if (e.getStateChange() == ItemEvent.DESELECTED) {
 				selected = false;
 			}
-
 		}
 	}
 }

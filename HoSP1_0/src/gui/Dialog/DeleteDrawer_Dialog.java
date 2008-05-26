@@ -21,9 +21,11 @@ public class DeleteDrawer_Dialog extends JDialog {
 	private JButton btnNo;
 	private JButton btnYes;
 
-	private Drawer drawer = null;
-
+	// Creating object for inner class - Controller
 	private Controller controller = new Controller();
+
+	// Creating object for moddel class - Drawer
+	private Drawer drawer = null;
 
 	/**
 	 * Create the dialog
@@ -52,12 +54,14 @@ public class DeleteDrawer_Dialog extends JDialog {
 		btnNo.addActionListener(controller);
 
 		lblQuestion = new JLabel();
-		lblQuestion.setText("<html><b>Are you sure you want to delete this drawer? The action cannot be undone.</b></html>");
+		lblQuestion
+				.setText("<html><b>Are you sure you want to delete this drawer? The action cannot be undone.</b></html>");
 		lblQuestion.setBounds(111, 18, 200, 77);
 		getContentPane().add(lblQuestion);
 
 		label = new JLabel();
-		label.setIcon(SwingResourceManager.getIcon(DeleteDrawer_Dialog.class, "excl3.gif"));
+		label.setIcon(SwingResourceManager.getIcon(DeleteDrawer_Dialog.class,
+				"excl3.gif"));
 		label.setBounds(30, 18, 75, 77);
 		getContentPane().add(label);
 
@@ -65,6 +69,7 @@ public class DeleteDrawer_Dialog extends JDialog {
 
 	/**
 	 * Checks if user chose to delete spare part.
+	 * 
 	 * @return boolean "true" if yes was clicked.
 	 */
 	public boolean isYes() {
@@ -74,24 +79,34 @@ public class DeleteDrawer_Dialog extends JDialog {
 	/**
 	 * Sets drawer to delete.
 	 */
-	public void setDrawer(Drawer d){
+	public void setDrawer(Drawer d) {
 		this.drawer = d;
 	}
-	
+
 	private class Controller implements ActionListener {
 		private boolean closedByYes = false;
 		private Service service = Service.getInstance();
 
-		// This method is called when a button is pressed.
+		/*
+		 * List of actions when buttons are pressed. (non-Javadoc)
+		 * 
+		 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+		 */
+		@Override
 		public void actionPerformed(ActionEvent e) {
+			/*
+			 * If YES button is pressed.
+			 */
 			if (e.getSource() == btnYes) {
-				
+
 				service.removeDrawer(drawer);
-				
 
 				closedByYes = true;
 				DeleteDrawer_Dialog.this.setVisible(false);
 			}
+			/*
+			 * If NO button is pressed.
+			 */
 			if (e.getSource() == btnNo) {
 				DeleteDrawer_Dialog.this.setVisible(false);
 			}

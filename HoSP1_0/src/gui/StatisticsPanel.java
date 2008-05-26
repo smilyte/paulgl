@@ -187,7 +187,7 @@ public class StatisticsPanel extends JPanel {
 							.showMessage("Please enter 7 digit spare part number.");
 					return;
 				}
-				
+
 				@SuppressWarnings("unused")
 				int number;
 				// Check if it is a number typed in
