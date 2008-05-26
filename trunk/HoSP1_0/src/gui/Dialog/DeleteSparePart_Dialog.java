@@ -21,8 +21,10 @@ public class DeleteSparePart_Dialog extends JDialog {
 	private JButton btnNo;
 	private JButton btnYes;
 
+	// Creating object for moddel class - SparePart
 	private SparePart sparePart = null;
 
+	// Creating object for inner class - Controller
 	private Controller controller = new Controller();
 
 	/**
@@ -82,11 +84,22 @@ public class DeleteSparePart_Dialog extends JDialog {
 	}
 
 	private class Controller implements ActionListener {
-		private boolean closedByYes = false;
+		// .............GETTING INSTANCE..................//
 		private Service service = Service.getInstance();
 
-		// This method is called when a button is pressed.
+		// ...............................................//
+		private boolean closedByYes = false;
+
+		/*
+		 * List of actions when buttons are pressed. (non-Javadoc)
+		 * 
+		 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+		 */
+		@Override
 		public void actionPerformed(ActionEvent e) {
+			/*
+			 * If YES button is pressed.
+			 */
 			if (e.getSource() == btnYes) {
 
 				service.removeSparePart(sparePart);
@@ -94,6 +107,9 @@ public class DeleteSparePart_Dialog extends JDialog {
 				closedByYes = true;
 				DeleteSparePart_Dialog.this.setVisible(false);
 			}
+			/*
+			 * If NO button is pressed.
+			 */
 			if (e.getSource() == btnNo) {
 				DeleteSparePart_Dialog.this.setVisible(false);
 			}

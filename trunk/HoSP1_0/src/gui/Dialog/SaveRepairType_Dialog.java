@@ -1,3 +1,6 @@
+/**
+ * @author Elena
+ */
 package gui.Dialog;
 
 import java.awt.event.ActionEvent;
@@ -7,10 +10,7 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 import javax.swing.JTextField;
-
-import service.Service;
 
 public class SaveRepairType_Dialog extends JDialog {
 
@@ -21,6 +21,7 @@ public class SaveRepairType_Dialog extends JDialog {
 
 	private String name;
 
+	// Creating object for inner class - Controller
 	private Controller controller = new Controller();
 
 	/**
@@ -68,22 +69,27 @@ public class SaveRepairType_Dialog extends JDialog {
 	public boolean isOK() {
 		return controller.closedByOK;
 	}
-	
+
 	/**
 	 * Returns text of the name field
 	 */
-	public String getName(){
+	public String getName() {
 		return name;
 	}
 
-
-
 	private class Controller implements ActionListener {
 		private boolean closedByOK = false;
-		private Service service = Service.getInstance();
 
-		// This method is called when a button is pressed.
+		/*
+		 * List of actions when buttons are pressed. (non-Javadoc)
+		 * 
+		 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+		 */
+		@Override
 		public void actionPerformed(ActionEvent e) {
+			/*
+			 * If OK button is pressed.
+			 */
 			if (e.getSource() == btnOk) {
 
 				name = txfName.getText();
@@ -91,6 +97,9 @@ public class SaveRepairType_Dialog extends JDialog {
 				closedByOK = true;
 				SaveRepairType_Dialog.this.setVisible(false);
 			}
+			/*
+			 * If CANCEL button is pressed.
+			 */
 			if (e.getSource() == btnCancel) {
 				SaveRepairType_Dialog.this.setVisible(false);
 			}

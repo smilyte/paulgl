@@ -30,8 +30,7 @@ public class CreateSpartPart_Dialog extends JDialog {
 	private JLabel lblAmount;
 	private JLabel lblNumber;
 
-	private SparePart sparePart = null;
-
+	// Creating object for inner class - Controller
 	private Controller controller = new Controller();
 
 	/**
@@ -102,19 +101,24 @@ public class CreateSpartPart_Dialog extends JDialog {
 	}
 
 	/**
-	 * Check if the "Create" button closed dialog.
-	 * Returns "true", if yes.
+	 * Check if the "Create" button closed dialog. Returns "true", if yes.
 	 */
 	public boolean isCreate() {
 		return controller.closedByCreate;
 	}
 
 	private class Controller implements ActionListener {
-		private boolean closedByCreate = false;
+		// .............GETTING INSTANCE..................//
 		private Service service = Service.getInstance();
 
+		// ...............................................//
+		// Creating object for model class - SparePart
+		private SparePart sparePart = null;
+
+		private boolean closedByCreate = false;
+
 		/**
-		 * Method which fills cbxDrawer with Drawer list
+		 * Fills cbxDrawer with Drawer list
 		 */
 		public void fillCbxDrawer() {
 			DefaultComboBoxModel cbxModel = new DefaultComboBoxModel(service
@@ -124,7 +128,7 @@ public class CreateSpartPart_Dialog extends JDialog {
 		}
 
 		/**
-		 * Method which fills cbxBox with Box list
+		 * Fills cbxBox with Box list
 		 */
 		public void fillCbxBox() {
 			DefaultComboBoxModel cbxModel = new DefaultComboBoxModel(service
@@ -134,8 +138,17 @@ public class CreateSpartPart_Dialog extends JDialog {
 			cbxBox.setSelectedIndex(0);
 		}
 
+		/*
+		 * List of actions when buttons are pressed. (non-Javadoc)
+		 * 
+		 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+		 */
+		@Override
 		public void actionPerformed(ActionEvent e) {
-			// List of actions when "Create" button is pressed.
+
+			/*
+			 * If CREATE button is pressed.
+			 */
 			if (e.getSource() == btnCreate) {
 				// Checking if data in "number" field is valid.
 				String numberStr = txfNumber.getText().trim();
@@ -209,9 +222,15 @@ public class CreateSpartPart_Dialog extends JDialog {
 				closedByCreate = true;
 				CreateSpartPart_Dialog.this.setVisible(false);
 			}
+			/*
+			 * If CANCEL button is pressed.
+			 */
 			if (e.getSource() == btnCancel) {
 				CreateSpartPart_Dialog.this.setVisible(false);
 			}
+			/*
+			 * If DRAWER in the list was selected.
+			 */
 			if (e.getSource() == cbxDrawer) {
 				fillCbxBox();
 			}

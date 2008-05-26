@@ -28,6 +28,7 @@ public class Machine_Dialog extends JDialog {
 	private JLabel lblNnumber;
 	private JButton btnOk, btnCancel;
 
+	// Creating object for inner class - Controller
 	private Controller controller = new Controller();
 
 	/**
@@ -76,6 +77,7 @@ public class Machine_Dialog extends JDialog {
 		lblMachineType.setBounds(10, 10, 140, 16);
 		getContentPane().add(lblMachineType);
 
+		// Calling methods from Controller class
 		controller.updateView();
 	}
 
@@ -93,8 +95,13 @@ public class Machine_Dialog extends JDialog {
 		// ...............................................//
 		private boolean closedByOk = false;
 		private int serialNumber;
+
+		// Creating object for model class - Machine
 		private Machine machine;
 
+		/**
+		 * Fills JComboBox with Machine Type list
+		 */
 		public void fillCbxMachineTypes() {
 			DefaultComboBoxModel cbxModel = new DefaultComboBoxModel(service
 					.getMachineTypes().toArray());
@@ -103,6 +110,9 @@ public class Machine_Dialog extends JDialog {
 			cbxMachineTypes.setSelectedIndex(0);
 		}
 
+		/**
+		 * Updates the lists
+		 */
 		public void updateView() {
 
 			if (machine != null) {
@@ -116,9 +126,17 @@ public class Machine_Dialog extends JDialog {
 			}
 		}
 
+		/*
+		 * List of actions when buttons are pressed. (non-Javadoc)
+		 * 
+		 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+		 */
 		@Override
 		public void actionPerformed(ActionEvent e) {
 
+			/*
+			 * If OK button is pressed.
+			 */
 			if (e.getSource() == btnOk) {
 				String sNumber;
 				sNumber = txfNumber.getText();
@@ -139,15 +157,19 @@ public class Machine_Dialog extends JDialog {
 					errorDialog.showMessage("Serial Number must be entered.");
 					return;
 				}
+				// Getting an object of selected Machine Type
 				MachineType selectedType = (MachineType) cbxMachineTypes
 						.getSelectedItem();
 				machine.setSerialNumber(serialNumber);
 				machine.setType(selectedType);
 
+				// creating new machine
 				closedByOk = true;
 				Machine_Dialog.this.setVisible(false);
 			}
-
+			/*
+			 * If CANCEL button is pressed.
+			 */
 			if (e.getSource() == btnCancel) {
 				closedByOk = false;
 				Machine_Dialog.this.setVisible(false);

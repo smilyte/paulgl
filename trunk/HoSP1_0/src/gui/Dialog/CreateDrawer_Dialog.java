@@ -28,8 +28,7 @@ public class CreateDrawer_Dialog extends JDialog {
 	private JLabel lblNumber;
 	private JTextField txtNumber;
 
-	private Drawer drawer = null;
-
+	// Creating object for inner class - Controller
 	private Controller controller = new Controller();
 
 	/**
@@ -37,8 +36,8 @@ public class CreateDrawer_Dialog extends JDialog {
 	 */
 	public CreateDrawer_Dialog(JPanel owner, String title) {
 		super();
-		getContentPane().setLayout(null);
-		setResizable(false);
+		this.getContentPane().setLayout(null);
+		this.setResizable(false);
 		this.setTitle(title);
 		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		this.setLocation(500, 250);
@@ -76,7 +75,6 @@ public class CreateDrawer_Dialog extends JDialog {
 		btnCancel.setBounds(136, 280, 106, 26);
 		btnCancel.addActionListener(controller);
 		getContentPane().add(btnCancel);
-
 	}
 
 	/**
@@ -97,13 +95,25 @@ public class CreateDrawer_Dialog extends JDialog {
 	}
 
 	private class Controller implements ActionListener {
-		private boolean closedByCreate = false;
+		// .............GETTING INSTANCE..................//
 		private Service service = Service.getInstance();
 
-		// This method is called when a button is pressed.
+		// ...............................................//
+		// Creating object for model class - Drawer
+		private Drawer drawer = null;
+
+		private boolean closedByCreate = false;
+
+		/*
+		 * List of actions when buttons are pressed. (non-Javadoc)
+		 * 
+		 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+		 */
 		public void actionPerformed(ActionEvent e) {
 
-			// List of actions when "Create" button is pressed.
+			/*
+			 * If CREATE button is pressed.
+			 */
 			if (e.getSource() == btnCreate) {
 				String nrStr = txtNrOfBox.getText().trim();
 
@@ -113,12 +123,12 @@ public class CreateDrawer_Dialog extends JDialog {
 					// ... error message appears.
 					ErrorDialog errorDialog = new ErrorDialog("Error!");
 					// Text of the error message:
-					errorDialog.setLblText("Please enter ammount");
-					errorDialog.setVisible(true);
+					errorDialog.showMessage("Please enter ammount");
 
 					// Waiting for error dialog to close
 
-					errorDialog.dispose(); // release MS Windows resources
+					// release MS Windows resources
+					errorDialog.dispose();
 					return;
 				}
 
@@ -138,7 +148,8 @@ public class CreateDrawer_Dialog extends JDialog {
 
 					// Waiting for error dialog to close
 
-					errorDialog.dispose(); // release MS Windows resources
+					// release MS Windows resources
+					errorDialog.dispose();
 					return;
 				}
 
@@ -151,7 +162,8 @@ public class CreateDrawer_Dialog extends JDialog {
 
 					// Waiting for error dialog to close
 
-					errorDialog.dispose(); // release MS Windows resources
+					// release MS Windows resources
+					errorDialog.dispose();
 					return;
 				}
 
@@ -162,11 +174,16 @@ public class CreateDrawer_Dialog extends JDialog {
 					service.addDrawer(new Drawer(drawerNumber, nr));
 				}
 				// new drawer is created.
-				
+
 				closedByCreate = true;
 				CreateDrawer_Dialog.this.setVisible(false);
 			}
+
+			/*
+			 * If CANCEL button is pressed.
+			 */
 			if (e.getSource() == btnCancel) {
+				closedByCreate = false;
 				CreateDrawer_Dialog.this.setVisible(false);
 			}
 		}
