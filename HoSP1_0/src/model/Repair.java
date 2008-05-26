@@ -171,8 +171,11 @@ public class Repair {
 	 * @return number of repair, repair's Start and End time as string.
 	 */
 	public String toString() {
-		return number + ": Started: [" + startDate.getTime() + "] Ended: ["
+		if(endDate != null)
+			return number + ": Started: [" + startDate.getTime() + "] Ended: ["
 				+ endDate.getTime() + "]";
+		else
+			return number + ": Started: [" + startDate.getTime() + "] Ended: []";
 	}
 
 }
