@@ -1,3 +1,6 @@
+/**
+ * @author Malik and Elena
+ */
 package gui;
 
 import gui.Dialog.CreateNewRepair_Dialog;
@@ -10,9 +13,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.DefaultListModel;
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
@@ -33,15 +34,19 @@ public class RepairPanel extends JPanel {
 	private JLabel lblCurrentRepairs;
 	private JList lstRepairs;
 
-	// l object for inner class Controller
+	// Creating object for inner class - Controller
 	private Controller controller = new Controller();
 
+	// List which will held all not finished repairs.
+	// Note: Holding this data in the list in real situation is not good. It has
+	// to be stored in file to prevent loosing data after program crash.
 	private List<Repair> tempRepairs = new ArrayList<Repair>();
-	
+
 	/**
 	 * Create the panel
 	 */
 	public RepairPanel() {
+		super();
 		createComponents();
 	}
 
@@ -95,38 +100,50 @@ public class RepairPanel extends JPanel {
 	private class Controller implements ActionListener {
 		// .............GETTING INSTANCE..................//
 		private Service service = Service.getInstance();
+
 		// ...............................................//
 
 		/**
 		 * Updates list of currently stopped machines - repairs in progress.
 		 */
-		public void updateCurrentRepairs() { 
-			/** ..............REMOVE DATA FROM JLIST START............... * */
-			lstRepairs.setModel(new DefaultListModel());
-			DefaultListModel model = (DefaultListModel) lstRepairs.getModel();
-			model.clear();
-			/** ..............REMOVE DATA FROM JLIST END................. * */ 
+		public void updateCurrentRepairs() {
+//			/** ..............REMOVE DATA FROM JLIST START............... * */
+//			lstRepairs.setModel(new DefaultListModel());
+//			DefaultListModel model = (DefaultListModel) lstRepairs.getModel();
+//			model.clear();
+//			/** ..............REMOVE DATA FROM JLIST END................. * */
 			lstRepairs.setListData(tempRepairs.toArray());
 			lstRepairs.setSelectedIndex(0);
 		}
-		
+		/* List of actions when buttons are pressed.
+		 * (non-Javadoc)
+		 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+		 */
 		public void actionPerformed(ActionEvent e) {
-			// List of actions when "Register Repair" button is pressed
+			/*
+			 * If REGISTER REPAIR button is pressed.
+			 */
 			if (e.getSource() == btnRegisterRepair) {
-				
-				// initiate and open "Create new repair" dialog
+
+				// Initiate and open "Create new repair" dialog
 				CreateNewRepair_Dialog createNewRepairDialog = new CreateNewRepair_Dialog(
 						RepairPanel.this, "Create");
-				
-				createNewRepairDialog.setRepairID(service.getRepairs().size()+tempRepairs.size());				
+
+				createNewRepairDialog.setRepairID(service.getRepairs().size()
+						+ tempRepairs.size());
 				createNewRepairDialog.setVisible(true);
-		
-				// waiting for modal dialog to close
+
+				// Waiting for modal dialog to close
+
 				
-				// if dialog was closed by pressing "create button" following code is executed
+				/*
+				 * If Dialog was closed by CREATE button.
+				 */
 				if (createNewRepairDialog.isCreate()) {
+					// Following code is executed
 					try {
-						tempRepairs.add(createNewRepairDialog.getTempRepairData());
+						tempRepairs.add(createNewRepairDialog
+								.getTempRepairData());
 					} catch (RuntimeException e1) {
 						ErrorDialog errorDialog = new ErrorDialog("Error!");
 						errorDialog
@@ -135,31 +152,35 @@ public class RepairPanel extends JPanel {
 					}
 					updateCurrentRepairs();
 				}
-				
-				// release MS Windows resources
-				createNewRepairDialog.dispose(); 
+
+				// Release MS Windows resources
+				createNewRepairDialog.dispose();
 			}
-			// list of actions if "Open repair" button is pressed
+			/*
+			 * If OPEN REPAIR button is pressed.
+			 */
 			if (e.getSource() == btnOpenRepair) {
-				// opening "create new repair" dialog
+				// Opening "create new repair" dialog
 				CreateNewRepair_Dialog createNewRepairDialog = new CreateNewRepair_Dialog(
 						RepairPanel.this, "Create");
-				// setting the new dialog to display selected repair's data
+				// Setting the new dialog to display selected repair's data
 				Repair r = (Repair) lstRepairs.getSelectedValue();
 				createNewRepairDialog.setTempRepairData(r);
-				// removing from temporary repairs list, as it might be submitted
+				// Removing from temporary repairs list, as it might be
+				// submitted
 				tempRepairs.remove(r);
 				createNewRepairDialog.setVisible(true);
-		
-				
+
+				/*
+				 * If Dialog was closed by CREATE button.
+				 */
 				if (createNewRepairDialog.isCreate()) {
-					// if dialog was closed by create button, data from dialog is saved into tempRepairs list
+					// data from dialog is saved into tempRepairs list
 					tempRepairs.add(createNewRepairDialog.getTempRepairData());
 					updateCurrentRepairs();
 				}
-
-				// release MS Windows resources
-				createNewRepairDialog.dispose(); 
+				// Release MS Windows resources
+				createNewRepairDialog.dispose();
 			}
 		}
 	}

@@ -33,6 +33,7 @@ public class MachinePanel extends JPanel {
 	private JScrollPane scrollPaneMachine;
 	private JComboBox cbxMachineTypes;
 
+	// Creating object for inner class - Controller
 	public Controller controller = new Controller();
 
 	/**
@@ -98,7 +99,7 @@ public class MachinePanel extends JPanel {
 		// ...............................................//
 
 		/**
-		 * Method which fills JList with Machines
+		 * Fills JList with Machines
 		 */
 		public void fillLstMachines(MachineType machineType) {
 			List<Machine> listMachines = new ArrayList<Machine>();
@@ -115,7 +116,7 @@ public class MachinePanel extends JPanel {
 		}
 
 		/**
-		 * Method which fills JComboBox with Machine Type list
+		 * Fills JComboBox with Machine Type list
 		 */
 		public void fillCbxMachineTypes() {
 			DefaultComboBoxModel cbxModel = new DefaultComboBoxModel(service
@@ -126,11 +127,11 @@ public class MachinePanel extends JPanel {
 		}
 
 		/**
-		 * Calls method to fill the list of Machines and update combo box of
+		 * Fills the list of Machines and update combo box of
 		 * machine types
 		 */
 		public void updateView() {
-			//Getting selected index
+			// Getting selected index
 			int id = cbxMachineTypes.getSelectedIndex() - 1;
 
 			if (id >= 0) {
@@ -141,7 +142,11 @@ public class MachinePanel extends JPanel {
 				fillLstMachines(null);
 			fillCbxMachineTypes();
 		}
-
+		/* List of actions when buttons are pressed.
+		 * 
+		 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+		 */
+		@Override
 		public void actionPerformed(ActionEvent e) {
 
 			/*
@@ -161,9 +166,11 @@ public class MachinePanel extends JPanel {
 
 				// Waiting for modal dialog to close
 
-				// When modal dialog is closed by OK, we set serial number to
-				// the machine and update view of the lists
+				/*
+				 * If dialog was closed by OK button.
+				 */
 				if (createMachineDialog.isOKed()) {
+					// We create machine, set serial number to it and update the lists
 					machine.getType().createMachine(machine.getSerialNumber());
 					updateView();
 				}
@@ -189,13 +196,16 @@ public class MachinePanel extends JPanel {
 
 					// Waiting for modal dialog to close
 
-					// When modal dialog is closed by OK, we update view of the
-					// lists
+					/*
+					 * If Dialog was closed by OK button.
+					 */
 					if (createMachineDialog.isOKed()) {
+						// We update the lists
 						updateView();
 					}
 					// Release MS Windows resources
 					createMachineDialog.dispose();
+
 				} else {
 					// Show error message
 					ErrorDialog errorDialog = new ErrorDialog("Error");
@@ -212,7 +222,8 @@ public class MachinePanel extends JPanel {
 				// Getting an object of selected Machine
 				Machine machine = (Machine) lstMachine.getSelectedValue();
 
-				// If selected machine is not null we update view of the list
+				// If selected machine is not null we remove machine and update
+				// view
 				if (machine != null) {
 					machine.getType().removeMachine(machine);
 					updateView();

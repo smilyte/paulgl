@@ -30,15 +30,23 @@ public class MainFrame extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setResizable(false);
 
+		/*
+		 * Added Window listener to know wen program is closing. Before program
+		 * closes it deletes Db4o file.
+		 */
 		this.addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent e) {
 				Service.getInstance().closeDb4o();
 			}
 		});
 
+		// Created Tabbed pane which will hold all our panels
 		tabbedPane = new JTabbedPane();
 		getContentPane().add(tabbedPane, BorderLayout.CENTER);
-
+		/*
+		 * Creating new panels and assigning to different classes which we have
+		 * in GUI package.
+		 */
 		panel = new RepairPanel();
 		panel.setLayout(null);
 		tabbedPane.addTab("Repair", null, panel, null);

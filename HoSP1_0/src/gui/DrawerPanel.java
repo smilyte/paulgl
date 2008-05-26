@@ -1,3 +1,8 @@
+/**
+ * 
+ * @author Elena
+ *
+ */
 package gui;
 
 import gui.Dialog.CreateDrawer_Dialog;
@@ -6,8 +11,6 @@ import gui.Dialog.ErrorDialog;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
-import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -30,6 +33,7 @@ public class DrawerPanel extends JPanel {
 	private JList lstDrawers;
 	private JScrollPane scrollPane;
 
+	// Creating object for inner class - Controller
 	private Controller controller = new Controller();
 
 	/**
@@ -69,7 +73,7 @@ public class DrawerPanel extends JPanel {
 		listBoxes_Parts = new JList();
 		scrollPane_1.setViewportView(listBoxes_Parts);
 		listBoxes_Parts.addListSelectionListener(controller);
-		
+
 		lblBoxNr = new JLabel();
 		lblBoxNr.setText("Box Nr  - Part:");
 		lblBoxNr.setBounds(257, 19, 176, 14);
@@ -81,99 +85,119 @@ public class DrawerPanel extends JPanel {
 		this.add(btnDelete);
 		btnDelete.addActionListener(controller);
 
-		
+		// Calling methods from Controller class
 		controller.fillLstDrawers();
 	}
 
-	/**
-	 * 
-	 * @author Elena
-	 *
-	 */
 	private class Controller implements ActionListener, ListSelectionListener {
 		private Service service = Service.getInstance();
-		
-		// Fills drawers list
+
+		/**
+		 * Fills JList with Drawers
+		 */
 		public void fillLstDrawers() {
 			lstDrawers.setListData(service.getDrawers().toArray());
 		}
-		
+
+		/**
+		 * Fills the list of Drawerss
+		 */
 		private void updateView() {
 
-			/** ..............REMOVE DATA FROM JLIST START............... * */
-			listBoxes_Parts.setModel(new DefaultListModel());
-			DefaultListModel model = (DefaultListModel) listBoxes_Parts.getModel();
-			model.clear();
-			/** ..............REMOVE DATA FROM JLIST END................. * */ 
-			
 			int i = -1;
-			if(lstDrawers.getSelectedIndex() == -1) i = 0;
-			else i = lstDrawers.getSelectedIndex();
-			
-			listBoxes_Parts.setListData(service.getDrawers().get(i).getBoxes().toArray());
+			if (lstDrawers.getSelectedIndex() == -1)
+				i = 0;
+			else
+				i = lstDrawers.getSelectedIndex();
+
+			listBoxes_Parts.setListData(service.getDrawers().get(i).getBoxes()
+					.toArray());
 		}
 
-		// List of actions when buttons are pressed.
+		/* List of actions when buttons are pressed.
+		 * (non-Javadoc)
+		 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+		 */
+		@Override
 		public void actionPerformed(ActionEvent e) {
-			
-			// List of actions when "Create" button is pressed.
+
+			/*
+			 * If CREATE button is pressed.
+			 */
 			if (e.getSource() == btnCreateDrawer) {
 				// New "Create drawer" dialog is initiated and displayed
 				CreateDrawer_Dialog createDrawerDialog = new CreateDrawer_Dialog(
 						DrawerPanel.this, "Create Drawer");
-				createDrawerDialog.setDrawerNumber(service.getDrawers().get(service.getDrawers().size()-1).getId()+1);
+				createDrawerDialog.setDrawerNumber(service.getDrawers().get(
+						service.getDrawers().size() - 1).getId() + 1);
 				createDrawerDialog.setVisible(true);
 
-				// waiting for modal dialog to close
-				
+				// Waiting for modal dialog to close
+				/*
+				 * If Dialog was closed by CREATE button.
+				 */
 				if (createDrawerDialog.isCreate()) {
 					// update view
 					fillLstDrawers();
 				}
-				createDrawerDialog.dispose(); //release MS Windows resources
+				// Release MS Windows resources
+				createDrawerDialog.dispose(); 
 			}
-			
-			// List of actions when "Delete" button is pressed
-			if (e.getSource() == btnDelete){
+
+			/*
+			 * If DELETE button is pressed.
+			 */
+			if (e.getSource() == btnDelete) {
 				// New "Delete drawer" dialog is initiated
 				DeleteDrawer_Dialog deleteDrawerDialog = new DeleteDrawer_Dialog(
 						DrawerPanel.this, "Delete Drawer");
 				// We find which drawer is to be deleted.
 				int i = -1;
-				if(lstDrawers.getSelectedIndex() == -1) {
+				if (lstDrawers.getSelectedIndex() == -1) {
 					// If nothing is selected, error message appears.
 					ErrorDialog errorDialog = new ErrorDialog("Error!");
 					// Text of the error message:
-					errorDialog.setLblText("Please select drawer to delete.");
-					errorDialog.setVisible(true);
+					errorDialog
+					.showMessage("Please select drawer to delete.");
 
 					// Waiting for error dialog to close
 
-					errorDialog.dispose(); // release MS Windows resources
+					// Release MS Windows resources
+					errorDialog.dispose(); 
 					return;
-				}
-				else i = lstDrawers.getSelectedIndex();
+				} else
+					i = lstDrawers.getSelectedIndex();
 				deleteDrawerDialog.setDrawer(service.getDrawers().get(i));
 				deleteDrawerDialog.setVisible(true);
-				
-				// waiting for modal dialog to close
-				
+
+				// Waiting for modal dialog to close
+
+				/*
+				 * If Dialog was closed by YES button.
+				 */
 				if (deleteDrawerDialog.isYes()) {
-					// The dialog is closed by creating drawer, so we update list.
+					// We update list.
 					fillLstDrawers();
 				}
-				deleteDrawerDialog.dispose(); //release MS Windows resources
+				// Release MS Windows resources
+				deleteDrawerDialog.dispose(); 
 			}
 		}
 
-		// List of actions when selection is changed.
+		/* List of actions when selection is changed.
+		 * (non-Javadoc)
+		 * @see javax.swing.event.ListSelectionListener#valueChanged(javax.swing.event.ListSelectionEvent)
+		 */
 		public void valueChanged(ListSelectionEvent e) {
+			/*
+			 * If DRAWER in the list was selected.
+			 */
 			if (e.getSource() == lstDrawers) {
 				if (!e.getValueIsAdjusting()) {
 					updateView();
 				}
 			}
-			
+
 		}
 
 	}
