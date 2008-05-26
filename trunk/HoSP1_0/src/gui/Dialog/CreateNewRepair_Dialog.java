@@ -466,16 +466,19 @@ public class CreateNewRepair_Dialog extends JDialog {
 			// List of actions when "Remove" button is pressed
 			if (e.getSource() == btnRemove) {
 				SparePart sp = null;
+				int a = -1;
 				if (lstAddedSparePart.getSelectedIndex() == -1) {
 					// if no part is selected, show error
 					ErrorDialog errorDialog = new ErrorDialog("Error!");
 					errorDialog.showMessage("Select part to remove.");
 					return;
 				} else {
-					sp = (SparePart) lstSparePart.getSelectedValue();
+					//sp = (SparePart) lstSparePart.getSelectedValue();
+					a = lstSparePart.getSelectedIndex()-1;
 				}
 				// Removes spare part from this repair.
-				display.remove(sp);
+				//display.remove(sp);
+				display.remove(a);
 				updateDisplay();
 			}
 			// List of actions when "Start" button is pressed.
