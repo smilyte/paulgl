@@ -44,6 +44,7 @@ public class MachineTypePanel extends JPanel {
 	private JScrollPane scrollPaneSparePart;
 	private JComboBox cbxMachineType;
 
+	// Creating object for inner class - Controller
 	private Controller controller = new Controller();
 
 	/**
@@ -135,6 +136,7 @@ public class MachineTypePanel extends JPanel {
 		lblChooseMachineType.setBounds(26, 30, 168, 14);
 		this.add(lblChooseMachineType);
 
+		// Calling methods from Controller class
 		controller.updateView();
 	}
 
@@ -146,7 +148,7 @@ public class MachineTypePanel extends JPanel {
 		// ...............................................//
 
 		/**
-		 * Method which fills JList with Machines
+		 * Fills JList with Machines
 		 */
 		public void fillLstMachines(MachineType machineType) {
 			List<Machine> listMachines = new ArrayList<Machine>();
@@ -163,7 +165,7 @@ public class MachineTypePanel extends JPanel {
 		}
 
 		/**
-		 * Method which fills JList with Spare Parts
+		 * Fills JList with Spare Parts
 		 */
 		public void fillLstParts(MachineType machineType) {
 			if (machineType == null) {
@@ -177,7 +179,7 @@ public class MachineTypePanel extends JPanel {
 		}
 
 		/**
-		 * Method which fills cbxMachineType with Machine Type list
+		 * Fills cbxMachineType with Machine Type list
 		 */
 		public void fillCbxMachineType(int a) {
 			DefaultComboBoxModel cbxModel = new DefaultComboBoxModel(service
@@ -218,32 +220,48 @@ public class MachineTypePanel extends JPanel {
 			}
 
 		}
-
+		/* List of actions when buttons are pressed.
+		 * 
+		 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+		 */
 		@Override
 		public void actionPerformed(ActionEvent e) {
-
+			/*
+			 * If CREATE button is pressed.
+			 */
 			if (e.getSource() == btnCreate) {
+				// Creating new instance of the Dialog
 				MachineType_Dialog machineTypeDialog = new MachineType_Dialog(
 						MachineTypePanel.this, "Create Machine Type");
-
+				// Creating new instance of Machine Type
 				MachineType machineType = new MachineType("");
+				// Letting Dialog know about new created machine type
 				machineTypeDialog.setMachineType(machineType);
-
+				// Making Dialog window visible
 				machineTypeDialog.setVisible(true);
 
-				// waiting for modal dialog to close
-
+				// Waiting for modal dialog to close
+				/*
+				 * If Dialog was closed by OK button.
+				 */
 				if (machineTypeDialog.isOKed()) {
+					// we add machine type to the list and update the lists
 					service.addMachineType(machineType);
 					updateView();
 				}
-				// release MS Windows resources
+				// Release MS Windows resources
 				machineTypeDialog.dispose();
 
 			}
+			/*
+			 * If UPDATE button is pressed.
+			 */
 			if (e.getSource() == btnUpdate) {
+
 				MachineType machineType;
+
 				try {
+					// Getting an object of selected Machine Type
 					machineType = (MachineType) cbxMachineType
 							.getSelectedItem();
 				} catch (Exception ex) {
@@ -253,30 +271,42 @@ public class MachineTypePanel extends JPanel {
 							.showMessage("You have to select a machine type first.");
 					return;
 				}
+				// Creating new instance of the Dialog
 				MachineType_Dialog machineTypeDialog = new MachineType_Dialog(
 						MachineTypePanel.this, "Update Machine Type");
-
+				// Letting Dialog know about the machine type we want to update
 				machineTypeDialog.setMachineType(machineType);
+				// Making Dialog window visible
 				machineTypeDialog.setVisible(true);
 
-				// waiting for modal dialog to close
-
+				// Waiting for modal dialog to close
+				/*
+				 * If Dialog was closed by OK button.
+				 */
 				if (machineTypeDialog.isOKed()) {
+					// We update the lists
 					updateView();
 				}
-				// release MS Windows resources
+				// Release MS Windows resources
 				machineTypeDialog.dispose();
 
 			}
-
+			/*
+			 * If DELETE button is pressed.
+			 */
 			if (e.getSource() == btnDelete) {
+
 				MachineType machineType;
+
 				try {
+					// Getting an object of selected Machine Type
 					machineType = (MachineType) cbxMachineType
 							.getSelectedItem();
 				} catch (Exception ex) {
 					return;
 				}
+				// If selected machine type is not null we remove machine and
+				// update view
 
 				if (machineType != null) {
 					service.removeMachineType(machineType);
@@ -290,11 +320,15 @@ public class MachineTypePanel extends JPanel {
 					return;
 				}
 			}
+			/*
+			 * If ADD button is pressed.
+			 */
 			if (e.getSource() == btnAddPart) {
+
 				MachineType machineType;
 
 				try {
-
+					// Getting an object of selected Machine Type
 					machineType = (MachineType) cbxMachineType
 							.getSelectedItem();
 
@@ -306,29 +340,41 @@ public class MachineTypePanel extends JPanel {
 
 					return;
 				}
-
+				// Creating new instance of the Dialog
 				MachineType_AddPartDialog machineTypeAddDialog = new MachineType_AddPartDialog(
-						MachineTypePanel.this, "Create Machine Type");
-
+						MachineTypePanel.this, "Add part to " + machineType
+								+ " machine Type");
+				// Letting Dialog know about the machine for which we want to
+				// add parts
 				machineTypeAddDialog.setMachineType(machineType);
-
+				// Making Dialog window visible
 				machineTypeAddDialog.setVisible(true);
 
-				// waiting for modal dialog to close
-
+				// Waiting for modal dialog to close
+				/*
+				 * If Dialog was closed by OK button.
+				 */
 				if (machineTypeAddDialog.isOKed()) {
+					// We update the lists
 					updateView();
 				}
-				// release MS Windows resources
+				// Release MS Windows resources
 				machineTypeAddDialog.dispose();
 
 			}
+			/*
+			 * If REMOVE button is pressed.
+			 */
 			if (e.getSource() == btnRemovePart) {
+
 				if (lstParts.getSelectedIndex() >= 0) {
+					// Getting an object of selected Machine Type
 					MachineType machineType = (MachineType) cbxMachineType
 							.getSelectedItem();
+					// Getting an object of selected Spare part
 					SparePart sparePart = (SparePart) lstParts
 							.getSelectedValue();
+					// Remove selected spare part from this machine types
 					machineType.removeSparePart(sparePart);
 				} else {
 					// Show error message
@@ -338,6 +384,9 @@ public class MachineTypePanel extends JPanel {
 				}
 				updateView();
 			}
+			/*
+			 * If MACHINE TYPE in the list was selected.
+			 */
 			if (e.getSource() == cbxMachineType) {
 				updateView();
 			}

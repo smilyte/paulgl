@@ -5,7 +5,6 @@ import gui.Dialog.ErrorDialog;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.Formatter;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Locale;
@@ -37,6 +36,7 @@ public class StatisticsPanel extends JPanel {
 	private JTextField txfSparePart;
 	private JComboBox cbxStatisticsType;
 
+	// Creating object for inner class - Controller
 	private Controller controller = new Controller();
 
 	/**
@@ -87,12 +87,18 @@ public class StatisticsPanel extends JPanel {
 	}
 
 	public void setStatisticsType(String type) {
+		/*
+		 * If type is set to PART.
+		 */
 		if (type == "part") {
 			txfSparePart.setEditable(true);
 			cbxMachines.setEnabled(false);
 			btnDisplay.setEnabled(true);
 			lblStatistics.setText("Statistics for spare part: ");
 		}
+		/*
+		 * If type is set to MACHINE.
+		 */
 		if (type == "machine") {
 			txfSparePart.setEditable(false);
 			cbxMachines.setEnabled(true);
@@ -100,6 +106,9 @@ public class StatisticsPanel extends JPanel {
 			lblStatistics.setText("Statistics for machine: ");
 			controller.fillCbxMachines();
 		}
+		/*
+		 * If type is set to NONE.
+		 */
 		if (type == "none") {
 			txfSparePart.setEditable(false);
 			cbxMachines.setEnabled(false);
@@ -109,19 +118,54 @@ public class StatisticsPanel extends JPanel {
 	}
 
 	private class Controller implements ActionListener {
+		// .............GETTING INSTANCE..................//
 		private Service service = Service.getInstance();
 
+		// ...............................................//
+		/**
+		 * Fills cbxMachines with Machines list
+		 */
 		public void fillCbxMachines() {
 			DefaultComboBoxModel cbxModel = new DefaultComboBoxModel();
 			for (MachineType mt : service.getMachineTypes()) {
-				for(Machine m : mt.getMachines())
+				for (Machine m : mt.getMachines())
 					cbxModel.addElement(m);
 			}
 			cbxMachines.setModel(cbxModel);
 		}
 
+		/**
+		 * Fills JList with Statistics data
+		 */
+		private void fillStatisticsList(int[] usage) {
+			/** ..............REMOVE DATA FROM JLIST START............... * */
+			lstStatistics.setModel(new DefaultListModel());
+			DefaultListModel model = (DefaultListModel) lstStatistics
+					.getModel();
+			model.clear();
+			/** ..............REMOVE DATA FROM JLIST END................. * */
+			List<String> list = new ArrayList<String>();
+			GregorianCalendar today = new GregorianCalendar();
+
+			for (int i = 0; i < 12; i++) {
+				String s = today.getDisplayName(GregorianCalendar.MONTH,
+						GregorianCalendar.LONG, new Locale("dk"));
+				list.add(s + "  -  " + usage[i]);
+				today.roll(GregorianCalendar.MONTH, false);
+			}
+			lstStatistics.setListData(list.toArray());
+		}
+
+		/*
+		 * List of actions when buttons are pressed. (non-Javadoc)
+		 * 
+		 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+		 */
 		@Override
 		public void actionPerformed(ActionEvent e) {
+			/*
+			 * If STATISTICS TYPE in the list was selected.
+			 */
 			if (e.getSource() == cbxStatisticsType) {
 				if (cbxStatisticsType.getSelectedIndex() == 0)
 					setStatisticsType("none");
@@ -130,6 +174,10 @@ public class StatisticsPanel extends JPanel {
 				if (cbxStatisticsType.getSelectedIndex() == 2)
 					setStatisticsType("machine");
 			}
+
+			/*
+			 * If DISPLAY button is pressed.
+			 */
 			if (e.getSource() == btnDisplay) {
 				String numberStr = txfSparePart.getText().trim();
 				if (numberStr.length() != 7) {
@@ -139,7 +187,9 @@ public class StatisticsPanel extends JPanel {
 							.showMessage("Please enter 7 digit spare part number.");
 					return;
 				}
-				int number = -1;
+				
+				@SuppressWarnings("unused")
+				int number;
 				// Check if it is a number typed in
 				try {
 					number = Integer.parseInt(numberStr);
@@ -170,29 +220,7 @@ public class StatisticsPanel extends JPanel {
 					}
 					fillStatisticsList(usage);
 				}
-
 			}
-
 		}
-
-		private void fillStatisticsList(int[] usage) {
-			/** ..............REMOVE DATA FROM JLIST START............... * */
-			lstStatistics.setModel(new DefaultListModel());
-			DefaultListModel model = (DefaultListModel) lstStatistics
-					.getModel();
-			model.clear();
-			/** ..............REMOVE DATA FROM JLIST END................. * */
-			List<String> list = new ArrayList<String>();
-			GregorianCalendar today = new GregorianCalendar();
-
-			for (int i = 0; i < 12; i++) {
-				String s = today.getDisplayName(GregorianCalendar.MONTH,
-						GregorianCalendar.LONG, new Locale("dk"));
-				list.add(s + "  -  " + usage[i]);
-				today.roll(GregorianCalendar.MONTH, false);
-			}
-			lstStatistics.setListData(list.toArray());
-		}
-
 	}
 }

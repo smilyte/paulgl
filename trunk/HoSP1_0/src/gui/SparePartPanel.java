@@ -13,7 +13,6 @@ import java.awt.event.KeyListener;
 import java.util.List;
 
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -43,6 +42,7 @@ public class SparePartPanel extends JPanel {
 	private JScrollPane scrollPaneSpareParts;
 	private JComboBox cbxMachineType;
 
+	// Creating object for inner class - Controller
 	private Controller controller = new Controller();
 
 	/**
@@ -113,48 +113,71 @@ public class SparePartPanel extends JPanel {
 		lblChooseMachineType.setBounds(10, 17, 152, 14);
 		this.add(lblChooseMachineType);
 
+		// Calling methods from Controller class
 		controller.fillLstSpareParts();
 		controller.fillCbxMachineType();
 	}
 
 	private class Controller implements ActionListener, KeyListener {
+		// .............GETTING INSTANCE..................//
 		private Service service = Service.getInstance();
 
+		// ...............................................//
 		/**
-		 * Method which fills cbxMachineType with Machine Type list
+		 * Fills cbxMachineType with Machine Type list
 		 */
 		public void fillCbxMachineType() {
 			DefaultComboBoxModel cbxModel = new DefaultComboBoxModel(service
 					.getMachineTypes().toArray());
-			cbxModel.insertElementAt("Choose machine type", 0);
+			cbxModel.insertElementAt("All", 0);
 			cbxMachineType.setModel(cbxModel);
 			cbxMachineType.setSelectedIndex(0);
 		}
-		// Fills spare part list
+
+		/**
+		 * Fills JList with Spare Parts
+		 */
 		public void fillLstSpareParts() {
-			/** ..............REMOVE DATA FROM JLIST START............... * */
-			lstSpareParts.setModel(new DefaultListModel());
-			DefaultListModel model = (DefaultListModel) lstSpareParts
-					.getModel();
-			model.clear();
-			/** ..............REMOVE DATA FROM JLIST END................. * */
+			// /** ..............REMOVE DATA FROM JLIST START............... *
+			// */
+			// lstSpareParts.setModel(new DefaultListModel());
+			// DefaultListModel model = (DefaultListModel) lstSpareParts
+			// .getModel();
+			// model.clear();
+			// /** ..............REMOVE DATA FROM JLIST END................. *
+			// */
 			lstSpareParts.setListData(service.getSpareParts().toArray());
 			lstSpareParts.setSelectedIndex(0);
 		}
 
+		/**
+		 * Fills JList with Spare Parts
+		 * <p>
+		 * <b>Requires:</b> list != null
+		 */
 		public void fillLstSpareParts(List<SparePart> list) {
-			/** ..............REMOVE DATA FROM JLIST START............... * */
-			lstSpareParts.setModel(new DefaultListModel());
-			DefaultListModel model = (DefaultListModel) lstSpareParts
-					.getModel();
-			model.clear();
-			/** ..............REMOVE DATA FROM JLIST END................. * */
+			// /** ..............REMOVE DATA FROM JLIST START............... *
+			// */
+			// lstSpareParts.setModel(new DefaultListModel());
+			// DefaultListModel model = (DefaultListModel) lstSpareParts
+			// .getModel();
+			// model.clear();
+			// /** ..............REMOVE DATA FROM JLIST END................. *
+			// */
 			lstSpareParts.setListData(list.toArray());
 			lstSpareParts.setSelectedIndex(0);
 		}
 
+		/*
+		 * List of actions when buttons are pressed. (non-Javadoc)
+		 * 
+		 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+		 */
 		@Override
 		public void actionPerformed(ActionEvent e) {
+			/*
+			 * If CREATE button is pressed.
+			 */
 			if (e.getSource() == btnCreateNew) {
 				// New "Create Spare part" dialog is initiated and displayed
 				CreateSpartPart_Dialog createSpartPartDialog = new CreateSpartPart_Dialog(
@@ -162,34 +185,48 @@ public class SparePartPanel extends JPanel {
 
 				createSpartPartDialog.setVisible(true);
 
-				// waiting for modal dialog to close
+				// Waiting for modal dialog to close
 
 				if (createSpartPartDialog.isCreate()) {
 					// update view
 					fillLstSpareParts();
 				}
+				// Release MS Windows resources
 				createSpartPartDialog.dispose();
-				// release MS Windows resources
+
 			}
+			/*
+			 * If UPDATE button is pressed.
+			 */
 			if (e.getSource() == btnUpdate) {
 				// New "Update Spare part" dialog is initiated and displayed
 				UpdateSparePart_Dialog updateSpartPartDialog = new UpdateSparePart_Dialog(
 						SparePartPanel.this, "Update Spare Part");
+
+				// Getting an object of selected Spare Part
 				SparePart sp = service.getSpareParts().get(
 						lstSpareParts.getSelectedIndex());
+
+				// Letting Dialog know about the spare part we want to update
 				updateSpartPartDialog.setSparePart(sp);
 				updateSpartPartDialog.setAmount(sp.getAmount());
 				updateSpartPartDialog.setVisible(true);
 
-				// waiting for modal dialog to close
-
+				// Waiting for modal dialog to close
+				/*
+				 * If Dialog was closed by UPDATE button.
+				 */
 				if (updateSpartPartDialog.isUpdated()) {
 					// update view
 					fillLstSpareParts();
 				}
+				// Release MS Windows resources
 				updateSpartPartDialog.dispose();
-				// release MS Windows resources
 			}
+
+			/*
+			 * If DELETE button is pressed.
+			 */
 			if (e.getSource() == btnDelete) {
 				// New "Delete Spare part" dialog is initiated and displayed
 				DeleteSparePart_Dialog deleteSpartPartDialog = new DeleteSparePart_Dialog(
@@ -199,43 +236,59 @@ public class SparePartPanel extends JPanel {
 				deleteSpartPartDialog.setSparePart(sp);
 				deleteSpartPartDialog.setVisible(true);
 
-				// waiting for modal dialog to close
+				// Waiting for modal dialog to close
 
+				/*
+				 * If Dialog was closed by YES button.
+				 */
 				if (deleteSpartPartDialog.isYes()) {
 					// update view
 					fillLstSpareParts();
 				}
+				// Release MS Windows resources
 				deleteSpartPartDialog.dispose();
-				// release MS Windows resources
+
 			}
-			if(e.getSource() == cbxMachineType){
-				if(cbxMachineType.getSelectedIndex() > 0){
-					MachineType mT = (MachineType) cbxMachineType.getSelectedItem();
+			/*
+			 * If MACHINE TYPE in the list was selected.
+			 */
+			if (e.getSource() == cbxMachineType) {
+				if (cbxMachineType.getSelectedIndex() > 0) {
+					MachineType mT = (MachineType) cbxMachineType
+							.getSelectedItem();
 					fillLstSpareParts(mT.getSpareParts());
-				}
-				else if(cbxMachineType.getSelectedIndex() == 0){
+				} else if (cbxMachineType.getSelectedIndex() == 0) {
 					fillLstSpareParts();
 				}
-				
+
 			}
 		}
 
+		/*
+		 * List of actions when keys are pressed. (non-Javadoc)
+		 * 
+		 * @see java.awt.event.KeyListener#keyPressed(java.awt.event.KeyEvent)
+		 */
 		@Override
 		public void keyPressed(KeyEvent e) {
-			// not used but must implement.
+			// not used but must be implemented.
 
 		}
 
 		@Override
 		public void keyReleased(KeyEvent e) {
-			if(e.getSource() == txtSearch){
+			/*
+			 * If a key is pressed while SEARCH text field was focused.
+			 */
+			if (e.getSource() == txtSearch) {
+				//Search for the spare part
 				fillLstSpareParts(service.searchPart(txtSearch.getText()));
 			}
 		}
 
 		@Override
 		public void keyTyped(KeyEvent e) {
-			// not used,but must implement.
+			// not used,but must be implemented.
 
 		}
 
