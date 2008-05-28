@@ -203,6 +203,16 @@ public class Service {
 		// amount which should be on stock.
 		return maxUsage;
 	}
+	
+	public int getMinimumAmount2(SparePart sp){
+		int[] usage = getMonthlyPartUsage(sp);
+		int max = 0;
+		for(int i = 0; i < usage.length; i++){
+			if(usage[i] > max)
+				max = usage[i];
+		}
+		return max;
+	}
 
 	/**
 	 * Returns list with repairs which have been finished repairing in last 24
