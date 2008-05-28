@@ -11,7 +11,7 @@ public class Drawer {
 	private int id;
 	private int numberOfBoxes;
 
-	// link to [Box] class (Aggregation <>--> 0..*)
+	// link to [Box] class (Composition <>--> 0..*)
 	private List<Box> boxes = new ArrayList<Box>();
 
 	/**
