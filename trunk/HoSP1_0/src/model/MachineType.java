@@ -20,6 +20,9 @@ public class MachineType {
 
 	// link to [RepairTypes] class (--> 0..*)
 	private List<RepairType> repairTypes = new ArrayList<RepairType>();
+	
+	// link to [MachineDrawing] Class(--> 0..1)
+	private MachineDrawing drawing;
 
 	/**
 	 * <b>Constructor: </b> Creates new Machine type
@@ -141,8 +144,21 @@ public class MachineType {
 
 	// ................Drawing..Start.......................
 
-	// not implemented
+	// not used
+	/**
+	 * @return the drawing
+	 */
+	public MachineDrawing getDrawing() {
+		return drawing;
+	}
 
+	/**
+	 * @param drawing
+	 *            the drawing to set
+	 */
+	public void setDrawing(MachineDrawing drawing) {
+		this.drawing = drawing;
+	}
 	// ................Drawing..End.......................
 
 	/**
@@ -151,4 +167,6 @@ public class MachineType {
 	public String toString() {
 		return name;
 	}
+
+	
 }
