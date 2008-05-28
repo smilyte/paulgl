@@ -295,9 +295,10 @@ public class MainFrame extends JFrame {
 				}
 				catch (Myexception ex) {
 					try {
-						ex.con.rollback();
 						addedParts.remove(sparePart);
 						amounts.remove(amount);
+						ex.con.rollback();
+						
 					    }
 						catch (java.sql.SQLException e1) {}
 					    System.out.println(ex.getMessage());
