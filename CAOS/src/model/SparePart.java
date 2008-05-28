@@ -16,9 +16,9 @@ public class SparePart {
 	 * @param number 7 digit number of a part
 	 * @param box Box, where the part is placed
 	 */
-	public SparePart(int amount, int number) {
-		this.amount = amount;
+	public SparePart(int number, int amount) {
 		this.number = number;
+		this.amount = amount;
 	}
 
 	/**

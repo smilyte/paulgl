@@ -49,11 +49,11 @@ public class Service {
 		addMachine(m5);
 		addMachine(m6);
 
-		// creating new spare parts
-		addSparePart(new SparePart(10, 1111111));
-		addSparePart(new SparePart(20, 3333333));
-		addSparePart(new SparePart(5, 5555555));
-		addSparePart(new SparePart(100, 7777777));
+//		// creating new spare parts
+//		addSparePart(new SparePart(10, 1111111));
+//		addSparePart(new SparePart(20, 3333333));
+//		addSparePart(new SparePart(5, 5555555));
+//		addSparePart(new SparePart(100, 7777777));
 	}
 
 	// --------------REPAIR METHODS START--------------------------------
