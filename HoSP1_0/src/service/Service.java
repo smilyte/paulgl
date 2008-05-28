@@ -12,10 +12,10 @@ import daoDB.DB4OManager;
 import model.*;
 
 public class Service {
-	private static GregorianCalendar stDate1, eDate1, stDate2, eDate2, stDate3,
+	private GregorianCalendar stDate1, eDate1, stDate2, eDate2, stDate3,
 			eDate3, stDate4, eDate4;
-	private static MachineType mt1, mt2, mt3;
-	private static Repair r1, r2, r3, r4;
+	private MachineType mt1, mt2, mt3;
+	private Repair r1, r2, r3, r4;
 
 	private static Service instance;
 
@@ -34,7 +34,7 @@ public class Service {
 	// Gets the one and only instance of the MachineTypeDAO class.
 	private MachineTypeDAO machineTypeDAO = MachineTypeDAO.getInstance();
 
-	public Service() {
+	private Service() {
 		startUp();
 	}
 
@@ -419,32 +419,7 @@ public class Service {
 		return monthlyDown;
 	}
 
-	// *************************************************
-	public String getDowntime(long timeInMils) {
-		long time = timeInMils;
-		// Converts the difference to days
-		long days = time / (1000 * 60 * 60 * 24);
-		// Converts the difference to hours
-		long hours = (time % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60);
-		// Converts the difference to minutes
-		long minutes = ((time % (1000 * 60 * 60 * 24)) % (1000 * 60 * 60))
-				/ (1000 * 60);
 
-		// Filter 1: If the difference is equal to 0 program returns "None"
-		if (days == 0 && hours == 0 && minutes == 0)
-			return "None.";
-		// Filter 2: If days and hours are equal to 0 than return "minutes"
-		else if (days == 0 && hours == 0)
-			return minutes + "minutes.";
-		// Filter 3: If days are equal to 0 than return "hours" and "minutes"
-		else if (days == 0)
-
-			return hours + " hours, " + minutes + "minutes.";
-		// Filter 4: If all attributes have value return "days", "hours" and
-		else
-			return days + " days, " + hours + " hours, " + minutes + "minutes.";
-
-	}
 	// --------------REPAIR METHODS START--------------------------------
 
 	/**
@@ -614,11 +589,11 @@ public class Service {
 	 * Updates an object of Machine Type
 	 */
 	public void updateMachineType(MachineType machineType, String name,
-			Drawing drawing) {
+			MachineDrawing drawing) {
 		if (!name.equals(""))
 			machineType.setName(name);
-//		if (drawing != null)
-//			machineType.setDrawing(drawing);
+		if (drawing != null)
+			machineType.setDrawing(drawing);
 		machineTypeDAO.update(machineType);
 	}
 
@@ -649,52 +624,6 @@ public class Service {
 			sp.getBox().setSp(null);
 			sp.setBox(newBox);
 		}
-	}
-
-	public String getDowntime(GregorianCalendar startDate,
-			GregorianCalendar endDate) {
-		long time;
-		time = endDate.getTimeInMillis() - startDate.getTimeInMillis(); // Gets
-																		// the
-																		// difference
-																		// between
-																		// the
-																		// dates
-		long days = time / (1000 * 60 * 60 * 24); // Converts the difference
-													// to days
-		long hours = (time % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60); // Converts
-																		// the
-																		// difference
-																		// to
-																		// hours
-		long minutes = ((time % (1000 * 60 * 60 * 24)) % (1000 * 60 * 60))
-				/ (1000 * 60); // Converts the difference to minutes
-		if (days == 0 && hours == 0 && minutes == 0)
-			return "None."; // Filter 1: If the difference is equal to 0 program
-							// return "None"
-		else if (days == 0 && hours == 0)
-			return minutes + "minutes."; // Filter 2: If days and hours are
-											// equal to 0 than return "minutes"
-		else if (days == 0)
-			return hours + " hours, " + minutes + "minutes.";// Filter 3: If
-																// days are
-																// equal to 0
-																// than return
-																// "hours" and
-																// "minutes"
-		else
-			return days + " days, " + hours + " hours, " + minutes + "minutes.";// Filter
-																				// 4:
-																				// If
-																				// all
-																				// atributes
-																				// has
-																				// value
-																				// return
-																				// "days",
-																				// "hours"
-																				// and
-																				// "minutes"
 	}
 
 	/**
