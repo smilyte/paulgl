@@ -21,7 +21,7 @@ public class SparePart {
 	// link to [PartDrawing] Class(--> 0..1)
 	private PartDrawing drawing;
 
-	// link to [Box] Class(--> 1)
+	// link to [Box] Class(-- 1)
 	private Box box = null;
 
 	/**

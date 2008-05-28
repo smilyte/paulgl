@@ -13,5 +13,8 @@ public interface Drawing {
 	public Image getDrawing();
 	
 	// Sets drawing to Part or Machine.
-	public void setDrawing(Image img);
+	public void setDrawing(Image d);
 }
+
+
+

@@ -7,6 +7,8 @@ public class Box {
 
 	private String serialNumber;
 	private Drawer drawer;
+	
+	// link to [SparePart] Class(-- 0..1)
 	private SparePart sparePart = null;
 
 	/**
