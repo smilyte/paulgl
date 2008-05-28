@@ -65,6 +65,7 @@ public class StatisticsPanel extends JPanel {
 		cbxMachines.setFocusable(false);
 		cbxMachines.setBounds(10, 41, 130, 25);
 		cbxMachines.setEnabled(false);
+		cbxMachines.addActionListener(controller);
 		this.add(cbxMachines);
 
 		scrollPane = new JScrollPane();
@@ -137,7 +138,7 @@ public class StatisticsPanel extends JPanel {
 		/**
 		 * Fills JList with Statistics data
 		 */
-		private void fillStatisticsList(int[] usage) {
+		private void fillStatisticsList(int[] statistics) {
 			/** ..............REMOVE DATA FROM JLIST START............... * */
 			lstStatistics.setModel(new DefaultListModel());
 			DefaultListModel model = (DefaultListModel) lstStatistics
@@ -150,7 +151,7 @@ public class StatisticsPanel extends JPanel {
 			for (int i = 0; i < 12; i++) {
 				String s = today.getDisplayName(GregorianCalendar.MONTH,
 						GregorianCalendar.LONG, new Locale("dk"));
-				list.add(s + "  -  " + usage[i]);
+				list.add(s + "  -  " + statistics[i]);
 				today.roll(GregorianCalendar.MONTH, false);
 			}
 			lstStatistics.setListData(list.toArray());
@@ -164,7 +165,7 @@ public class StatisticsPanel extends JPanel {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			/*
-			 * If STATISTICS TYPE in the list was selected.
+			 * If STATISTICS TYPE in the combo box was selected.
 			 */
 			if (e.getSource() == cbxStatisticsType) {
 				if (cbxStatisticsType.getSelectedIndex() == 0)
@@ -173,6 +174,14 @@ public class StatisticsPanel extends JPanel {
 					setStatisticsType("part");
 				if (cbxStatisticsType.getSelectedIndex() == 2)
 					setStatisticsType("machine");
+			}
+			
+			/*
+			 * If Machine in the list combo box was selected.
+			 */
+			if (e.getSource() == cbxMachines) {
+				Machine m = (Machine) cbxMachines.getSelectedItem();
+				fillStatisticsList(service.getMachineMonthlyDowntime2(m));
 			}
 
 			/*
