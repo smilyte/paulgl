@@ -140,10 +140,8 @@ public class MachineType {
 	// .................Machine..End........................
 
 	// ................Drawing..Start.......................
-	public void setDrawing(Drawing drawing) {
-		// TODO Auto-generated method stub
 
-	}
+	// not implemented
 
 	// ................Drawing..End.......................
 

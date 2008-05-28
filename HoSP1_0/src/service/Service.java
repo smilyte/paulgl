@@ -527,7 +527,7 @@ public class Service {
 	 * Updates an object of SparePart
 	 */
 	public void updateSparePart(SparePart sparePart, int number, int amount,
-			Drawing drawing, Box box) {
+			PartDrawing drawing, Box box) {
 		if (number != 0)
 			sparePart.setNumber(number);
 		if (amount > 0)
@@ -617,8 +617,8 @@ public class Service {
 			Drawing drawing) {
 		if (!name.equals(""))
 			machineType.setName(name);
-		if (drawing != null)
-			machineType.setDrawing(drawing);
+//		if (drawing != null)
+//			machineType.setDrawing(drawing);
 		machineTypeDAO.update(machineType);
 	}
 

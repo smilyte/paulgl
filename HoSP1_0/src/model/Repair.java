@@ -40,7 +40,7 @@ public class Repair {
 	/**
 	 * @return number of repair
 	 */
-	public int getNum() {
+	public int getNumber() {
 		return number;
 	}
 
@@ -49,7 +49,7 @@ public class Repair {
 	 * <p>
 	 * <b>Requires:</b> number > 0
 	 */
-	public void setNum(int number) {
+	public void setNumber(int number) {
 		this.number = number;
 	}
 
