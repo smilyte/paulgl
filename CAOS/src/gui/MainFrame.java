@@ -294,21 +294,21 @@ public class MainFrame extends JFrame {
 					fillPartsList();
 				}
 				catch (Myexception ex) {
+					System.out.println(ex.getMessage());
 					try {
-						addedParts.remove(sparePart);
-						amounts.remove(amount);
 						ex.con.rollback();
-						
-					    }
-						catch (java.sql.SQLException e1) {}
+					}
+					catch (java.sql.SQLException e1) {}
 					    System.out.println(ex.getMessage());
 					    }
-					catch (Exception ex) {
-					System.out.println("error:  "+ex.getMessage());
+				catch (java.sql.SQLException e1) {
+					System.out.println(e1.getMessage());
+					addedParts.remove(sparePart);
+					amounts.remove(amounts.size()-1);
 				}
-					System.out.println(addedParts);
-				
-				
+				catch (Exception ex) {
+					System.out.println("error:  "+ex.getMessage());
+				}				
 				txfAmount.setText("");
 	
 			}
