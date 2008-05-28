@@ -14,8 +14,12 @@ public class SparePart {
 	// link to [PartUsage] Class(--> 0..*)
 	private List<PartUsage> partUsages = new ArrayList<PartUsage>();
 
-	// link to [Drawing] Class(--> 0..1)
-	private Drawing drawing;
+	// link to [TypeUsage] Class(--> 0..*)
+	private List<TypeUsage> typeUsages = new ArrayList<TypeUsage>();
+	// no methods implemented
+	
+	// link to [PartDrawing] Class(--> 0..1)
+	private PartDrawing drawing;
 
 	// link to [Box] Class(--> 1)
 	private Box box = null;
@@ -76,18 +80,8 @@ public class SparePart {
 	 * <b>Requires: </b> partUsage != null
 	 * 
 	 */
-	void addPartUsage(PartUsage partUsage) {
+	public void addPartUsage(PartUsage partUsage) {
 		partUsages.add(partUsage);
-	}
-
-	/**
-	 * Moves a part usage from this repair to an other repair
-	 * <p>
-	 * <b>Requires: </b> repair != null
-	 */
-	public void movePartUsage(PartUsage partUsage, Repair repair) {
-		partUsages.remove(partUsage);
-		repair.addPartUsage(partUsage);
 	}
 
 	/**
@@ -95,14 +89,6 @@ public class SparePart {
 	 */
 	public List<PartUsage> getPartUsages() {
 		return partUsages;
-	}
-
-	/**
-	 * @param partsUsage
-	 *            the partsUsage to set
-	 */
-	public void setPartUsages(List<PartUsage> partUsages) {
-		this.partUsages = partUsages;
 	}
 
 	// .................Part Usage..End..................
@@ -120,7 +106,7 @@ public class SparePart {
 	 * 
 	 * @param drawing
 	 */
-	public void setDrawing(Drawing drawing) {
+	public void setDrawing(PartDrawing drawing) {
 		this.drawing = drawing;
 	}
 

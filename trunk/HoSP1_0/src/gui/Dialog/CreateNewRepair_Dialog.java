@@ -317,7 +317,7 @@ public class CreateNewRepair_Dialog extends JDialog {
 	public void setTempRepairData(Repair r) {
 		cbxMachineType.setSelectedItem(r.getMachine().getType());
 		cbxMachine.setSelectedItem(r.getMachine());
-		txfRepairId.setText(r.getNum() + "");
+		txfRepairId.setText(r.getNumber() + "");
 		btnStart.setEnabled(false);
 		// Setting StartDate field
 		txfStartDate.setText(r.getStartDate().get(GregorianCalendar.YEAR) + "."

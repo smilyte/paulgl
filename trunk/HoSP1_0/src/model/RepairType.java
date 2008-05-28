@@ -47,18 +47,8 @@ public class RepairType {
 	 * <b>Requires: </b> typeUsage != null
 	 * 
 	 */
-	void addTypeUsage(TypeUsage typeUsage) {
+	public void addTypeUsage(TypeUsage typeUsage) {
 		typeUsages.add(typeUsage);
-	}
-
-	/**
-	 * Moves a type usage from this repair type to an other repair type
-	 * <p>
-	 * <b>Requires: </b> repair != null
-	 */
-	public void moveTypeUsage(TypeUsage typeUsage, RepairType repairType) {
-		typeUsages.remove(typeUsage);
-		repairType.addTypeUsage(typeUsage);
 	}
 
 	/**
@@ -68,15 +58,6 @@ public class RepairType {
 		return typeUsages;
 	}
 
-	/**
-	 * Sets type usage list to this type usage list
-	 * 
-	 * @param typeusages
-	 * 
-	 */
-	public void setTypeUsages(List<TypeUsage> typeUsages) {
-		this.typeUsages = typeUsages;
-	}
 
 	// .................Type Usage..End..................
 
