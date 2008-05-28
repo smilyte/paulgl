@@ -5,6 +5,10 @@ import java.awt.Font;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -225,7 +229,6 @@ public class MainFrame extends JFrame {
 		public void actionPerformed(ActionEvent e) {
 
 			if (e.getSource() == btnAdd) {
-
 				int amount = 0;
 
 				try {
@@ -239,13 +242,74 @@ public class MainFrame extends JFrame {
 
 				SparePart sparePart = (SparePart) cbxSpareParts
 						.getSelectedItem();
+				System.out.println(sparePart);
 				addedParts.add(sparePart);
 				amounts.add(amount);
 	
-				fillPartsList();
+				
+				
+				try {
+					//create connection 
+					Connection myConnection;
+					Class.forName("sun.jdbc.odbc.JdbcOdbcDriver");
+					myConnection = DriverManager.getConnection("jdbc:odbc:smileSql","sa", "h353i62");
+					// set the correct isolation level
+					myConnection.setTransactionIsolation(Connection.TRANSACTION_REPEATABLE_READ);  
+				// 	start the transaction	
+					myConnection.setAutoCommit(false);  
+					
+					// Check the existence and find the balance for the first account 
+					String sql = "SELECT s.amount FROM SparePart s WHERE s.number = ?";
+					PreparedStatement stmt = myConnection.prepareStatement(sql);
+					stmt.clearParameters();
+					System.out.println(sparePart.getNumber());
+					stmt.setInt(1, sparePart.getNumber());
+					ResultSet res=stmt.executeQuery();
+					int oldAmount;
+					if (res.next()) {
+						oldAmount = res.getInt(1);
+						if (oldAmount < amount)
+							throw new Myexception("There is not enough parts in stock",myConnection);
+					}
+					else
+						throw new Myexception("Part is not selected",myConnection);
+					res.close();
+					
+					// the stop to test the concurrency
+					DummyDialog dummyDialog = new DummyDialog();
+					dummyDialog.setVisible(true);
+					dummyDialog.dispose(); // release MS Windows resources
+					
+					//calculate new balances
+					oldAmount = oldAmount - amount; // updated amount for spare part in database
+					//make the updates
+					sql = "update SparePart set amount = ? where number = ?";
+					stmt = myConnection.prepareStatement(sql);
+					stmt.clearParameters();
+					stmt.setInt(1, oldAmount);
+					stmt.setInt(2, sparePart.getNumber());
+					stmt.execute();
+					myConnection.commit();
+					System.out.println("The parts have been reduced");	
+					fillPartsList();
+				}
+				catch (Myexception ex) {
+					try {
+						ex.con.rollback();
+						addedParts.remove(sparePart);
+						amounts.remove(amount);
+					    }
+						catch (java.sql.SQLException e1) {}
+					    System.out.println(ex.getMessage());
+					    }
+					catch (Exception ex) {
+					System.out.println("error:  "+ex.getMessage());
+				}
+					System.out.println(addedParts);
+				
+				
 				txfAmount.setText("");
 	
-				// TODO Remove Lock :)
 			}
 
 			if (e.getSource() == btnRegisterRepair) {
@@ -304,8 +368,7 @@ public class MainFrame extends JFrame {
 
 			if (e.getSource() == cbxSpareParts) {
 
-				// TODO Add Lock =]
-
+				
 			}
 		}
 
