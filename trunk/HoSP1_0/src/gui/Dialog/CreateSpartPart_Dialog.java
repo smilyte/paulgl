@@ -47,10 +47,15 @@ public class CreateSpartPart_Dialog extends JDialog {
 		this.setLayout(null);
 		this.setModal(true);
 
+		setTitle("Create New Spare Parts");
+		setBounds(100, 100, 200, 251);
+//		getContentPane().setLayout(new FlowLayout(10,10,20));
+
 		lblNumber = new JLabel();
 		lblNumber.setText("Number:");
 		lblNumber.setBounds(10, 10, 66, 16);
 		getContentPane().add(lblNumber);
+
 
 		lblAmount = new JLabel();
 		lblAmount.setText("Amount:");
@@ -96,6 +101,7 @@ public class CreateSpartPart_Dialog extends JDialog {
 		btnCancel.setBounds(132, 203, 106, 26);
 		btnCancel.addActionListener(controller);
 		getContentPane().add(btnCancel);
+		
 
 		controller.fillCbxDrawer();
 	}
@@ -106,6 +112,7 @@ public class CreateSpartPart_Dialog extends JDialog {
 	public boolean isCreate() {
 		return controller.closedByCreate;
 	}
+		
 
 	private class Controller implements ActionListener {
 		// .............GETTING INSTANCE..................//
@@ -235,5 +242,6 @@ public class CreateSpartPart_Dialog extends JDialog {
 				fillCbxBox();
 			}
 		}
+
 	}
 }
