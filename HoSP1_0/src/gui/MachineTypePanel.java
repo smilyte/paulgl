@@ -210,7 +210,6 @@ public class MachineTypePanel extends JPanel {
 				try {
 					MachineType machineType = (MachineType) cbxMachineType
 							.getSelectedItem();
-					// System.out.println(machineType.getMachines().toString());
 					fillLstMachines(machineType);
 					fillLstParts(machineType);
 
