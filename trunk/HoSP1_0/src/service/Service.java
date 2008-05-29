@@ -121,7 +121,7 @@ public class Service {
 		PartUsage p3 = new PartUsage(5, date2, r1, getSpareParts().get(0));
 		PartUsage p2 = new PartUsage(3, date, r1, getSpareParts().get(0));
 		PartUsage p1 = new PartUsage(2, date3, r1, getSpareParts().get(0));
-		
+
 		mt1.addSparePart(getSpareParts().get(0));
 		mt1.addSparePart(getSpareParts().get(1));
 		mt1.addSparePart(getSpareParts().get(2));
@@ -203,12 +203,12 @@ public class Service {
 		// amount which should be on stock.
 		return maxUsage;
 	}
-	
-	public int getMinimumAmount2(SparePart sp){
+
+	public int getMinimumAmount2(SparePart sp) {
 		int[] usage = getMonthlyPartUsage(sp);
 		int max = 0;
-		for(int i = 0; i < usage.length; i++){
-			if(usage[i] > max)
+		for (int i = 0; i < usage.length; i++) {
+			if (usage[i] > max)
 				max = usage[i];
 		}
 		return max;
@@ -262,74 +262,75 @@ public class Service {
 		// We use this variable to remember which was the last month we
 		// took to be able to count last 12 months.
 		int lastMonth = -1;
-		
+
 		// In this variable we will count number of months we went
 		// through in order to know when we have to stop.
 		int calculateMonths = 0;
-		
-		long daysMachineWasDown;
 
+		long daysMachineWasDown;
 
 		// We use 'for each' to go through all list of repairs from the new ones
 		for (int i = getRepairs().size(); i < 0; i--) {
 
-		// We use 'for each' to go through all list of repairs
-		//for (Repair repair : getRepairs()) {
+			// We use 'for each' to go through all list of repairs
+			// for (Repair repair : getRepairs()) {
 
-			//Get the instance of repair
+			// Get the instance of repair
 			Repair repair = getRepairs().get(i);
-			
+
 			GregorianCalendar firstDate = repair.getStartDate();
 
 			// We create new variable to store repair's month.
 			int month = firstDate.get(GregorianCalendar.MONTH);
-				
-				// If last month we checked is not the same when we increase
-				// value of 'calculateMonths'
-				if (lastMonth != month)
-					calculateMonths++;
-				
-				// If we still didn't went through more than 12 months we
-				// increase that month's value.
-				// (We have to calculate usage based on only last 12 months)
+
+			// If last month we checked is not the same when we increase
+			// value of 'calculateMonths'
+			if (lastMonth != month)
+				calculateMonths++;
+
+			// If we still didn't went through more than 12 months we
+			// increase that month's value.
+			// (We have to calculate usage based on only last 12 months)
 			if (calculateMonths < 12) {
-			
-			if (repair.getMachine().equals(machine)) {
 
-				long timeMachineWasDown = repair.getEndDate().getTimeInMillis()
-						- repair.getStartDate().getTimeInMillis();
-				daysMachineWasDown = (timeMachineWasDown / (1000 * 60 * 60)) / 24;
+				if (repair.getMachine().equals(machine)) {
 
-				while (daysMachineWasDown > 0) {
+					long timeMachineWasDown = repair.getEndDate()
+							.getTimeInMillis()
+							- repair.getStartDate().getTimeInMillis();
+					daysMachineWasDown = (timeMachineWasDown / (1000 * 60 * 60)) / 24;
 
-					if (firstDate.get(GregorianCalendar.MONTH) == repair
-							.getEndDate().get(GregorianCalendar.MONTH)) {
-						monthlyDown[repair.getStartDate().get(
-								GregorianCalendar.MONTH)] += daysMachineWasDown + 1;
-						daysMachineWasDown = 0;
+					while (daysMachineWasDown > 0) {
+
+						if (firstDate.get(GregorianCalendar.MONTH) == repair
+								.getEndDate().get(GregorianCalendar.MONTH)) {
+							monthlyDown[repair.getStartDate().get(
+									GregorianCalendar.MONTH)] += daysMachineWasDown + 1;
+							daysMachineWasDown = 0;
+						}
+
+						else {
+							int days = 0;
+							days = firstDate
+									.getActualMaximum(firstDate.DAY_OF_MONTH)
+									- firstDate
+											.get(GregorianCalendar.DAY_OF_MONTH)
+									+ 1;
+
+							monthlyDown[firstDate.get(GregorianCalendar.MONTH)] += days;
+
+							daysMachineWasDown -= days;
+
+							firstDate.set(
+									firstDate.get(GregorianCalendar.YEAR),
+									firstDate.get(GregorianCalendar.MONTH) + 1,
+									01);
+						}
+
 					}
 
-					else {
-						int days = 0;
-						days = firstDate
-								.getActualMaximum(firstDate.DAY_OF_MONTH)
-								- firstDate.get(GregorianCalendar.DAY_OF_MONTH)
-								+ 1;
-
-						monthlyDown[firstDate.get(GregorianCalendar.MONTH)] += days;
-
-						daysMachineWasDown -= days;
-
-						firstDate.set(firstDate.get(GregorianCalendar.YEAR),
-								firstDate.get(GregorianCalendar.MONTH) + 1, 01);
-					}
-				
 				}
-
 			}
-			}	
-
-			
 
 		}
 		return monthlyDown;
@@ -418,7 +419,6 @@ public class Service {
 		}
 		return monthlyDown;
 	}
-
 
 	// --------------REPAIR METHODS START--------------------------------
 
@@ -656,6 +656,10 @@ public class Service {
 	 *            number of spare part we are looking for.
 	 * @param list
 	 *            list of spare parts you want to look through.
+	 * @return List&#60;SparePart&#62; list of parts, which number's beginning
+	 *         match given number
+	 * 
+	 * @author Elena
 	 */
 	public List<SparePart> searchPart(List<SparePart> list, String number) {
 		// list of spare parts that the method will return.
@@ -695,8 +699,7 @@ public class Service {
 					GregorianCalendar.MONTH
 							+ today.get(GregorianCalendar.MONTH)) > 12) {
 				i = -1;
-			}
-			else {
+			} else {
 				// we look for a place in array, where to put the part
 				// we check all last 12 months and stop when found
 				for (int k = 0; k < 12; k++) {
@@ -717,5 +720,66 @@ public class Service {
 			}
 		}
 		return usage;
+	}
+
+	/**
+	 * Method used only to display JUnit Black Box testing.
+	 * 
+	 * This method calculates price for order. First it checks the date. If the
+	 * requested arrival date is equal or more than 2 months, the sellers give a
+	 * 5% discount. Requested arrival date is compared with todays date. Then it
+	 * checks the order price. If the price equals or is bigger than 1000 kr.,
+	 * sellers give 2% discount.
+	 * 
+	 * Discounts sum up.
+	 * 
+	 * @param date
+	 *            GregorianCalendar type object. Requested arrival date.
+	 * @param units
+	 *            integer, amount of units ordered.
+	 * @param pricePerUnits
+	 *            price per one unit of part.
+	 * 
+	 * @author Elena
+	 * 
+	 */
+	public int calcOrderPrice(GregorianCalendar date, int units,
+			int pricePerUnit)
+
+	{
+		GregorianCalendar today = new GregorianCalendar();
+		System.out.println(today.getTimeInMillis() / 1000 + "    "
+				+ date.getTimeInMillis() / 1000);
+		if ((date.getTimeInMillis() / 1000) < (today.getTimeInMillis() / 1000)) {
+			System.out.println("Error! The specified date already passed.");
+			return 0;
+		}
+		if (units <= 0 || pricePerUnit <= 0) {
+			System.out.println("Error! units or price specified are illegal.");
+			return 0;
+		} else {
+			int sum = units * pricePerUnit;
+			System.out.println(sum);
+			GregorianCalendar tempDate = new GregorianCalendar();
+			tempDate.roll(GregorianCalendar.MONTH, true);
+			tempDate.roll(GregorianCalendar.MONTH, true);
+			if ((tempDate.getTimeInMillis() / 1000) > (date.getTimeInMillis() / 1000)) {
+				System.out.println("as ife)");
+				if (sum >= 1000)
+					sum = sum * 98 / 100;
+				tempDate = new GregorianCalendar();
+			} else if ((tempDate.getTimeInMillis() / 1000) <= (date
+					.getTimeInMillis() / 1000)) {
+				System.out.println("as els ife");
+				if (sum >= 1000)
+					sum = sum * 98 / 100 * 95 / 100;
+				else
+					sum = sum * 95 / 100;
+				tempDate = new GregorianCalendar();
+			}
+
+			return sum;
+		}
+
 	}
 }
