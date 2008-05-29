@@ -26,7 +26,7 @@ public class Test {
 		
 		System.out.println();
 		
-		int[] machineMonthly = Service.getInstance().getMachineMonthlyDowntime2(mt1.getMachines().get(0));
+		int[] machineMonthly = Service.getInstance().getMachineMonthlyDowntime(mt1.getMachines().get(0));
 		for (int i = 0; i < machineMonthly.length; i++) {
 			System.out.println(i+": "+machineMonthly[i]);
 		}
