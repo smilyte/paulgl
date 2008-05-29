@@ -13,6 +13,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -107,16 +108,19 @@ public class RepairPanel extends JPanel {
 		 * Updates list of currently stopped machines - repairs in progress.
 		 */
 		public void updateCurrentRepairs() {
-			// /** ..............REMOVE DATA FROM JLIST START............... *
-			// */
-			// lstRepairs.setModel(new DefaultListModel());
-			// DefaultListModel model = (DefaultListModel)
-			// lstRepairs.getModel();
-			// model.clear();
-			// /** ..............REMOVE DATA FROM JLIST END................. *
-			// */
+			 /** ..............REMOVE DATA FROM JLIST START............... *
+			 */
+			 lstRepairs.setModel(new DefaultListModel());
+			 DefaultListModel model = (DefaultListModel)
+			 lstRepairs.getModel();
+			 model.clear();
+			 /** ..............REMOVE DATA FROM JLIST END................. *
+			 */
 			lstRepairs.setListData(tempRepairs.toArray());
 			lstRepairs.setSelectedIndex(0);
+			
+			//Update the order list;
+			lstOrder.setListData(service.ToBeOrdered().toArray());
 		}
 
 		/*
