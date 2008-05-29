@@ -181,7 +181,7 @@ public class StatisticsPanel extends JPanel {
 			 */
 			if (e.getSource() == cbxMachines) {
 				Machine m = (Machine) cbxMachines.getSelectedItem();
-				fillStatisticsList(service.getMachineMonthlyDowntime2(m));
+				fillStatisticsList(service.getMachineMonthlyDowntime(m));
 			}
 
 			/*
