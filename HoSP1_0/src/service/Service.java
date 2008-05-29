@@ -7,7 +7,12 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 
+//Using DAO container:
 import dao.*;
+
+// Remove comment for the use of DB4O
+//import daoDB.*;
+
 import daoDB.DB4OManager;
 import model.*;
 
@@ -134,13 +139,6 @@ public class Service {
 		mt2.addSparePart(getSpareParts().get(5));
 		mt3.addSparePart(getSpareParts().get(6));
 		mt3.addSparePart(getSpareParts().get(7));
-
-		// TODO Write method for: calculation(history) of last 7 days (week)
-		// repairs
-		// TODO Write method for: calculation(history) of last 30 days (month)
-		// repairs
-		// TODO Write method for: calculation(history) of last 12 months (year)
-		// repairs
 	}
 
 	// --------------REPAIR METHODS START--------------------------------
