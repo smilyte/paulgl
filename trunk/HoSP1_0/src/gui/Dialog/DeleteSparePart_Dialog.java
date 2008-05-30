@@ -101,7 +101,6 @@ public class DeleteSparePart_Dialog extends JDialog {
 			 * If YES button is pressed.
 			 */
 			if (e.getSource() == btnYes) {
-
 				service.removeSparePart(sparePart);
 
 				closedByYes = true;
