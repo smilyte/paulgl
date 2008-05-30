@@ -419,6 +419,12 @@ public class Service {
 		return maxUsage;
 	}
 
+	/**
+	 * Returns the same result as method above just it is calculated in different way
+	 * @param sp
+	 * @return maximum amount of spare part used which is the minimum which
+	 *         should be on stock
+	 */
 	public int getMinimumAmount2(SparePart sp) {
 		int[] usage = getMonthlyPartUsage(sp);
 		int max = 0;
@@ -429,6 +435,11 @@ public class Service {
 		return max;
 	}
 
+	/**
+	 * Makes the list of parts which should be ordered.
+	 * 
+	 * @return the list of spare parts needed and amount in List<String>
+	 */
 	public List<String> ToBeOrdered() {
 		List<String> order_lst = new ArrayList<String>();
 
