@@ -43,7 +43,7 @@ public class CreateSpartPart_Dialog extends JDialog {
 		this.setTitle(title);
 		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		this.setLocation(500, 250);
-		this.setSize(254, 271);
+		this.setSize(227, 270);
 		this.setLayout(null);
 		this.setModal(true);
 
