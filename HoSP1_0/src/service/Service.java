@@ -80,7 +80,7 @@ public class Service {
 		eDate1 = new GregorianCalendar(2008, 04, 14, 10, 03);
 
 		stDate2 = new GregorianCalendar(2008, 04, 15, 5, 25);
-		eDate2 = new GregorianCalendar(2008, 04, 15, 12, 18);
+		eDate2 = new GregorianCalendar(2008, 04, 28, 12, 18);
 
 		stDate3 = new GregorianCalendar(2008, 04, 16, 5, 25);
 		eDate3 = new GregorianCalendar(2008, 04, 19, 10, 03);
@@ -511,7 +511,7 @@ public class Service {
 		long daysMachineWasDown;
 
 		// We use 'for each' to go through all list of repairs from the new ones
-		for (int i = getRepairs().size(); i < 0; i--) {
+		for (int i = getRepairs().size()-1; i > 0; i--) {
 
 			// We use 'for each' to go through all list of repairs
 			// for (Repair repair : getRepairs()) {
